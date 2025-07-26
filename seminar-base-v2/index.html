@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Seminar • Base</title>
+    <script>
+      (function(){
+        const redirect = sessionStorage.redirect;
+        if (redirect) {
+          delete sessionStorage.redirect;
+          const base = location.origin + location.pathname.replace(/\/$/, '');
+          const to = redirect.startsWith('/') ? redirect : '/' + redirect;
+          if (!location.pathname.endsWith(to)) location.replace(base + to);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
