@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createHashRouter, Navigate } from 'react-router-dom'
 import AppShell from '@/shell/AppShell'
 import SemOverview from '@/sections/SemOverview'
 import Sem1 from '@/sections/Sem1'
@@ -7,7 +7,7 @@ import Sem3 from '@/sections/Sem3'
 import Sem4 from '@/sections/Sem4'
 import Sem5 from '@/sections/Sem5'
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <AppShell />,

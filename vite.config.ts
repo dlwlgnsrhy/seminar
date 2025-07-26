@@ -7,8 +7,8 @@ export default defineConfig({
   server: { port: 5173 },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)), // ← 이 줄 추가
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  base: "/seminar/",
+  base: "/seminar/",          
 })
