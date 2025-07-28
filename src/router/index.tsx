@@ -7,7 +7,7 @@ import Sem3 from '@/sections/Sem3'
 import Sem4 from '@/sections/Sem4'
 import Sem5 from '@/sections/Sem5'
 
-// 경로 파일
+// 경로 파일 
 export const router = createHashRouter([
   {
     path: '/',
