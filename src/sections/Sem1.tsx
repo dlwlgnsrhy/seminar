@@ -41,8 +41,25 @@ export default function SemScreen() {
       <SnapSection id="loading" title="서비스 로딩 UX">
         <p>스피너/스켈레톤 표준 + 경합/취소 처리.</p>
       </SnapSection>
+      <SnapSection id="errors" title="예외/에러 로깅">
+        <p>window.onerror / unhandledrejection + axios 인터셉터로 에러를 /logs/js에 수집.</p>
+      </SnapSection>
 
-      {/* 나머지 섹션들도 같은 방식으로 */}
+      <SnapSection id="state" title="상태 관리">
+        <p>서버상태(React Query) / 앱상태(Zustand) 분리, 중복 호출/경합 억제.</p>
+      </SnapSection>
+
+      <SnapSection id="session" title="세션/Props 개선">
+        <p>토큰 만료 사전 갱신, 실패 시 예측 가능한 재로그인 UX.</p>
+      </SnapSection>
+
+      <SnapSection id="webview" title="웹뷰 브릿지">
+        <p>emit/onMessage 래퍼로 RN/Flutter와 메시지 스펙 통일.</p>
+      </SnapSection>
+
+      <SnapSection id="docs" title="문서화">
+        <p>ADR/에러코드표/브릿지 명세를 저장소에 버저닝.</p>
+      </SnapSection>
     </div>
   )
 }

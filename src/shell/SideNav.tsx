@@ -1,48 +1,74 @@
 import { useEffect, useState } from 'react'
 
-const ids = ['router','auth','loading','errors','state','session','webview','docs']
-
-export default function SideNav(){
-  const [active, setActive] = useState<string>('router')
+export default function SideNav() {
+  const [ids, setIds] = useState<string[]>([])
+  const [active, setActive] = useState<string>('')
 
   useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          const id = e.target.getAttribute('id')
-          if (id) setActive(id)
-        }
-      }
-    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0.01 })
+    const content = document.querySelector('.content')
+    const root = document.querySelector('.snap-container') as HTMLElement | null
 
-    ids.forEach(id => {
-      const el = document.getElementById(id)
-      if (el) obs.observe(el)
-    })
+    const refresh = () => {
+      const secs = Array.from(document.querySelectorAll('.snap-section[id]')) as HTMLElement[]
+      setIds(secs.map((s) => s.id))
+    }
+    refresh()
 
-    return () => obs.disconnect()
+    // 라우트 변경/DOM 변경에도 목록 재수집
+    const mo = new MutationObserver(refresh)
+    if (content) mo.observe(content, { childList: true, subtree: true })
+
+    const io = new IntersectionObserver(
+      (ents) => {
+        const vis = ents
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0]
+        if (vis?.target) setActive((vis.target as HTMLElement).id)
+      },
+      { root, rootMargin: '0px 0px -35% 0px', threshold: [0.25, 0.5, 0.75] }
+    )
+
+    const secs = Array.from(document.querySelectorAll('.snap-section[id]')) as HTMLElement[]
+    secs.forEach((el) => io.observe(el))
+
+    return () => {
+      io.disconnect()
+      mo.disconnect()
+    }
   }, [])
 
+  const go = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    // 해시를 바꾸고 싶다면 다음 줄 활성화:
+    // history.replaceState(null, '', `#${id}`)
+  }
+
   return (
-    <nav className="navgroup">
-      {ids.map(id => (
-        <a key={id} className={active===id ? 'active' : ''}
-           href={`#${id}`}>{label(id)}</a>
+    <nav className="navgroup" aria-label="Section navigation">
+      {ids.map((id) => (
+        <button
+          key={id}
+          onClick={() => go(id)}
+          className={active === id ? 'active' : ''}
+          style={{ textAlign: 'left' }}
+        >
+          {label(id)}
+        </button>
       ))}
     </nav>
   )
 }
 
-function label(id:string){
-  switch(id){
-    case 'router': return '라우터 관리'
-    case 'auth': return '권한 관리'
-    case 'loading': return '서비스 로딩 UX'
-    case 'errors': return '예외/에러 로깅'
-    case 'state': return '상태 관리'
-    case 'session': return '세션/Props 개선'
-    case 'webview': return '웹뷰 브릿지'
-    case 'docs': return '문서화'
-    default: return id
+function label(id: string) {
+  const map: Record<string, string> = {
+    router: '라우터 관리',
+    auth: '권한 관리',
+    loading: '서비스 로딩 UX',
+    errors: '예외/에러 로깅',
+    state: '상태 관리',
+    session: '세션/Props 개선',
+    webview: '웹뷰 브릿지',
+    docs: '문서화',
   }
+  return map[id] ?? id
 }
