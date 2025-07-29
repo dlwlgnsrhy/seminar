@@ -1,38 +1,25 @@
-import { Outlet, NavLink } from 'react-router-dom'
-import SideNav from './SideNav'
-import DotNav from '@/components/DotNav'
+import { Outlet } from 'react-router-dom'
 import TopProgress from '@/components/TopProgress'
+import RailNav from '@/components/RailNav'
 
 export default function AppShell() {
   return (
     <div className="app-shell">
-      <header className="topbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <header className="topbar" style={{ justifyContent: 'space-between' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
           <strong>Company Seminar</strong>
           <span className="badge">5개월 Roadmap</span>
         </div>
-        <nav className="tabbar" aria-label="Top navigation">
-          {['s1', 's2', 's3', 's4', 's5', 'overview'].map((key) => (
-            <NavLink
-              key={key}
-              to={`/${key}`}
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
-              {key.toUpperCase()}
-            </NavLink>
-          ))}
-        </nav>
+        {/* 탑 탭바 제거로 더 미니멀하게 */}
       </header>
 
-      <aside className="sidenav">
-        <SideNav />
-      </aside>
+      {/* 좌측 사이드네비 제거: 발표 몰입도 ↑ */}
+      {/* <aside className="sidenav"><SideNav /></aside> */}
 
-      <main className="content">
-        {/* 상단 진행바 & 우측 도트 네비 */}
+      <main className="content" style={{ gridColumn: '1 / -1' }}>
         <TopProgress />
         <Outlet />
-        <DotNav />
+        <RailNav />
       </main>
     </div>
   )
