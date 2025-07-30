@@ -80,11 +80,22 @@ export default function RailNav() {
 
 function getLabel(id:string){
   const map:Record<string,string>={
-    whyreact:'왜 리액트인가?',
-    codestyle:'코드 스타일 레포 레이아웃',
-    router:'라우터 관리',auth:'권한 관리',loading:'로딩 UX',
-    errors:'에러 로깅',state:'상태 관리',session:'세션',
-    webview:'웹뷰',docs:'문서화'
+    pain1:      '현실 진단 – 왜 표준화가 안됐나?',
+    docproc: '사람이 아닌 문서가 프로세스',
+    pain2: '왜 표준화가 시급한가?',
+    'intro-react':'Why React',
+    'intro-scss' :'Why SCSS',
+    'intro-roadmap':'로드맵',
+    whyreact:  'React Feature',
+    codestyle: '코드 스타일',
+    router:    '라우터',
+    auth:      '권한',
+    loading:   '로딩 UX',
+    errors:    '에러 로깅',
+    state:     '상태',
+    webview:   '웹뷰',
+    docs:      '문서화',
+    summary:   '결론'
   }
   return map[id] ?? id
 }

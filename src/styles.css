@@ -192,3 +192,26 @@ html,body{overflow:hidden;}
   scrollbar-width:none; -ms-overflow-style:none;
 }
 .snap-container::-webkit-scrollbar{display:none;}
+
+/* ─────────  Overlay  ───────── */
+.ov-backdrop{
+  position:fixed; inset:0; z-index:90; display:grid; place-items:center;
+  background:rgba(0,0,0,.65); backdrop-filter:blur(3px);
+  animation:fade .25s both;
+}
+.ov-card{
+  max-width:min(90vw,900px); max-height:90vh; overflow:auto;
+  background:#151924; border-radius:18px; padding:32px 36px; position:relative;
+  border:1px solid rgba(255,255,255,.12); box-shadow:0 20px 70px rgba(0,0,0,.55);
+}
+.ov-close{
+  position:absolute; top:18px; right:18px;
+  background:rgba(255,255,255,.08); border:none; color:#fff;
+  padding:6px 12px; border-radius:9999px; cursor:pointer;
+}
+.ov-btn{
+  margin-top:12px; padding:6px 12px; border-radius:8px; cursor:pointer;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+  font-size:13px;
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}

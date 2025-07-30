@@ -1,5 +1,5 @@
 type Opt = { id: string; title: string; pros: string[]; cons: string[]; risk?: string }
-export default function CompareCard({ options, selected, onSelect }:{ options: Opt[]; selected?: string; onSelect?: (id:string)=>void }){
+export default function CompareCard({ options, selected, onSelect }:{ options: Opt[]; selected?: string; onSelect?: (id?:string)=>void }){
   return (
     <div style={{ display:'grid', gap:12 }}>
       <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
