@@ -14,7 +14,7 @@ export default function IntroSplash(){
   const close = () => {
     setShow(false)
     // 첫 섹션으로 부드럽게 이동
-    document.getElementById('router')?.scrollIntoView({ behavior:'smooth' })
+    document.getElementById('intro-react')?.scrollIntoView({ behavior:'smooth' })
   }
 
   useEffect(() => {

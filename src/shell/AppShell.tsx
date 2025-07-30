@@ -1,25 +1,38 @@
-import { Outlet } from 'react-router-dom'
-import TopProgress from '@/components/TopProgress'
+import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import RailNav from '@/components/RailNav'
 
+const seminars = [
+  { id:'s1', label:'Sem 1 — React+TS Core' },
+  { id:'s2', label:'Sem 2 — Design System' },
+  // 필요 시 추가
+]
+
 export default function AppShell() {
+  const nav = useNavigate()
+
   return (
     <div className="app-shell">
-      <header className="topbar" style={{ justifyContent: 'space-between' }}>
-        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
-          <strong>Company Seminar</strong>
-          <span className="badge">5개월 Roadmap</span>
-        </div>
-        {/* 탑 탭바 제거로 더 미니멀하게 */}
+      <header className="topbar hover-expand">
+        <button className="brand-btn"
+                onClick={() => nav('/s1')}>
+          Nubiz Frontline
+        </button>
+
+        {/* hover 시에만 보이는 메뉴 */}
+        <nav className="hover-menu">
+          {seminars.map(s=>(
+            <NavLink key={s.id}
+                     to={`/${s.id}`}
+                     className={({isActive})=> isActive?'sem-active':''}>
+              {s.label}
+            </NavLink>
+          ))}
+        </nav>
       </header>
 
-      {/* 좌측 사이드네비 제거: 발표 몰입도 ↑ */}
-      {/* <aside className="sidenav"><SideNav /></aside> */}
-
-      <main className="content" style={{ gridColumn: '1 / -1' }}>
-        <TopProgress />
-        <Outlet />
-        <RailNav />
+      <main className="content" style={{gridColumn:'1 / -1'}}>
+        <Outlet/>
+        <RailNav/>
       </main>
     </div>
   )
