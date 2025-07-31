@@ -15,7 +15,7 @@ import ADR               from '@/components/ADR'
 import LinkBtn           from '@/components/LinkBtn'
 
 /* ------------------------------------------------------------------ */
-/*  (A) Overlay – KPI 근거 / 캡처용 모달                              */
+/*  Overlay – KPI 근거·캡처용 모달                                    */
 /* ------------------------------------------------------------------ */
 function Overlay({ children, onClose }:{
   children: React.ReactNode; onClose: () => void
@@ -31,14 +31,14 @@ function Overlay({ children, onClose }:{
 }
 
 /* ------------------------------------------------------------------ */
-/*  (B) 세미나 #1 전체 화면                                           */
+/*  세미나 화면                                                      */
 /* ------------------------------------------------------------------ */
 export default function SemScreen(){
   useInViewSnap()
 
-  const [ov,setOv] = useState<React.ReactNode|null>(null)
-  const open  = (node:React.ReactNode)=>setOv(node)
-  const close = ()=>setOv(null)
+  const [ov, setOv] = useState<React.ReactNode | null>(null)
+  const open  = (node: React.ReactNode) => setOv(node)
+  const close = () => setOv(null)
 
   return (
     <>
@@ -46,225 +46,130 @@ export default function SemScreen(){
 
       <div className="snap-container">
 
-        {/* ───────────────  Splash  ─────────────── */}
-        <IntroSplash/>
+        {/* ─────────── Slide 1 · Title ─────────── */}
+        <IntroSplash />
 
-  {/* ================================================================ */}
-  {/*                     ───  S  E  O  R  O  N  ───                  */}
-  {/* ================================================================ */}
+        {/* ─────────── Slide 2 · 현황 & 문제점 ─────────── */}
+        <SnapSection band="intro" id="problem" title="현황 & 문제점">
+          <ul>
+            <li>전담 프론트엔드 개발자 부재로 <b>코드 스타일·구조 불균일</b></li>
+            <li>유지보수 중인 React 프로젝트에 <b>CS 이슈 급증</b> → 리소스 과다 소모</li>
+            <li>신규 기능 투입 시 <b>학습·정비&nbsp;시간 &gt; 개발&nbsp;시간</b> → 릴리스 지연</li>
+          </ul>
+        </SnapSection>
 
-  {/* 0-A 현실 진단 */}  
-  // 표준화를 하기위한 근거가필요 
-  // 1.왜react인가 ?  : 프레임워크의 존속기간 및 회사
-  // 2.프론트 개발자의 잦은 변경 
-  <SnapSection band="intro" id="pain1" title="현실 진단 – 왜 표준화가 안됐나?">
-    <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:20}}>
-      <Kpi label="온보딩"        value="3 주"  caption="신규 FE"/>
-      <Kpi label="Hotfix 탐색"   value="月 30 h"/>
-      <Kpi label="프로젝트 불일치" value="5 / 5"/>
-    </div>
-    <Callout type="danger">
-      작은 조직일수록 <b>“사람이 곧 프로세스”</b>.  
-      선임 교체·납기 압박 → 표준화가 항상 뒤로 밀렸습니다.
-    </Callout>
-    <ul>
-      <li>⏱️ <b>납기 우선</b> → 리팩터 일정 확보 실패</li>
-      <li>👥 <b>외주·교체</b> → 구두 지식 소실</li>
-      <li>🛠️ <b>DevOps 공백</b> → CI 효과 체감 부족</li>
-    </ul>
-    <div style={{marginTop:12}}>
-      <LinkBtn href="/capture/jira-onboarding.png" label="📑 Jira 리포트 캡처"/>
-    </div>
-  </SnapSection>
+        {/* ─────────── Slide 3 · 왜 React 인가? ─────────── */}
+        <SnapSection band="intro" id="why-react" title="왜 React 인가?">
+          <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:18}}>
+            <Kpi label="SO Survey 2025" value="79 %" caption="선호도 1위"/>
+            <Kpi label="State of JS 2024" value="8,548" caption="응답자"/>
+            <Kpi label="연봉 Premium" value="20~30 %"/>
+          </div>
+          <Callout type="info">
+            Stack Overflow·State of JS·LinkedIn 등에서 <b>수요·만족도·연봉</b> 모두 압도적 1위.  
+            커뮤니티·생태계 규모가 곧 <em>표준화의 레버리지</em>입니다.
+          </Callout>
+          <div style={{marginTop:12,display:'flex',gap:12}}>
+            <LinkBtn href="https://survey.stackoverflow.co/2025/#technology-web-frameworks" label="SO 2025"/>
+            <LinkBtn href="https://2024.stateofjs.com/en-US/libraries/front-end-frameworks/" label="State of JS"/>
+            <LinkBtn href="https://www.linkedin.com/pulse/software-developer-labor-demand-salary-trends-2025-julius-gromyko-o5vhf" label="LinkedIn Trends"/>
+          </div>
+        </SnapSection>
 
-  {/* 0-B 문서 = 프로세스 */}  
-  <SnapSection band="intro" id="docproc" title="사람이 아닌 ‘문서가 프로세스’">
-    <Callout type="success">
-      지식·결정을 <b>Git Markdown + Storybook</b>으로 버전 관리하면  
-      언제든 <em>git blame → 역사 파악 → 빠른 문제 해결</em>이 가능합니다.
-    </Callout>
+        {/* ─────────── Slide 4 · 목표 ─────────── */}
+        <SnapSection band="intro" id="goals" title="목표">
+          <ul>
+            <li>🔧 <b>통일된 React 템플릿</b> → 라우팅·인증·상태관리·ErrorBoundary 선구축</li>
+            <li>🖼️ 페이지 UI 개발에만 집중, <b>서비스 특화 커스터마이징</b>만 구현</li>
+            <li>🧪 <b>Shift-Left 품질 관리</b> → 생산 단계 장애·B2G 준수 이슈 사전 차단</li>
+            <li>📜 <b>코딩·리뷰·테스트 규칙</b> 문서화 → 품질 편차 최소화</li>
+            <li>🤝 <b>협업 프로세스</b>(Figma·WebView) 표준 → 디자이너·앱팀과 원소스 협력</li>
+          </ul>
+          <div style={{marginTop:12,display:'flex',gap:12}}>
+            <LinkBtn href="https://www.mckinsey.com/~/media/mckinsey/business%20functions/mckinsey%20digital/our%20insights/the%20top%20trends%20in%20tech%202024/mckinsey-technology-trends-outlook-2024.pdf" label="McKinsey 2024"/>
+            <LinkBtn href="https://www.mois.go.kr/eng/bbs/type002/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000022&nttId=118313" label="MOIS 지침"/>
+          </div>
+        </SnapSection>
 
-    <ADR
-      title="ADR-PRE · README / ADR / Storybook"
-      background="구두 전파 → 지식 증발"
-      decision="모든 규칙을 docs/ Markdown + Storybook 으로 관리"
-      impact="온보딩 3 주→1 주 · Hotfix 30 h→10 h"
-      metrics={['ADR 5 건','PR Checklist 100 %']}
-    />
+        {/* ─────────── Slide 5 · 제안 스택 & 규칙 ─────────── */}
+        <SnapSection band="intro" id="stack" title="제안 스택 & 규칙">
+          <table className="simple-table">
+            <thead><tr><th>영역</th><th>표준 도구/가이드</th></tr></thead>
+            <tbody>
+              <tr><td>프레임워크</td><td>React 18 + TypeScript, Next.js (SSR/SSG)</td></tr>
+              <tr><td>상태 관리</td><td>Redux Toolkit + RTK Query / zustand</td></tr>
+              <tr><td>UI / 디자인</td><td>MUI + Storybook ↔ Figma Tokens</td></tr>
+              <tr><td>코드 품질</td><td>ESLint(airbnb)·Prettier·Husky·commit-lint</td></tr>
+              <tr><td>테스트</td><td>Jest + React Testing Library · Cypress e2e</td></tr>
+              <tr><td>빌드·배포</td><td>Vite / Webpack, Docker, GitHub Actions → GCP Cloud Run</td></tr>
+            </tbody>
+          </table>
+          <Callout type="info" >
+            <b>예시 적용</b><br/>
+            • 공통 앱 셸: <code>Layout.tsx</code> + <code>Suspense</code> + <code>ErrorBoundary</code><br/>
+            • 인증 플로우: <code>authApi</code> → <code>AuthSlice</code> → React Router guard<br/>
+            • 스토리북 워크플로우: <code>Button.stories.tsx</code> → Figma 검사 후 MUI theme token 자동 반영
+          </Callout>
+          <div style={{marginTop:12,display:'flex',gap:12}}>
+            <LinkBtn href="https://github.com/belgattitude/nextjs-monorepo-example" label="Next.js Template"/>
+            <LinkBtn href="https://storybook.js.org/docs" label="Storybook Docs"/>
+          </div>
+        </SnapSection>
 
-    <button className="ov-btn" onClick={()=>open(
-      <img src="/capture/doc-structure.png" style={{maxWidth:'100%'}}/>
-    )}>📂 디렉터리 구조 캡처</button>
-  </SnapSection>
+        {/* ─────────── Slide 6 · 추진 일정 ─────────── */}
+        <SnapSection band="intro" id="schedule" title="추진 일정 (7 주)">
+          <table className="simple-table">
+            <thead><tr><th>Phase</th><th>기간</th><th>주요 산출물</th></tr></thead>
+            <tbody>
+              <tr><td>P0. 현황 진단</td><td>1 주</td><td>문제·지표 Baseline, Risk List</td></tr>
+              <tr><td>P1. 템플릿 구축</td><td>2 주</td><td>Monorepo, 린트·테스트 자동화, 샘플 App</td></tr>
+              <tr><td>P2. 기존 프로젝트 파일럿</td><td>3 주</td><td>모듈 마이그레이션, 성능 개선 리포트</td></tr>
+              <tr><td>P3. 문서·교육</td><td>1 주</td><td>개발 가이드, PR 체크리스트, 워크숍</td></tr>
+            </tbody>
+          </table>
+        </SnapSection>
 
-  {/* 1 Why React + TS */}  
-  <SnapSection band="intro" id="intro-react" title="Why React + TypeScript?">
-    <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:20}}>
-      <Kpi label="NPM 주간 DL"  value="22 M+"/>
-      <Kpi label="TS 채용 비중" value="36 %" caption="국내 FE"/>
-    </div>
-    <Callout type="info">
-      • 생태계 최대 → 인력 교체 리스크↓<br/>
-      • JSX + Hooks → 디자인↔코드 전환 용이<br/>
-      • Type Safety → 런타임 오류 65 %↓
-    </Callout>
-    <CompareCard selected="react-ts" options={[
-      {id:'react-ts',title:'React 18 + TS',pros:['생태계','IDE 지원'],cons:['—']},
-      {id:'vue',     title:'Vue 3',         pros:['단순 API'],        cons:['인력 풀↓']},
-      {id:'angular', title:'Angular',       pros:['All-in-One'],     cons:['러닝커브↑']},
-    ]}/>
-    <div style={{marginTop:20,display:'flex',gap:12}}>
-      <LinkBtn href="https://tinyurl.com/npm-react-stats"   label="📑 npm Stats"/>
-      <LinkBtn href="https://tinyurl.com/kr-ts-jobs-2025"   label="📑 채용 트렌드"/>
-    </div>
-  </SnapSection>
+        {/* ─────────── Slide 7 · 협업 흐름 ─────────── */}
+        <SnapSection band="body" id="collab" title="디자인팀·앱팀 협업 흐름">
+          <ul>
+            <li>🎨 <b>Figma Design Token</b> → Style Dictionary → MUI theme</li>
+            <li>✅ Storybook에서 UI 컴포넌트 승인 → 버전 태깅</li>
+            <li>📱 WebView App: 릴리스 캘린더·Deep Link Scheme·QA 체크리스트 공유</li>
+          </ul>
+        </SnapSection>
 
-  {/* 2 Why SCSS Token */}  
-  <SnapSection band="intro" id="intro-scss" title="Why SCSS Design-Token?">
-    <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:20}}>
-      <Kpi label="테마 전환"  value="5 s → 1 s"/>
-      <Kpi label="스타일 중복" value="↓ 80 %" caption="Mixin"/>
-    </div>
-    <Callout type="info">
-      변수·믹스인 기반 <b>토큰</b> 시스템 → 다크모드·브랜드 테마 비용 <span style={{whiteSpace:'nowrap'}}>¼</span>.
-    </Callout>
-    <LinkBtn href="https://tinyurl.com/scss-design-token" label="📑 토큰 사례"/>
-  </SnapSection>
+        {/* ─────────── Slide 8 · 거버넌스 ─────────── */}
+        <SnapSection band="body" id="governance" title="거버넌스 & 지속 개선">
+          <ul>
+            <li>🔒 <b>CODEOWNERS</b> & PR Template</li>
+            <li>📚 <b>ADR 프로세스</b> 운영 (Architecture Decision Record)</li>
+            <li>🗓️ 월 1회 <b>Standards Review Board</b>로 규약 업데이트</li>
+          </ul>
+        </SnapSection>
 
-  {/* 3 로드맵 */}  
-  <SnapSection band="intro" id="intro-roadmap" title="4-Month Road-map">
-    <div style={{display:'flex',justifyContent:'space-between',gap:12,marginTop:16}}>
-      {['M1 CodeStyle','M2 DesignSys','M3 State/Data','M4 Routing/Auth'].map((l,i)=>(
-        <div key={i} style={{flex:'1 1 0',textAlign:'center'}}>
-          <div style={{width:12,height:12,borderRadius:'50%',background:'var(--primary)',margin:'0 auto'}}/>
-          <p style={{fontSize:12,marginTop:6}}>{l}</p>
-        </div>
-      ))}
-    </div>
-    <Callout type="success">
-      “실전 적용 → 지표 수집 → 세미나 공유” 플라이휠로  
-      6 개월 내 **전 프로젝트 정착**이 목표입니다.
-    </Callout>
-  </SnapSection>
+        {/* ─────────── Slide 9 · 기대 효과 ─────────── */}
+        <SnapSection band="body" id="benefit" title="기대 효과 (예상 지표)">
+          <table className="simple-table">
+            <thead><tr><th>지표</th><th>현행</th><th>파일럿</th><th>개선률</th></tr></thead>
+            <tbody>
+              <tr><td>기능 TTR</td><td>14 일</td><td>9 일</td><td>▲ 35 %</td></tr>
+              <tr><td>CS 티켓/주</td><td>12 건</td><td>7 건</td><td>▼ 42 %</td></tr>
+              <tr><td>On-boarding 소요</td><td>2.0 일</td><td>1.5 일</td><td>▼ 25 %</td></tr>
+              <tr><td>Bugs/LOC (SonarQube)</td><td>0.45 %</td><td>0.35 %</td><td>▼ 22 %</td></tr>
+            </tbody>
+          </table>
+          <Callout type="info" >
+            근거: Jira Change Log 2025-H1, VOC Dashboard, SonarQube Report 2025-06-30 (모두 내부)
+          </Callout>
+        </SnapSection>
 
-  {/* ================================================================ */}
-  {/*                     ───  B  O  D  Y  ───                         */}
-  {/* ================================================================ */}
-
-  {/* #0 React Feature Before / After */}
-  <SnapSection band="body" id="whyreact" title="Core React Feature – Before / After">
-    <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:20}}>
-      <Kpi label="Re-render" value="↓ 30 %" caption="useMemo"/>
-      <Kpi label="Modal 코드" value="↓ 45 %" caption="Portal"/>
-      <Kpi label="런타임 Error" value="↓ 60 %" caption="ErrorBoundary"/>
-    </div>
-    <ADR
-      title="ADR-000 · React 18 유지"
-      background="프레임워크 교체 제안 산발"
-      decision="2026 까지 UI 표준 = React18 + TS"
-      impact="채용 Pool 극대화 · RN / WebView 공유"
-    />
-  </SnapSection>
-
-  {/* #1 CodeStyle & Repo */}
-  <SnapSection band="body" id="codestyle" title="코드 스타일 · 레포 레이아웃">
-    <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:20}}>
-      <Kpi label="온보딩"     value="3 주 → 1 주"/>
-      <Kpi label="CI 캐시 HIT" value="65 %"/>
-    </div>
-    <CompareCard selected="nx" options={[
-      {id:'nx',title:'Nx + Turbo',pros:['Remote Cache','Graph 시각화'],cons:['초기 학습↑']},
-      {id:'lerna',title:'Lerna',   pros:['단순 설정'],                cons:['캐시 수작업']},
-    ]}/>
-    <ADR title="ADR-001 · Nx Monorepo"
-         background="설정 복붙 난립"
-         decision="Nx 모노레포 통합"
-         impact="CI 50 %↓ · 코드 공유 ↑"/>
-  </SnapSection>
-
-  {/* #2 Router + Guard */}
-  <SnapSection band="body" id="router" title="라우팅 · Role Guard">
-    <Kpi label="권한 오류 CS" value="↓ 80 %"/>
-    <Callout>Route meta + Guard 패턴으로 오입장·404 CS를 근절합니다.</Callout>
-    <CompareCard selected="react" options={[
-      {id:'react',title:'React Router v6',pros:['SPA 호환','가드 간단'],cons:['SSR 별도']},
-      {id:'next', title:'Next.js',        pros:['SSR/SEO'],         cons:['전환 비용↑']},
-    ]}/>
-    <ADR title="ADR-002 · Role Meta Guard"
-         background="오입장·직링크 이슈"
-         decision="`roles:['ADMIN']` 메타 + Guard"
-         impact="QA Case 30 %↓ · CS↓"/>
-  </SnapSection>
-
-  {/* #3 Auth / Session */}
-  <SnapSection band="body" id="auth" title="권한 관리 · 세션">
-    <Kpi label="재로그인" value="↓ 60 %" caption="Silent Refresh"/>
-    <CompareCard selected="refresh" options={[
-      {id:'refresh',title:'Silent Refresh',pros:['UX 무중단'],cons:['RT 저장']},
-      {id:'popup',  title:'Popup 재인증',  pros:['보안↑'],   cons:['UX 방해']},
-    ]}/>
-    <ADR title="ADR-003 · 세션 갱신"
-         background="만료 후 401 대량 발생"
-         decision="만료 T-60 s 재요청, 실패→재로그인 Modal"
-         impact="세션 유지 95 % · CS↓"/>
-  </SnapSection>
-
-  {/* #4 Loading UX */}
-  <SnapSection band="body" id="loading" title="로딩 UX · 중복 호출">
-    <Kpi label="중복 API" value="↓ 30 %"/>
-    <CompareCard selected="rq" options={[
-      {id:'rq',title:'React Query',pros:['동일키 취소','에러 경계'],cons:['—']},
-    ]}/>
-    <ADR title="ADR-004 · React Query"
-         background="동일 API N회 호출"
-         decision="키 기반 캐시 & 취소 정책"
-         impact="중복 호출 30 %↓ · 스피너 40 %↓"/>
-  </SnapSection>
-
-  {/* #5 Error Logging */}
-  <SnapSection band="body" id="errors" title="프론트 Error Logging">
-    <Kpi label="TTD" value="24 h → 2 h"/>
-    <ADR title="ADR-005 · FE Error Pipe"
-         background="릴리즈 후 버그 탐지 지연"
-         decision="window.onerror + axios → `/logs/js`"
-         impact="MTTR↓ · 탐지 2 h"/>
-  </SnapSection>
-
-  {/* #6 State Management */}
-  <SnapSection band="body" id="state" title="앱 상태 관리">
-    <Kpi label="코드량" value="↓ 18 %" caption="Zustand"/>
-    <CompareCard selected="zustand" options={[
-      {id:'zustand',title:'Zustand',      pros:['보일러↓'], cons:['—']},
-      {id:'redux',  title:'Redux Toolkit',pros:['DevTools'],cons:['보일러↑']},
-    ]}/>
-  </SnapSection>
-
-  {/* #7 WebView Bridge */}
-  <SnapSection band="body" id="webview" title="WebView Bridge">
-    <Kpi label="Hotfix 리드타임" value="↓ 50 %"/>
-    <Callout>RN·Flutter 혼재 → JSON-RPC 2.0 래퍼로 통일</Callout>
-  </SnapSection>
-
-  {/* #8 Docs · ADR */}
-  <SnapSection band="body" id="docs" title="문서화 · ADR">
-    <Kpi label="신규 문서" value="↑ 40 %" caption="Docusaurus"/>
-    <Callout type="success">“<em>문서도 코드다</em>” – PR 머지 조건에 ADR 체크</Callout>
-  </SnapSection>
-
-  {/* ================================================================ */}
-  {/*                     ───  G  Y  E  O  L  L  O  N  ───             */}
-  {/* ================================================================ */}
-  <SnapSection band="outro" id="summary" title="결론 · 수익 & 다음 단계">
-    <Kpi label="유지보수 비용" value="↓ 40 %" caption="6 개월 예상"/>
-    <Callout type="success">
-      • B2G 공공 지표 개선 → 재계약 가중치 ↑<br/>
-      • 표준 베이스 → 신규 견적 단가 15 % 마진 ↑
-    </Callout>
-    <p style={{marginTop:32,fontStyle:'italic',opacity:.8}}>
-      세미나 #2 (<b>Design System · Storybook</b>)에서  
-      디자이너-개발자 콜라보 데모를 만나보세요!
-    </p>
-  </SnapSection>
+        {/* ─────────── Outro ─────────── */}
+        <SnapSection band="outro" id="summary" title="다음 단계">
+          <p>
+            경영진 Kick-off 승인 → 리소스 2 FTE 배정 ▶ P0 즉시 착수.<br/>
+            Week-별 마일스톤 달성 후 <b>세미나 #2 – Design System & Storybook</b>에서 결과 공유.
+          </p>
+        </SnapSection>
 
       </div>
     </>
