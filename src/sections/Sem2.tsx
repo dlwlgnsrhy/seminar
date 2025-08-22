@@ -4,6 +4,7 @@ import { installGlobalErrorHandlers } from '@/shared/logging/errorLogger'
 import CompareCard from '@/components/CompareCard'
 import ADR from '@/components/ADR'
 
+
 export default function SemScreen() {
   useEffect(() => { installGlobalErrorHandlers() }, [])
   const [sel, setSel] = useState<string>('A')

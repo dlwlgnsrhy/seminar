@@ -4,6 +4,7 @@ import AppShell  from '@/shell/AppShell'
 
 import Sem1 from '@/sections/Sem1'
 import Sem2 from '@/sections/Sem2'
+import Sem3 from '@/sections/Sem3'
 // → 차후 Sem3, Sem4 … 추가
 
 export const router = createBrowserRouter([
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
 
       { path: 's1', element: <Sem1 /> },
       { path: 's2', element: <Sem2 /> },
+      { path: 's2', element: <Sem3 /> },
 
     ],
   },

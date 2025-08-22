@@ -34,6 +34,161 @@ function Overlay({ children, onClose }:{
 /*  세미나 화면                                                      */
 /* ------------------------------------------------------------------ */
 export default function SemScreen(){
+
+
+    // ────────────────────────────────────────────────────────────────
+  // Audit Matrix 데이터 & 헬퍼
+  // ────────────────────────────────────────────────────────────────
+  type Severity = 'critical' | 'high' | 'medium' | 'low'
+  type Evidence = { label: string; href?: string; note?: string }
+  type AuditRow = {
+    project: string
+    step: string
+    finding: string
+    metric?: string
+    severity: Severity
+    evidence?: Evidence[]
+    commands?: string[]
+    notes?: string
+  }
+
+  const sevBadge = (sev: Severity) => {
+    const bg =
+      sev === 'critical' ? '#b91c1c' :
+      sev === 'high'     ? '#d97706' :
+      sev === 'medium'   ? '#059669' : '#2563eb'
+    return (
+      <span
+        style={{
+          display:'inline-block', padding:'2px 8px', borderRadius:999,
+          color:'#fff', background:bg, fontSize:12, fontWeight:700
+        }}
+        title={sev}
+      >
+        {sev.toUpperCase()}
+      </span>
+    )
+  }
+
+  const AUDIT: AuditRow[] = [
+    // ── do반장 (my-app)
+    {
+      project: 'do반장 (my-app)',
+      step: 'Step4 · 성능',
+      finding: '초기 번들 과대 + 초기 SDK 로드 → LCP 악화',
+      metric: 'LCP 17.7 / 8.6 / 9.2 s · JS 734.75KB · CSS 138.05KB (gzip)',
+      severity: 'critical',
+      evidence: [
+        { label: 'buildlog.txt (gzip 합계)', href: 'YOUR_LINK_buildlog' },
+        { label: 'Lighthouse 3회 캡처', href: 'YOUR_LINK_lighthouse' }
+      ],
+      commands: [
+        'npm ci --legacy-peer-deps',
+        '$env:PUBLIC_URL="/"',
+        'npm run build *> buildlog.txt',
+        'npx serve -s build -l 5000'
+      ],
+      notes: '레이지 로딩 비율 낮고, Kakao SDK 초기 로드 중복 가능성'
+    },
+    {
+      project: 'do반장 (my-app)',
+      step: 'Step5 · HTTP/코어',
+      finding: '강제 새로고침 의존 다수',
+      metric: 'reload 계열 131건',
+      severity: 'high',
+      evidence: [{ label: '검색 결과 캡처', href: 'YOUR_LINK_reload_screenshot' }],
+      commands: [
+        "Select-String -Pattern 'window\\.location\\.reload|navigate\\(0\\)' -AllMatches ..."
+      ]
+    },
+    {
+      project: 'do반장 (my-app)',
+      step: 'Step6 · 에러/인터셉터',
+      finding: '전역 인터셉터/상태코드 분기 부재, alert 다수',
+      metric: 'alert 572건',
+      severity: 'high',
+      evidence: [{ label: 'alert 카운트 캡처', href: 'YOUR_LINK_alert_count' }]
+    },
+
+    // ── 에너지전환마을 (ec_village-react)
+    {
+      project: '에너지전환마을 (ec_village-react)',
+      step: 'Step1 · 라우팅',
+      finding: 'BrowserRouter + homepage/basename 미정합, 절대경로 위주',
+      severity: 'medium',
+      evidence: [{ label: 'App/index/route 스니펫', href: 'YOUR_LINK_routing_snips' }]
+    },
+    {
+      project: '에너지전환마을 (ec_village-react)',
+      step: 'Step4 · 성능',
+      finding: '초기 리소스 과다 → LCP 장기화',
+      metric: 'LCP ~13s · JS 589.31KB · CSS 271.99KB (gzip)',
+      severity: 'high',
+      evidence: [
+        { label: 'buildlog.txt (합계)', href: 'YOUR_LINK_buildlog_ec' },
+        { label: 'Lighthouse 캡처', href: 'YOUR_LINK_lh_ec' }
+      ]
+    },
+    {
+      project: '에너지전환마을 (ec_village-react)',
+      step: 'Step6 · 에러/인터셉터',
+      finding: '공용 axios 인스턴스/인터셉터 없음, 상태코드 분기 없음, alert 다수',
+      metric: 'alert 97건',
+      severity: 'high'
+    },
+
+    // ── 새빛돌봄 (suwon-react)
+    {
+      project: '새빛돌봄 (suwon-react)',
+      step: 'Step1 · 라우팅',
+      finding: '절대경로 하드코딩 대량 + homepage=/care_portal, basename 미사용',
+      metric: '절대경로 743건 (그중 /care_portal 523건) · navigate() 506건',
+      severity: 'high',
+      evidence: [
+        { label: '절대경로 카운트 CSV', href: 'YOUR_LINK_abs_csv' },
+        { label: 'navigate 카운트', href: 'YOUR_LINK_nav_count' }
+      ]
+    },
+    {
+      project: '새빛돌봄 (suwon-react)',
+      step: 'Step4 · 성능',
+      finding: '리소스 중간 수준, LCP 개선 여지',
+      metric: 'LCP 8.1s · JS 443.44KB · CSS 47.12KB (gzip)',
+      severity: 'medium',
+      evidence: [
+        { label: 'build 파일 기반 gzip 측정 CSV', href: 'YOUR_LINK_gzip_fromfiles' },
+        { label: 'Lighthouse 캡처', href: 'YOUR_LINK_lh_suwon' }
+      ]
+    },
+    {
+      project: '새빛돌봄 (suwon-react)',
+      step: 'Step5 · HTTP/코어',
+      finding: '강제 새로고침 다수 + 초기 중복 호출 징후',
+      metric: 'reload 계열 260건 · useEffect 인라인 401건',
+      severity: 'high',
+      evidence: [{ label: '네트워크 탭 스샷', href: 'YOUR_LINK_network_dup' }]
+    },
+    {
+      project: '새빛돌봄 (suwon-react)',
+      step: 'Step6 · 에러/인터셉터',
+      finding: 'axios.create 없음 + response 인터셉터가 여러 파일에 중복 등록',
+      metric: 'interceptors.response.use ≥ 21곳 · alert 34건',
+      severity: 'medium',
+      evidence: [{ label: '인터셉터 매칭 목록', href: 'YOUR_LINK_interceptors_list' }]
+    },
+  ]
+
+    const [q, setQ] = useState('');
+const [sev, setSev] = useState<Severity | 'all'>('all');
+
+const filtered = AUDIT.filter(r =>
+  (sev === 'all' || r.severity === sev) &&
+  (q.trim() === '' ||
+   r.project.toLowerCase().includes(q.toLowerCase()) ||
+   r.finding.toLowerCase().includes(q.toLowerCase()) ||
+   (r.metric ?? '').toLowerCase().includes(q.toLowerCase()))
+);
+
   useInViewSnap()
 
   const [ov, setOv] = useState<React.ReactNode | null>(null)
@@ -162,6 +317,100 @@ export default function SemScreen(){
             근거: Jira Change Log 2025-H1, VOC Dashboard, SonarQube Report 2025-06-30 (모두 내부)
           </Callout>
         </SnapSection>
+                {/* ─────────── Slide X · 프로젝트 디버깅 현황 Matrix ─────────── */}
+        <SnapSection band="intro" id="audit" title="프로젝트 디버깅 현황 Matrix">
+          <table className="simple-table">
+            <thead>
+              <tr>
+                <th style={{width:180}}>프로젝트</th>
+                <th style={{width:140}}>Step</th>
+                <th>핵심 이슈</th>
+                <th style={{width:280}}>지표/메트릭</th>
+                <th style={{width:120}}>심각도</th>
+                <th style={{width:120}}>증거</th>
+              </tr>
+            </thead>
+            <tbody>
+              {AUDIT.map((r, i) => (
+                <tr key={i}>
+                  <td>{r.project}</td>
+                  <td>{r.step}</td>
+                  <td>{r.finding}</td>
+                  <td>{r.metric ?? '—'}</td>
+                  <td>{sevBadge(r.severity)}</td>
+                  <td>
+                    <button
+                      className="linklike"
+                      onClick={() =>
+                        open(
+                          <div style={{maxWidth:720}}>
+                            <h3 style={{marginTop:0}}>
+                              {r.project} · {r.step}
+                            </h3>
+                            <p style={{margin:'6px 0 12px 0'}}>{r.finding}</p>
+
+                            {r.metric && (
+                              <Kpi label="Metric" value={r.metric} />
+                            )}
+
+                            {r.notes && (
+                              <Callout type="info">{r.notes}</Callout>
+                            )}
+
+                            {r.evidence && r.evidence.length > 0 && (
+                              <>
+                                <h4>증거 링크</h4>
+                                <ul style={{paddingLeft:18}}>
+                                  {r.evidence.map((e, idx) => (
+                                    <li key={idx}>
+                                      {e.href ? (
+                                        <a href={e.href} target="_blank" rel="noreferrer">
+                                          {e.label}
+                                        </a>
+                                      ) : (
+                                        <span>{e.label}</span>
+                                      )}
+                                      {e.note && <span style={{opacity:.7}}> — {e.note}</span>}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </>
+                            )}
+
+                            {r.commands && r.commands.length > 0 && (
+                              <>
+                                <h4>재현·수집 명령</h4>
+                                <pre style={{
+                                  background:'#0f172a', color:'#e5e7eb',
+                                  padding:12, borderRadius:8, overflow:'auto'
+                                }}>
+                                {r.commands.join('\n')}
+                                </pre>
+                              </>
+                            )}
+                            <div style={{display:'flex',gap:8,marginTop:12,flexWrap:'wrap'}}>
+                              {(r.evidence ?? []).map((e, idx) =>
+                                e.href ? <LinkBtn key={idx} href={e.href} label={e.label}/> : null
+                              )}
+                            </div>
+                          </div>
+                        )
+                      }
+                    >
+                      상세
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <Callout type="info" style={{marginTop:12}}>
+            표는 <b>최상위 리스크 중심 요약</b>입니다. 각 셀의 <b>상세</b> 버튼을 클릭하면
+            증거 링크(빌드 로그, Lighthouse, 스크립트 캡처)와 <b>재현·수집 명령</b>을 바로 볼 수 있어요.
+          </Callout>
+        </SnapSection>
+
 
         {/* ─────────── Outro ─────────── */}
         <SnapSection band="outro" id="summary" title="다음 단계">

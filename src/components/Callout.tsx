@@ -4,7 +4,8 @@ export default function Callout({
   }: {
     type?: 'info' | 'warn' | 'success' | 'danger'
     children: any
-  }) {
+  } & React.HTMLAttributes<HTMLDivElement>
+) {
     const color: Record<string, string> = {
       info: '#5aa9ff',
       warn: '#f5c242',

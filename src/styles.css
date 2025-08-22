@@ -215,3 +215,42 @@ html,body{overflow:hidden;}
   font-size:13px;
 }
 @keyframes fade{from{opacity:0}to{opacity:1}}
+/* 테이블 가독성 */
+.simple-table.audit thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: rgba(15,23,42,.9); backdrop-filter: blur(8px);
+}
+.simple-table.audit tbody tr:nth-child(odd) { background: rgba(255,255,255,.03); }
+.simple-table.audit td, .simple-table.audit th { padding: 10px 12px; }
+.simple-table.audit code.metric { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+
+/* 툴바 */
+.audit-toolbar {
+  display:flex; gap:12px; align-items:center; justify-content:space-between;
+  margin: -4px 0 10px 0;
+}
+.audit-toolbar .search {
+  flex:1; max-width: 360px; padding:8px 10px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:#e5e7eb;
+}
+.sev-group { display:flex; gap:6px; }
+.pill {
+  padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700;
+  border:1px solid transparent; background:rgba(255,255,255,.06); color:#cbd5e1;
+}
+.pill.on { outline:2px solid rgba(255,255,255,.24); }
+.pill.sev-critical.on { background:#b91c1c; color:#fff; }
+.pill.sev-high.on     { background:#d97706; color:#fff; }
+.pill.sev-medium.on   { background:#059669; color:#fff; }
+.pill.sev-low.on      { background:#2563eb; color:#fff; }
+
+/* 상세 버튼 – 존재감 낮춘 고스트 스타일 */
+button.linklike.ghost {
+  padding:6px 10px; border-radius:8px;
+  background:transparent; border:1px solid rgba(255,255,255,.16); color:#e5e7eb;
+}
+button.linklike.ghost:hover { background:rgba(255,255,255,.06); }
+
+/* 오버레이(있다면 살짝 다듬기) */
+.ov-backdrop { background: rgba(2,6,23,.6); backdrop-filter: blur(3px); }
+.ov-card { max-width: 820px; width: 92vw; }
