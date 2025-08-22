@@ -319,7 +319,28 @@ const filtered = AUDIT.filter(r =>
         </SnapSection>
                 {/* ─────────── Slide X · 프로젝트 디버깅 현황 Matrix ─────────── */}
         <SnapSection band="intro" id="audit" title="프로젝트 디버깅 현황 Matrix">
-          <table className="simple-table">
+          {/* ✅ 툴바 추가 */}
+  <div className="audit-toolbar">
+    <div className="sev-group" role="group" aria-label="severity filter">
+      {(['all','critical','high','medium','low'] as const).map(s => (
+        <button
+          key={s}
+          className={`pill ${sev===s?'on':''} sev-${s}`}
+          onClick={()=>setSev(s)}
+          title={s==='all'?'전체':s.toUpperCase()}
+        >
+          {s==='all'?'ALL':s.toUpperCase()}
+        </button>
+      ))}
+    </div>
+    <input
+      className="search"
+      placeholder="프로젝트/이슈/메트릭 검색…"
+      value={q}
+      onChange={(e)=>setQ(e.target.value)}
+    />
+  </div>
+          <table className="simple-table audit" >
             <thead>
               <tr>
                 <th style={{width:180}}>프로젝트</th>
@@ -331,16 +352,16 @@ const filtered = AUDIT.filter(r =>
               </tr>
             </thead>
             <tbody>
-              {AUDIT.map((r, i) => (
+              {filtered.map((r, i) => (
                 <tr key={i}>
                   <td>{r.project}</td>
                   <td>{r.step}</td>
                   <td>{r.finding}</td>
-                  <td>{r.metric ?? '—'}</td>
+                  <td><code className="metric">{r.metric ?? '—'}</code></td>
                   <td>{sevBadge(r.severity)}</td>
                   <td>
                     <button
-                      className="linklike"
+                      className="linklike ghost"
                       onClick={() =>
                         open(
                           <div style={{maxWidth:720}}>
