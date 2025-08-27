@@ -71,19 +71,19 @@ function exportCSV(rows: AuditRow[]){
 /* Static Content (slides text)                                       */
 /* ------------------------------------------------------------------ */
 const CONTENT = {
-  icebreaking: {
-    title: 'React → Re-act',
-    bullets: [
-      'React를 “다시” 활용(Re-act)해, 우리 조직 Baseline을 만든다',
-      '생태계 표준을 업고 내부 표준화 속도를 높인다',
-      '템플릿/가이드/체크리스트를 통해 반복 리스크를 흡수한다',
-    ],
-    links: [
-      { href: 'https://survey.stackoverflow.co/2025/#technology-web-frameworks', label: 'SO 2025' },
-      { href: 'https://2024.stateofjs.com/en-US/libraries/front-end-frameworks/', label: 'State of JS' },
-      { href: 'https://www.linkedin.com/pulse/software-developer-labor-demand-salary-trends-2025-julius-gromyko-o5vhf', label: 'LinkedIn Trends' },
-    ],
-  },
+icebreaking: {
+  title: 'React → Re-act',
+  bullets: [
+    'React를 “다시” 활용(Re-act)해, 우리 조직 Baseline을 만든다',
+    '생태계 표준을 업고 내부 표준화 속도를 높인다',
+    '템플릿/가이드/체크리스트를 통해 반복 리스크를 흡수한다',
+  ],
+links: [
+  { href: 'https://survey.stackoverflow.co/2025/#technology-web-frameworks', label: 'SO 2025 · Frameworks' },
+  { href: 'https://2024.stateofjs.com/en-US/libraries/front-end-frameworks/', label: 'State of JS 2024' },
+  { href: 'https://npmtrends.com/react-vs-vue-vs-angular', label: 'NPM Trends' },
+],
+},
   overview: {
     title: 'React Baseline으로 운영 리스크를 구조적으로 흡수',
     bullets: [
