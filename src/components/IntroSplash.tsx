@@ -13,8 +13,7 @@ export default function IntroSplash(){
 
   const close = () => {
     setShow(false)
-    // 첫 섹션으로 부드럽게 이동
-    document.getElementById('intro')?.scrollIntoView({ behavior:'smooth' })
+    document.getElementById('problem')?.scrollIntoView({ behavior:'smooth' })
   }
 
   useEffect(() => {
@@ -29,8 +28,8 @@ export default function IntroSplash(){
   return (
     <div className="intro-backdrop" onClick={close} role="dialog" aria-modal="true">
       <div className="intro-card">
-        <div className="intro-title">Nubiz Seminar</div>
-        <div className="intro-sub">React 표준화 구축으로 업무 효율·품질·가치를 동시에 향상</div>
+        <div className="intro-title">React → Re-act</div>
+        <div className="intro-sub">Baseline으로 운영 리스크를 구조적으로 흡수</div>
         <div className="intro-cta">Press <b>Enter</b> or click to start ↓</div>
       </div>
     </div>
