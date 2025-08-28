@@ -28,7 +28,7 @@ export default function IntroSplash(){
   return (
     <div className="intro-backdrop" onClick={close} role="dialog" aria-modal="true">
       <div className="intro-card">
-        <div className="intro-title">React → Re-act</div>
+        <div className="intro-title">Nubiz</div>
         <div className="intro-sub">Baseline으로 운영 리스크를 구조적으로 흡수</div>
         <div className="intro-cta">Press <b>Enter</b> or click to start ↓</div>
       </div>

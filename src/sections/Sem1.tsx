@@ -19,6 +19,7 @@ import HeroIntro from '@/components/HeroIntro'
 import Overview from '@/components/Overview'
 import BaselineTrendy from '@/components/BaselineTrendy'
 import PlanRoadmap from '@/components/PlanRoadmap'
+import OutroSection from '@/components/OutroSection'
 
 /* ------------------------------------------------------------------ */
 /* Types                                                              */
@@ -692,6 +693,11 @@ export default function SemScreen() {
       {ov && <Overlay onClose={close} titleId="ov-title">{ov}</Overlay>}
       <div className="snap-container">
 
+                {/* 3) Background */}
+                <SnapSection band="intro" id="icebug" title="발표 이유 (Icebug)">
+          <IcebugSlide />
+        </SnapSection>
+
         {/* 1) Icebreaking */}
         <IntroSplash />
         <SnapSection band="intro" id="icebreaking" title="">
@@ -711,10 +717,7 @@ export default function SemScreen() {
           />
         </SnapSection>
 
-        {/* 3) Background */}
-        <SnapSection band="intro" id="icebug" title="발표 이유 (Icebug)">
-          <IcebugSlide />
-        </SnapSection>
+
 
         {/* 4) Issues – 공통 결함 패턴 (테이블 + 더보기) */}
         <SnapSection band="body" id="projects" title="공통 결함 패턴 (이슈 중심 · 심각도 순)">
@@ -889,9 +892,7 @@ export default function SemScreen() {
 
                 <div id="issue-table-end" style={{height:1}} />
 
-                <Callout type="info" style={{marginTop:12}}>
-                  표는 <b>이슈 기준</b>으로 그룹핑되어 있습니다. <b>SEVERITY</b>가 높은 순으로 정렬되며, <b>상세</b>에서 프로젝트별 근거 이미지를 한 번에 확인하세요.
-                </Callout>
+
               </>
             )
           })()}
@@ -910,31 +911,18 @@ export default function SemScreen() {
           <PlanRoadmap></PlanRoadmap>
         </SnapSection>
 
-        {/* 7) KPIs */}
-        <SnapSection band="body" id="kpis" title={CONTENT.kpis.title}>
-          <table className="simple-table">
-            <thead><tr><th>지표</th><th>정의</th><th>목표</th><th>측정 소스</th></tr></thead>
-            <tbody>
-              {CONTENT.kpis.rows.map((r,i)=>(
-                <tr key={i}><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>
-              ))}
-            </tbody>
-          </table>
-          <Callout type="info" style={{marginTop:12}}>{CONTENT.kpis.note}</Callout>
-        </SnapSection>
-
         {/* 8) 적용 사례 */}
-        <SnapSection band="body" id="cases" title={CONTENT.cases.title}>
+        {/* <SnapSection band="body" id="cases" title={CONTENT.cases.title}>
           <ul>
             <li>번들 크기 / LCP 전후 비교</li>
             <li>경로 오류(서브패스/딥링크) 해소</li>
             <li>alert → toast 전환 / 인터셉터 도입</li>
           </ul>
           <Callout type="info" style={{marginTop:12}}>{CONTENT.cases.note}</Callout>
-        </SnapSection>
+        </SnapSection> */}
 
         {/* Appendix · Matrix (Evidence) */}
-        <SnapSection band="intro" id="audit" title="Appendix · Evidence Matrix">
+        {/* <SnapSection band="intro" id="audit" title="Appendix · Evidence Matrix">
           <div className="audit-toolbar" role="toolbar" aria-label="감사 매트릭스 툴바">
             <div className="sev-group" role="group" aria-label="심각도 필터">
               {(['all','critical','high','medium','low'] as const).map(s => (
@@ -1040,14 +1028,11 @@ export default function SemScreen() {
           <Callout type="info" style={{marginTop:12}}>
             표는 <b>최상위 리스크 중심 요약</b>입니다. 각 셀의 <b>상세</b> 버튼에서 증거 링크와 <b>재현·수집 명령</b>을 확인하세요.
           </Callout>
-        </SnapSection>
+        </SnapSection> */}
 
         {/* Outro */}
-        <SnapSection band="outro" id="summary" title="다음 단계">
-          <p>
-            경영진 Kick-off 승인 → 리소스 2 FTE 배정 ▶ P0 즉시 착수.<br/>
-            마일스톤 달성 후 <b>세미나 #2 – Design System & Storybook</b>에서 결과 공유.
-          </p>
+        <SnapSection band="outro" id="summary" title="결론">
+          <OutroSection></OutroSection>
         </SnapSection>
       </div>
     </>

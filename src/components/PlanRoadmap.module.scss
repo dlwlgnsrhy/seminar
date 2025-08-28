@@ -1,4 +1,5 @@
-/* 무대감/밀도 보강용 – CSS Modules */
+/* --- 기존 화면 톤/레이아웃을 그대로 유지하면서, '현재 위치' & 병렬칩만 추가 --- */
+
 .planRoadmap {
   position: relative;
   padding: 24px;
@@ -10,16 +11,13 @@
   isolation: isolate;
 }
 
-/* 배경 오브젝트 + 그리드 */
 .stageDecor {
   position: absolute; inset: -10% -10% -10% -10%; z-index: -1;
   background:
     radial-gradient(1200px 600px at 10% -10%, rgba(90,169,255,.10), transparent 60%),
     radial-gradient(900px 500px at 110% 10%, rgba(124,77,255,.10), transparent 55%),
     linear-gradient(180deg, transparent, rgba(255,255,255,.02) 40%, transparent 80%),
-    repeating-linear-gradient(
-      0deg, transparent 0 28px, rgba(255,255,255,.03) 28px 29px
-    );
+    repeating-linear-gradient(0deg, transparent 0 28px, rgba(255,255,255,.03) 28px 29px);
   pointer-events: none;
   filter: blur(.2px);
 }
@@ -31,9 +29,9 @@
   font-weight: 900;
   letter-spacing: .2px;
 }
-.sub { margin: 6px 0 12px; opacity: .85; font-size: 13px; }
+.sub { margin: 6px 0 12px; opacity: .88; font-size: 13px; }
 
-/* 상단 진행바(세그먼트) */
+/* Progress (세그먼트 유지) */
 .progress {
   position: relative;
   display: flex; gap: 6px;
@@ -53,11 +51,22 @@
   animation: grow .8s ease both;
 }
 @keyframes grow { from { width: 0 } to { width: var(--w) } }
+
+/* 현재 위치 마커(얇은 핀) */
+.nowMarker{
+  position: absolute;
+  top: -4px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 0 12px rgba(120,160,255,.7);
+}
 .progressLabel {
   position: absolute; right: 10px; top: -18px;
   font-size: 12px; opacity: .7;
 }
 
+/* 범례 */
 .legend { display: flex; gap: 8px; margin-top: 4px; }
 .badge {
   padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 700;
@@ -65,7 +74,7 @@
 }
 .badge.warn { background: rgba(220,38,38,.12); border-color: rgba(220,38,38,.28); color: #fecaca; }
 
-/* 타임라인 본체 */
+/* 타임라인 본체(기존 UI 유지) */
 .timeline { position: relative; margin-top: 10px; }
 .spine {
   position: absolute; left: 18px; top: 0; bottom: 0; width: 2px;
@@ -73,6 +82,7 @@
   opacity: .55;
   box-shadow: 0 0 16px rgba(120,160,255,.35);
 }
+
 .row {
   position: relative;
   display: grid;
@@ -84,7 +94,6 @@
   animation: appear .6s ease forwards;
 }
 @keyframes appear { to { opacity: 1; transform: translateY(0) } }
-/* 순차 지연 */
 .delay1 { animation-delay: .05s }
 .delay2 { animation-delay: .18s }
 .delay3 { animation-delay: .31s }
@@ -100,6 +109,21 @@
   50% { transform: scale(1.25); opacity: .65; }
 }
 
+/* 현재 단계 강조(카드/점 모두) */
+.nowRow {}
+.dotNow { outline: 2px solid #ffffff55; }
+.cardNow { border-color: rgba(255,255,255,.22); box-shadow: 0 14px 36px rgba(0,0,0,.32); }
+.nowBadge{
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 6px;
+  padding: 2px 6px;
+  box-shadow: 0 0 10px rgba(120,160,255,.65);
+}
+
 .card {
   position: relative;
   padding: 14px 14px 12px;
@@ -110,21 +134,11 @@
   overflow: hidden;
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 16px 40px rgba(0,0,0,.32);
-  border-color: rgba(255,255,255,.18);
-}
-.cardHead {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-}
-.cardTitle { margin: 0; font-weight: 800; letter-spacing: .2px; }
-.duration {
-  font-size: 12px; padding: 4px 8px; border-radius: 999px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.18);
-}
+.card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 16px 40px rgba(0,0,0,.32); border-color: rgba(255,255,255,.18); }
 
+.cardHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cardTitle { margin: 0; font-weight: 800; letter-spacing: .2px; }
+.duration { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); }
 .desc { margin: 6px 0 10px; opacity: .92; }
 
 .meta { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -141,11 +155,23 @@
   opacity: .35;
 }
 
-/* 하단 푸터 */
+/* 푸터: 병렬 작업/Next */
 .footer {
   margin-top: 12px;
-  font-size: 13px; opacity: .85;
+  font-size: 13px; opacity: .88;
   padding-top: 10px; border-top: 1px dashed rgba(255,255,255,.14);
+  display: grid; gap: 8px;
+}
+.noteRow { display: flex; gap: 10px; align-items: flex-start; }
+.noteBadge { font-size: 11px; font-weight: 800; color: #fff; background: var(--accent); border-radius: 6px; padding: 2px 6px; }
+.parallel { display: flex; flex-wrap: wrap; gap: 6px; }
+.parallelChip {
+  background: rgba(100, 180, 255, 0.08);
+  border: 1px solid rgba(100,180,255,0.25);
+  border-radius: 12px;
+  font-size: 12px;
+  padding: 2px 8px;
+  color: var(--text);
 }
 
 /* 반응형 */

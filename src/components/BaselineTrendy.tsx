@@ -26,7 +26,6 @@ export default function BaselineTrendy({
           {title}
           <span className="baseline-spark" aria-hidden />
         </h3>
-        <p className="baseline-sub">8개 축을 캐러셀 형식으로 요약 · Hover 로 상세</p>
       </div>
 
       {/* Pillars – 2줄 캐러셀 (1234 / 5678) */}

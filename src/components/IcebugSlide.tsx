@@ -145,7 +145,6 @@ export default function IcebugSlide(){
           </span>
         ))}
 
-        <div className="legend">Icebug — 수면 위/아래</div>
       </div>
     </div>
   );

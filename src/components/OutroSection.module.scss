@@ -1,0 +1,92 @@
+.outro {
+    padding: 40px 28px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, var(--surface-0), transparent 120%);
+    border: 1px solid var(--surface-2);
+    box-shadow: var(--shadow-1);
+    text-align: center;
+  }
+  
+  /* 헤드라인 */
+  .headline {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 900;
+    margin-bottom: 28px;
+    span {
+      color: var(--primary);
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  
+  /* 성과 요약 */
+  .summary {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .item {
+    flex: 1 1 200px;
+    max-width: 280px;
+    background: var(--surface-1);
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid var(--surface-2);
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    text-align: left;
+  }
+  .emoji {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  /* Next Step */
+  .roadmap {
+    margin-bottom: 32px;
+    text-align: left;
+  }
+  .roadmap h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .roadmap ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .roadmap li {
+    margin: 6px 0;
+    padding-left: 10px;
+    position: relative;
+  }
+  .roadmap li::before {
+    content: "➜";
+    position: absolute;
+    left: -14px;
+    color: var(--primary);
+  }
+  .note {
+    margin-top: 8px;
+    font-size: 13px;
+    opacity: .85;
+    font-style: italic;
+  }
+  
+  /* Closing Note */
+  .closing {
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    opacity: .9;
+    line-height: 1.6;
+    background: rgba(255,255,255,.04);
+    padding: 16px 20px;
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  }

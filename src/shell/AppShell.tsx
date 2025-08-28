@@ -13,23 +13,9 @@ export default function AppShell() {
 
   return (
     <div className="app-shell">
-      <header className="topbar hover-expand">
-        <button className="brand-btn"
-                onClick={() => nav('/s1')}>
-          Nubiz Frontline
-        </button>
-
-        {/* hover 시에만 보이는 메뉴 */}
-        <nav className="hover-menu">
-          {seminars.map(s=>(
-            <NavLink key={s.id}
-                     to={`/${s.id}`}
-                     className={({isActive})=> isActive?'sem-active':''}>
-              {s.label}
-            </NavLink>
-          ))}
-        </nav>
-      </header>
+      {/*  
+      
+      */}
 
       <main className="content" style={{gridColumn:'1 / -1'}}>
         <Outlet/>
