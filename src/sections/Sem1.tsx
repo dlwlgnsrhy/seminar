@@ -13,6 +13,12 @@ import LinkBtn from '@/components/LinkBtn'
 
 import Iceberg from '@/components/Iceberg'
 import IcebugSlide from '@/components/IcebugSlide'
+import doLcp17 from '@/assets/images/do_LCP1.png'
+import buildlogUrl from '@/assets/images/do반장_gzip.png'
+import HeroIntro from '@/components/HeroIntro'
+import Overview from '@/components/Overview'
+import BaselineTrendy from '@/components/BaselineTrendy'
+import PlanRoadmap from '@/components/PlanRoadmap'
 
 /* ------------------------------------------------------------------ */
 /* Types                                                              */
@@ -67,23 +73,153 @@ function exportCSV(rows: AuditRow[]){
   URL.revokeObjectURL(url)
 }
 
+/* ---- Issue classification & grouping ----------------------------- */
+type IssueGroup = {
+  key: string
+  title: string
+  severity: Severity
+  items: AuditRow[]
+  affectedProjects: string[]
+}
+
+type IssuePattern = {
+  id: string
+  title: string
+  match: (r: AuditRow) => boolean
+  hintSeverity?: Severity
+}
+
+/** 공통 패턴 사전 */
+const ISSUE_PATTERNS: IssuePattern[] = [
+  {
+    id: 'perf-lcp-bundle',
+    title: '초기 번들 과대/SDK 초기 로드 → LCP 악화',
+    match: (r) =>
+      r.step.includes('성능') &&
+      (/(LCP|NO_FCP)/i.test(r.finding) ||
+       /(KB|gzip|bundle|초기|SDK)/i.test(r.metric ?? '')),
+    hintSeverity: 'high',
+  },
+  {
+    id: 'routing-subpath-404',
+    title: '서브패스/딥링크 404 · basename/homepage 정책 부재',
+    match: (r) =>
+      r.step.includes('라우팅') &&
+      /(404|서브패스|딥링크|basename|homepage)/i.test(
+        `${r.finding} ${r.metric ?? ''}`
+      ),
+    hintSeverity: 'high',
+  },
+  {
+    id: 'http-interceptor-missing',
+    title: 'HTTP 공용 인스턴스/인터셉터 부재·중복',
+    match: (r) =>
+      /(HTTP|인터셉터|axios)/i.test(`${r.step} ${r.finding}`) &&
+      /(없음|부재|중복|여러 파일|분기 없음)/.test(r.finding),
+    hintSeverity: 'high',
+  },
+  {
+    id: 'ops-forced-reload',
+    title: '운영: 강제 새로고침 의존',
+    match: (r) =>
+      /(HTTP|코어|운영|ops|Step5)/i.test(r.step) &&
+      /(reload|navigate\(\s*0\s*\)|새로고침)/i.test(
+        `${r.finding} ${r.metric ?? ''}`
+      ),
+    hintSeverity: 'high',
+  },
+  {
+    id: 'ux-alert-spam',
+    title: 'alert 다수 사용 (UX/에러 핸들링 미흡)',
+    match: (r) => /(alert)/i.test(`${r.finding} ${r.metric ?? ''}`),
+    hintSeverity: 'medium',
+  },
+  {
+    id: 'build-cdn-dup',
+    title: 'CDN/SDK 중복·버전 혼재',
+    match: (r) =>
+      /(index\.html|SDK|CDN)/i.test(`${r.step} ${r.finding}`) &&
+      /(중복|혼재|3중|버전)/.test(r.finding),
+    hintSeverity: 'medium',
+  },
+  {
+    id: 'docs-missing',
+    title: '문서/PR 템플릿/환경 예시 부재 → 온보딩·운영 리스크',
+    match: (r) =>
+      /(문서|README|PR 템플릿|\.env\.example|문서화)/i.test(`${r.finding} ${r.step}`),
+    hintSeverity: 'medium',
+  },
+  {
+    id: 'secrets-hardcoded',
+    title: '비밀키/도메인 하드코딩 → 보안/운영 민감',
+    match: (r) =>
+      /(키|appkey|client_id|하드코딩|비밀|redirect_uri|도메인)/i.test(`${r.finding} ${r.metric ?? ''}`),
+    hintSeverity: 'high',
+  },
+  {
+    id: 'abs-path-hardcode',
+    title: '절대 경로 하드코딩·베이스 미정합(서브패스 전환 취약)',
+    match: (r) =>
+      /(절대경로|\/care_portal|basename|homepage|루트 전제)/i.test(`${r.finding} ${r.metric ?? ''}`),
+    hintSeverity: 'high',
+  },
+]
+
+function classifyIssue(r: AuditRow) {
+  const p = ISSUE_PATTERNS.find((p) => p.match(r))
+  if (p) return { key: p.id, title: p.title, hintSeverity: p.hintSeverity }
+  const key = r.finding.trim().toLowerCase()
+  return { key, title: r.finding, hintSeverity: undefined }
+}
+
+function groupIssues(rows: AuditRow[]): IssueGroup[] {
+  const map = new Map<string, IssueGroup>()
+  for (const r of rows) {
+    const { key, title, hintSeverity } = classifyIssue(r)
+    const cur = map.get(key)
+    if (!cur) {
+      map.set(key, {
+        key,
+        title,
+        severity: hintSeverity ?? r.severity,
+        items: [r],
+        affectedProjects: [r.project],
+      })
+    } else {
+      cur.items.push(r)
+      if (!cur.affectedProjects.includes(r.project)) {
+        cur.affectedProjects.push(r.project)
+      }
+      const cand = [cur.severity, r.severity, hintSeverity].filter(Boolean) as Severity[]
+      cur.severity = cand.sort((a, b) => severityWeight[b] - severityWeight[a])[0]
+    }
+  }
+  return [...map.values()].sort((a, b) => {
+    const dSev = severityWeight[b.severity] - severityWeight[a.severity]
+    if (dSev) return dSev
+    const dCnt = b.affectedProjects.length - a.affectedProjects.length
+    if (dCnt) return dCnt
+    return a.title.localeCompare(b.title, 'ko')
+  })
+}
+
 /* ------------------------------------------------------------------ */
 /* Static Content (slides text)                                       */
 /* ------------------------------------------------------------------ */
 const CONTENT = {
-icebreaking: {
-  title: 'React → Re-act',
-  bullets: [
-    'React를 “다시” 활용(Re-act)해, 우리 조직 Baseline을 만든다',
-    '생태계 표준을 업고 내부 표준화 속도를 높인다',
-    '템플릿/가이드/체크리스트를 통해 반복 리스크를 흡수한다',
-  ],
-links: [
-  { href: 'https://survey.stackoverflow.co/2025/#technology-web-frameworks', label: 'SO 2025 · Frameworks' },
-  { href: 'https://2024.stateofjs.com/en-US/libraries/front-end-frameworks/', label: 'State of JS 2024' },
-  { href: 'https://npmtrends.com/react-vs-vue-vs-angular', label: 'NPM Trends' },
-],
-},
+  icebreaking: {
+    title: 'React → Re-act',
+    bullets: [
+      'React를 “다시” 활용(Re-act)해, 우리 조직 Baseline을 만든다',
+      '생태계 표준을 업고 내부 표준화 속도를 높인다',
+      '템플릿/가이드/체크리스트를 통해 반복 리스크를 흡수한다',
+    ],
+    links: [
+      { href: 'https://survey.stackoverflow.co/2025/#technology-web-frameworks', label: 'SO 2025 · Frameworks' },
+      { href: 'https://2024.stateofjs.com/en-US/libraries/front-end-frameworks/', label: 'State of JS 2024' },
+      { href: 'https://npmtrends.com/react-vs-vue-vs-angular', label: 'NPM Trends' },
+    ],
+  },
   overview: {
     title: 'React Baseline으로 운영 리스크를 구조적으로 흡수',
     bullets: [
@@ -206,7 +342,7 @@ const PROJECT_SUMMARY: ProjectRow[] = [
 ]
 
 /* ------------------------------------------------------------------ */
-/* Appendix: Evidence Matrix (AUDIT)                                  */
+/* Appendix: Evidence Matrix (AUDIT) + 상세 이슈 추가                 */
 /* ------------------------------------------------------------------ */
 const AUDIT: AuditRow[] = [
   // ── do반장 (my-app)
@@ -217,8 +353,8 @@ const AUDIT: AuditRow[] = [
     metric: 'LCP 17.7 / 8.6 / 9.2 s · JS 734.75KB · CSS 138.05KB (gzip)',
     severity: 'critical',
     evidence: [
-      { label: 'buildlog.txt (gzip 합계)', href: 'YOUR_LINK_buildlog' },
-      { label: 'Lighthouse 3회 캡처', href: 'YOUR_LINK_lighthouse' }
+      { label: 'buildlog.txt (gzip 합계)', href: buildlogUrl},
+      { label: 'Lighthouse 3회 캡처', href: doLcp17}
     ],
     commands: [
       'npm ci --legacy-peer-deps',
@@ -230,7 +366,7 @@ const AUDIT: AuditRow[] = [
   },
   {
     project: 'do반장 (my-app)',
-    step: 'Step5 · HTTP/코어',
+    step: 'Step5 · HTTP/को어',
     finding: '강제 새로고침 의존 다수',
     metric: 'reload 계열 131건',
     severity: 'high',
@@ -246,6 +382,30 @@ const AUDIT: AuditRow[] = [
     metric: 'alert 572건',
     severity: 'high',
     evidence: [{ label: 'alert 카운트 캡처', href: 'YOUR_LINK_alert_count' }]
+  },
+  // 추가 상세
+  {
+    project: 'do반장 (my-app)',
+    step: 'Step1 · 라우팅',
+    finding: '전역 404 미구현 / 탭 분기 중복 / 서버 리라이트 의존',
+    severity: 'high',
+    evidence: [{ label: 'App.tsx / index.tsx 스니펫', href: '/evidence/do_router_snips.png' }],
+    notes: '알 수 없는 URL 진입 시 UX/분석 저하, 새로고침 404 위험',
+  },
+  {
+    project: 'do반장 (my-app)',
+    step: 'Step2 · 라우팅/성능',
+    finding: '레이지 로딩 미흡 + Kakao SDK 초기 이중 로드 가능성',
+    severity: 'high',
+    evidence: [{ label: 'index.html / App.tsx SDK 로드', href: '/evidence/do_sdk_doubleload.png' }],
+    notes: '모든 페이지 정적 import → 초기 번들 과대',
+  },
+  {
+    project: 'do반장 (my-app)',
+    step: 'Step7 · 문서',
+    finding: 'README / .env.example / PR 템플릿 부재',
+    severity: 'medium',
+    evidence: [{ label: '리포 트리 캡처', href: '/evidence/do_repo_tree.png' }],
   },
 
   // ── 에너지전환마을
@@ -273,6 +433,36 @@ const AUDIT: AuditRow[] = [
     finding: '공용 axios 인스턴스/인터셉터 없음, 상태코드 분기 없음, alert 다수',
     metric: 'alert 97건',
     severity: 'high'
+  },
+  // 추가 상세
+  {
+    project: '에너지전환마을 (ec_village-react)',
+    step: 'Step2 · index.html/SDK',
+    finding: 'SDK 삽입 혼재/메타 중복',
+    severity: 'medium',
+    evidence: [{ label: 'index.html 캡처', href: '/evidence/ec_index_sdk.png' }],
+  },
+  {
+    project: '에너지전환마을 (ec_village-react)',
+    step: 'Step3 · 환경',
+    finding: '환경설정(.env*) 파일 부재 / 키·도메인 하드코딩 가능성',
+    severity: 'high',
+    evidence: [{ label: '검색 결과', href: '/evidence/ec_env_missing.png' }],
+  },
+  {
+    project: '에너지전환마을 (ec_village-react)',
+    step: 'Step5 · HTTP/코어',
+    finding: '강제 새로고침/직접 이동 패턴 87건',
+    metric: 'reload 패턴: 87',
+    severity: 'high',
+    evidence: [{ label: '검색 카운트 캡처', href: '/evidence/ec_reload_87.png' }],
+  },
+  {
+    project: '에너지전환마을 (ec_village-react)',
+    step: 'Step7 · 문서',
+    finding: 'README / .env / PR 템플릿 부재',
+    severity: 'medium',
+    evidence: [{ label: '리포 트리', href: '/evidence/ec_repo_tree.png' }],
   },
 
   // ── 새빛돌봄
@@ -314,6 +504,29 @@ const AUDIT: AuditRow[] = [
     severity: 'medium',
     evidence: [{ label: '인터셉터 매칭 목록', href: 'YOUR_LINK_interceptors_list' }]
   },
+  // 추가 상세
+  {
+    project: '새빛돌봄 (suwon-react)',
+    step: 'Step2 · index.html/SDK',
+    finding: 'Kakao SDK 이중 삽입 가능성 + <base> 부재',
+    severity: 'medium',
+    evidence: [{ label: 'index.html/App.tsx 비교', href: '/evidence/suwon_sdk_double.png' }],
+  },
+  {
+    project: '새빛돌봄 (suwon-react)',
+    step: 'Step3 · 환경/보안',
+    finding: 'Kakao appkey 리터럴 노출 (Critical) + API 베이스 하드코딩(69)',
+    metric: 'API 베이스 문자열 69',
+    severity: 'critical',
+    evidence: [{ label: 'index.html / 코드 스니펫', href: '/evidence/suwon_key_api.png' }],
+  },
+  {
+    project: '새빛돌봄 (suwon-react)',
+    step: 'Step7 · 문서',
+    finding: 'README/PR 템플릿 부재(.env는 존재)',
+    severity: 'low',
+    evidence: [{ label: '리포 트리', href: '/evidence/suwon_repo_tree.png' }],
+  },
 
   // ── 동구라미온
   {
@@ -340,6 +553,37 @@ const AUDIT: AuditRow[] = [
     finding: 'axios 인스턴스/인터셉터 부재, alert 9',
     severity: 'medium',
   },
+  // 추가 상세
+  {
+    project: '동구라미온 (smartcollection-react)',
+    step: 'Step1 · 라우팅',
+    finding: '절대경로 다수 → 서브패스/리라이트 없으면 404',
+    severity: 'high',
+    evidence: [{ label: 'index.tsx / 경로 카운트', href: '/evidence/smart_abs_paths.png' }],
+  },
+  {
+    project: '동구라미온 (smartcollection-react)',
+    step: 'Step3 · 환경/보안',
+    finding: 'OAuth client_id·redirect 등 하드코딩(여러 파일)',
+    severity: 'high',
+    evidence: [{ label: '코드 스니펫', href: '/evidence/smart_oauth_hardcode.png' }],
+  },
+  {
+    project: '동구라미온 (smartcollection-react)',
+    step: 'Step4 · 성능',
+    finding: 'NO_FCP로 Lighthouse 측정 불가 + 초기 페이로드 과대',
+    metric: 'main.js 2.45MB / main.css 0.5MB / image 3.6MB 등',
+    severity: 'high',
+    evidence: [{ label: 'Lighthouse NO_FCP', href: '/evidence/smart_nofcp.png' }],
+  },
+  {
+    project: '동구라미온 (smartcollection-react)',
+    step: 'Step5 · HTTP/코어',
+    finding: '하드 새로고침/직접 이동 패턴 다수(141) + 일부 중복 호출',
+    metric: 'reload 패턴: 141',
+    severity: 'high',
+    evidence: [{ label: '검색/네트워크 캡처', href: '/evidence/smart_reload_141.png' }],
+  },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -351,6 +595,10 @@ export default function SemScreen() {
   const [ov, setOv] = useState<React.ReactNode | null>(null)
   const open  = (node: React.ReactNode) => setOv(node)
   const close = () => setOv(null)
+
+  // 섹션4: 초기 6개 + 더보기/접기
+  const INITIAL_ISSUE_ROWS = 6
+  const [visibleCount, setVisibleCount] = useState(INITIAL_ISSUE_ROWS)
 
   // URL sync
   const [params, setParams] = useSearchParams()
@@ -446,21 +694,21 @@ export default function SemScreen() {
 
         {/* 1) Icebreaking */}
         <IntroSplash />
-        <SnapSection band="intro" id="icebreaking" title={CONTENT.icebreaking.title}>
-          <ul>
-            {CONTENT.icebreaking.bullets.map((b,i)=><li key={i}>{b}</li>)}
-          </ul>
-          <div style={{marginTop:12,display:'flex',gap:12,flexWrap:'wrap'}}>
-            {CONTENT.icebreaking.links.map((l,i)=> <LinkBtn key={i} href={l.href} label={l.label}/>)}
-          </div>
+        <SnapSection band="intro" id="icebreaking" title="">
+          <HeroIntro
+            title={CONTENT.icebreaking.title}
+            bullets={CONTENT.icebreaking.bullets}
+            links={CONTENT.icebreaking.links}
+          />
         </SnapSection>
 
         {/* 2) Overview */}
-        <SnapSection band="intro" id="overview" title={CONTENT.overview.title}>
-          <ul>
-            {CONTENT.overview.bullets.map((b,i)=><li key={i}>{b}</li>)}
-          </ul>
-          <Callout type="info" style={{marginTop:12}}>{CONTENT.overview.memo}</Callout>
+        <SnapSection band="intro" id="overview" title="">
+          <Overview
+            title={CONTENT.overview.title}
+            bullets={CONTENT.overview.bullets}
+            memo={CONTENT.overview.memo}
+          />
         </SnapSection>
 
         {/* 3) Background */}
@@ -468,71 +716,198 @@ export default function SemScreen() {
           <IcebugSlide />
         </SnapSection>
 
-        {/* 4) Projects – 공통 결함 패턴 표 */}
-        <SnapSection band="body" id="projects" title="프로젝트 간 공통 결함 패턴 (요약)">
-          <table className="simple-table">
-            <thead>
-              <tr>
-                <th>프로젝트</th>
-                <th>구조</th>
-                <th>라우팅</th>
-                <th>성능</th>
-                <th>운영</th>
-                <th>문서</th>
-                <th style={{width:90}}>세부</th>
-              </tr>
-            </thead>
-            <tbody>
-              {PROJECT_SUMMARY.map((p,i)=>(
-                <tr key={i}>
-                  <td>{p.name}</td>
-                  <td>{p.structure}</td>
-                  <td>{p.routing}</td>
-                  <td><code className="metric">{p.perf}</code></td>
-                  <td>{p.ops}</td>
-                  <td>{p.docs}</td>
-                  <td>
-                    <button className="linklike ghost" onClick={()=>openProjectDetail(p.name)}>세부 보기</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Callout type="info" style={{marginTop:12}}>
-            위 표는 <b>문제→영향</b> 중심 요약입니다. 각 행의 <b>세부 보기</b>에서 증거·재현 명령을 함께 확인하세요.
-          </Callout>
+        {/* 4) Issues – 공통 결함 패턴 (테이블 + 더보기) */}
+        <SnapSection band="body" id="projects" title="공통 결함 패턴 (이슈 중심 · 심각도 순)">
+          {(() => {
+            const base = AUDIT.filter(r =>
+              (sev === 'all' || r.severity === sev) &&
+              (dq.trim() === '' ||
+                r.project.toLowerCase().includes(dq.toLowerCase()) ||
+                r.finding.toLowerCase().includes(dq.toLowerCase()) ||
+                (r.metric ?? '').toLowerCase().includes(dq.toLowerCase()))
+            )
+            const groups = groupIssues(base)
+            const hasMore = visibleCount < groups.length
+
+            return (
+              <>
+                <div className="audit-toolbar" role="toolbar" aria-label="이슈 보드 툴바">
+                  <div className="sev-group" role="group" aria-label="심각도 필터">
+                    {(['all','critical','high','medium','low'] as const).map(s => (
+                      <button
+                        key={s}
+                        type="button"
+                        className={`pill ${sev===s?'on':''} sev-${s}`}
+                        aria-pressed={sev===s}
+                        onClick={()=>applySev(s)}
+                        title={s==='all'?'전체':s.toUpperCase()}
+                      >
+                        {s==='all'?'ALL':s.toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
+                  <input
+                    className="search"
+                    placeholder="프로젝트/이슈/메트릭 검색…"
+                    aria-label="이슈 검색"
+                    value={q}
+                    onChange={(e)=>applyQuery(e.target.value)}
+                  />
+                  <div className="spacer" />
+                  <span className="rows">{groups.length} issues</span>
+                </div>
+
+                <table className="simple-table audit" id="issue-table">
+                  <thead>
+                    <tr>
+                      <th style={{width:110}}>SEVERITY</th>
+                      <th>ISSUE (공통 패턴)</th>
+                      <th style={{width:260}}>AFFECTED PROJECTS</th>
+                      <th style={{width:90}}></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {groups.slice(0, visibleCount).map((g, i) => {
+                      const maxShow = 5
+                      const shown = g.affectedProjects.slice(0, maxShow)
+                      const remain = g.affectedProjects.length - shown.length
+                      return (
+                        <tr key={i}>
+                          <td>
+                            <span className={`sev sev-${g.severity}`}>{g.severity.toUpperCase()}</span>
+                          </td>
+                          <td>
+                            <div style={{fontWeight:700, marginBottom:6}}>{g.title}</div>
+                            {g.items.find(it=>it.metric)?.metric && (
+                              <code className="metric">{g.items.find(it=>it.metric)?.metric}</code>
+                            )}
+                          </td>
+                          <td>
+                            <ul style={{margin:0, paddingLeft:18}}>
+                              {shown.map(p => <li key={p}>{p}</li>)}
+                              {remain > 0 && <li>+{remain} more</li>}
+                            </ul>
+                          </td>
+                          <td>
+                            <button
+                              className="linklike ghost"
+                              onClick={()=>{
+                                setOv(
+                                  <div style={{maxWidth:920}}>
+                                    <h3 id="ov-title" style={{marginTop:0}}>
+                                      {g.title} — <span className={`sev sev-${g.severity}`}>{g.severity.toUpperCase()}</span>
+                                    </h3>
+                                    <p style={{margin:'6px 0 12px 0'}}>
+                                      총 <b>{g.affectedProjects.length}</b>개 프로젝트에서 동일 패턴 발견.
+                                    </p>
+
+                                    {g.affectedProjects.map((projName) => {
+                                      const rows = g.items.filter(it => it.project === projName)
+                                      return (
+                                        <div key={projName} style={{margin:'18px 0'}}>
+                                          <h4 style={{margin:'0 0 8px 0'}}>{projName}</h4>
+                                          {rows.map((it, idx2) => (
+                                            <div key={idx2} style={{border:'1px dashed var(--surface-2)', borderRadius:10, padding:10, margin:'8px 0'}}>
+                                              <div style={{fontSize:12, opacity:.8, marginBottom:4}}>{it.step}</div>
+                                              <div style={{fontWeight:600, marginBottom:6}}>{it.finding}</div>
+                                              {it.metric && <Kpi label="Metric" value={it.metric}/>}
+                                              {it.notes && <Callout type="info" style={{marginTop:6}}>{it.notes}</Callout>}
+                                              {it.evidence?.length ? (
+                                                <div style={{marginTop:8}}>
+                                                  <div style={{fontSize:12, opacity:.7, marginBottom:6}}>증거</div>
+                                                  <div style={{display:'grid', gap:10}}>
+                                                    {it.evidence.map((e, k) => {
+                                                      if(!e.href) return null
+                                                      const href = e.href as string
+                                                      const isImg = /\.(png|jpe?g|gif|webp|svg)$/i.test(href)
+                                                      const isTxt = /\.(txt|log)$/i.test(href)
+                                                      return (
+                                                        <div key={k}>
+                                                          <div style={{fontSize:12, opacity:.7, marginBottom:4}}>{e.label}</div>
+                                                          {isImg && <img src={href} alt={e.label} style={{maxWidth:'100%', borderRadius:8}} />}
+                                                          {isTxt && (
+                                                            <iframe
+                                                              src={href}
+                                                              title={`pv-${projName}-${k}`}
+                                                              style={{width:'100%', height:240, border:'1px solid #2a2f3a', borderRadius:8}}
+                                                            />
+                                                          )}
+                                                          {!isImg && !isTxt && (
+                                                            <a href={href} target="_blank" rel="noreferrer">{e.label}</a>
+                                                          )}
+                                                        </div>
+                                                      )
+                                                    })}
+                                                  </div>
+                                                </div>
+                                              ) : null}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      )
+                                    })}
+                                  </div>
+                                )
+                              }}
+                            >
+                              상세
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+
+                {/* 더보기 / 접기 토글 */}
+                {groups.length > 0 && (
+                  <div style={{textAlign:'center', marginTop:12}}>
+                    <button
+                      type="button"
+                      className="pill"
+                      onClick={()=>{
+                        const showingAll = visibleCount >= groups.length
+                        if (showingAll) {
+                          setVisibleCount(INITIAL_ISSUE_ROWS)
+                          requestAnimationFrame(() => {
+                            document.querySelector('#projects')?.scrollIntoView({ behavior:'smooth', block:'start' })
+                          })
+                        } else {
+                          const inc = 6
+                          const next = Math.min(visibleCount + inc, groups.length)
+                          setVisibleCount(next)
+                          requestAnimationFrame(() => {
+                            document.querySelector('#projects')?.scrollIntoView({ behavior:'smooth', block:'end' })
+                          })
+                        }
+                      }}
+                    >
+                      {hasMore ? `더보기 · ${groups.length - visibleCount}개 남음` : '접기'}
+                    </button>
+                  </div>
+                )}
+
+                <div id="issue-table-end" style={{height:1}} />
+
+                <Callout type="info" style={{marginTop:12}}>
+                  표는 <b>이슈 기준</b>으로 그룹핑되어 있습니다. <b>SEVERITY</b>가 높은 순으로 정렬되며, <b>상세</b>에서 프로젝트별 근거 이미지를 한 번에 확인하세요.
+                </Callout>
+              </>
+            )
+          })()}
         </SnapSection>
 
-        {/* 5) Baseline */}
-        <SnapSection band="body" id="baseline" title={CONTENT.baseline.title}>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:12}}>
-            {CONTENT.baseline.pillars.map((p,i)=>(
-              <Callout key={i} type="info">
-                <b>{p.h}</b><br/>{p.d}
-              </Callout>
-            ))}
-          </div>
-          <h4 style={{marginTop:18}}>Before → After</h4>
-          <table className="simple-table">
-            <thead><tr><th>Before</th><th>After</th></tr></thead>
-            <tbody>
-              {CONTENT.baseline.beforeAfter.map(([b,a],i)=>(
-                <tr key={i}><td>{b}</td><td>{a}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </SnapSection>
+      {/* 5) Baseline (트렌디 버전) */}
+      <SnapSection band="body" id="baseline" title="">
+        <BaselineTrendy
+          pillars={CONTENT.baseline.pillars}
+          beforeAfter={CONTENT.baseline.beforeAfter as [string, string][]}
+        />
+      </SnapSection>
 
         {/* 6) Plan */}
         <SnapSection band="body" id="plan" title={CONTENT.plan.title}>
-          <table className="simple-table">
-            <thead><tr><th>Phase</th><th>내용</th></tr></thead>
-            <tbody>
-              {CONTENT.plan.phases.map(([p,d],i)=>(
-                <tr key={i}><td>{p}</td><td>{d}</td></tr>
-              ))}
-            </tbody>
-          </table>
+          <PlanRoadmap></PlanRoadmap>
         </SnapSection>
 
         {/* 7) KPIs */}
@@ -541,12 +916,7 @@ export default function SemScreen() {
             <thead><tr><th>지표</th><th>정의</th><th>목표</th><th>측정 소스</th></tr></thead>
             <tbody>
               {CONTENT.kpis.rows.map((r,i)=>(
-                <tr key={i}>
-                  <td>{r[0]}</td>
-                  <td>{r[1]}</td>
-                  <td>{r[2]}</td>
-                  <td>{r[3]}</td>
-                </tr>
+                <tr key={i}><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>
               ))}
             </tbody>
           </table>
