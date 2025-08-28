@@ -13,13 +13,22 @@ import LinkBtn from '@/components/LinkBtn'
 
 import Iceberg from '@/components/Iceberg'
 import IcebugSlide from '@/components/IcebugSlide'
-import doLcp17 from '@/assets/images/do_LCP1.png'
+import doLcp17 from '@/assets/images/do_lcp.png'
+import doNoSpa from '@/assets/images/do_nospa.png'
+import evNoSpa from '@/assets/images/ev_nospa.png'
+import suwonNoSpa from '@/assets/images/suwon_nospa.png'
+import suwonUseEffect from '@/assets/images/suwon_useEffect.png'
+import evLcp from '@/assets/images/ev_village_lcp.png'
+import suwonLcp from '@/assets/images/suwon_lcp.png'
+import evGzip from '@/assets/images/ev_village_gzip.png'
+import NoFCP from '@/assets/images/No_FCP.png'
 import buildlogUrl from '@/assets/images/do반장_gzip.png'
 import HeroIntro from '@/components/HeroIntro'
 import Overview from '@/components/Overview'
 import BaselineTrendy from '@/components/BaselineTrendy'
 import PlanRoadmap from '@/components/PlanRoadmap'
 import OutroSection from '@/components/OutroSection'
+import IssueDetail from '@/components/IssueDetail'
 
 /* ------------------------------------------------------------------ */
 /* Types                                                              */
@@ -382,7 +391,7 @@ const AUDIT: AuditRow[] = [
     finding: '전역 인터셉터/상태코드 분기 부재, alert 다수',
     metric: 'alert 572건',
     severity: 'high',
-    evidence: [{ label: 'alert 카운트 캡처', href: 'YOUR_LINK_alert_count' }]
+    evidence: [{ label: '강제 새로고침 의존', href: doNoSpa }]
   },
   // 추가 상세
   {
@@ -424,16 +433,17 @@ const AUDIT: AuditRow[] = [
     metric: 'LCP ~13s · JS 589.31KB · CSS 271.99KB (gzip)',
     severity: 'high',
     evidence: [
-      { label: 'buildlog.txt (합계)', href: 'YOUR_LINK_buildlog_ec' },
-      { label: 'Lighthouse 캡처', href: 'YOUR_LINK_lh_ec' }
+      { label: 'buildlog.txt (합계)', href: evGzip },
+      { label: 'Lighthouse 캡처', href: evLcp }
     ]
   },
   {
-    project: '에너지전환마을 ',
+    project: '에너지전환마을',
     step: 'Step6 · 에러/인터셉터',
-    finding: '공용 axios 인스턴스/인터셉터 없음, 상태코드 분기 없음, alert 다수',
-    metric: 'alert 97건',
-    severity: 'high'
+    finding: '전역 인터셉터/상태코드 분기 부재, alert 다수',
+    metric: 'alert 572건',
+    severity: 'high',
+    evidence: [{ label: '강제 새로고침 의존', href: evNoSpa }]
   },
   // 추가 상세
   {
@@ -485,8 +495,8 @@ const AUDIT: AuditRow[] = [
     metric: 'LCP 8.1s · JS 443.44KB · CSS 47.12KB (gzip)',
     severity: 'medium',
     evidence: [
-      { label: 'build 파일 기반 gzip 측정 CSV', href: 'YOUR_LINK_gzip_fromfiles' },
-      { label: 'Lighthouse 캡처', href: 'YOUR_LINK_lh_suwon' }
+      { label: 'build 파일 기반 gzip 측정 CSV', href: buildlogUrl },
+      { label: 'Lighthouse 캡처', href: suwonLcp }
     ]
   },
   {
@@ -495,7 +505,7 @@ const AUDIT: AuditRow[] = [
     finding: '강제 새로고침 다수 + 초기 중복 호출 징후',
     metric: 'reload 계열 260건 · useEffect 인라인 401건',
     severity: 'high',
-    evidence: [{ label: '네트워크 탭 스샷', href: 'YOUR_LINK_network_dup' }]
+    evidence: [{ label: '네트워크 탭 스샷', href: suwonUseEffect }]
   },
   {
     project: '새빛돌봄',
@@ -503,7 +513,7 @@ const AUDIT: AuditRow[] = [
     finding: 'axios.create 없음 + response 인터셉터가 여러 파일에 중복 등록',
     metric: 'interceptors.response.use ≥ 21곳 · alert 34건',
     severity: 'medium',
-    evidence: [{ label: '인터셉터 매칭 목록', href: 'YOUR_LINK_interceptors_list' }]
+    evidence: [{ label: '인터셉터 매칭 목록', href: suwonNoSpa }]
   },
   // 추가 상세
   {
@@ -575,7 +585,7 @@ const AUDIT: AuditRow[] = [
     finding: 'NO_FCP로 Lighthouse 측정 불가 + 초기 페이로드 과대',
     metric: 'main.js 2.45MB / main.css 0.5MB / image 3.6MB 등',
     severity: 'high',
-    evidence: [{ label: 'Lighthouse NO_FCP', href: '/evidence/smart_nofcp.png' }],
+    evidence: [{ label: 'Lighthouse NO_FCP', href: NoFCP }],
   },
   {
     project: '동구라미온',
@@ -796,60 +806,7 @@ export default function SemScreen() {
                               className="linklike ghost"
                               onClick={()=>{
                                 setOv(
-                                  <div style={{maxWidth:920}}>
-                                    <h3 id="ov-title" style={{marginTop:0}}>
-                                      {g.title} — <span className={`sev sev-${g.severity}`}>{g.severity.toUpperCase()}</span>
-                                    </h3>
-                                    <p style={{margin:'6px 0 12px 0'}}>
-                                      총 <b>{g.affectedProjects.length}</b>개 프로젝트에서 동일 패턴 발견.
-                                    </p>
-
-                                    {g.affectedProjects.map((projName) => {
-                                      const rows = g.items.filter(it => it.project === projName)
-                                      return (
-                                        <div key={projName} style={{margin:'18px 0'}}>
-                                          <h4 style={{margin:'0 0 8px 0'}}>{projName}</h4>
-                                          {rows.map((it, idx2) => (
-                                            <div key={idx2} style={{border:'1px dashed var(--surface-2)', borderRadius:10, padding:10, margin:'8px 0'}}>
-                                              <div style={{fontSize:12, opacity:.8, marginBottom:4}}>{it.step}</div>
-                                              <div style={{fontWeight:600, marginBottom:6}}>{it.finding}</div>
-                                              {it.metric && <Kpi label="Metric" value={it.metric}/>}
-                                              {it.notes && <Callout type="info" style={{marginTop:6}}>{it.notes}</Callout>}
-                                              {it.evidence?.length ? (
-                                                <div style={{marginTop:8}}>
-                                                  <div style={{fontSize:12, opacity:.7, marginBottom:6}}>증거</div>
-                                                  <div style={{display:'grid', gap:10}}>
-                                                    {it.evidence.map((e, k) => {
-                                                      if(!e.href) return null
-                                                      const href = e.href as string
-                                                      const isImg = /\.(png|jpe?g|gif|webp|svg)$/i.test(href)
-                                                      const isTxt = /\.(txt|log)$/i.test(href)
-                                                      return (
-                                                        <div key={k}>
-                                                          <div style={{fontSize:12, opacity:.7, marginBottom:4}}>{e.label}</div>
-                                                          {isImg && <img src={href} alt={e.label} style={{maxWidth:'100%', borderRadius:8}} />}
-                                                          {isTxt && (
-                                                            <iframe
-                                                              src={href}
-                                                              title={`pv-${projName}-${k}`}
-                                                              style={{width:'100%', height:240, border:'1px solid #2a2f3a', borderRadius:8}}
-                                                            />
-                                                          )}
-                                                          {!isImg && !isTxt && (
-                                                            <a href={href} target="_blank" rel="noreferrer">{e.label}</a>
-                                                          )}
-                                                        </div>
-                                                      )
-                                                    })}
-                                                  </div>
-                                                </div>
-                                              ) : null}
-                                            </div>
-                                          ))}
-                                        </div>
-                                      )
-                                    })}
-                                  </div>
+                                  <IssueDetail group={g} />
                                 )
                               }}
                             >

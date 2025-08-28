@@ -60,10 +60,12 @@ export default function Overlay({ children, onClose, titleId }: OverlayProps) {
         ref={cardRef}
         onClick={e => e.stopPropagation()}
       >
-        {children}
-        <div className="ov-actions">
-          <button className="ov-close" onClick={onClose} autoFocus>닫기 ✕</button>
+        {/* ⬇️ 카드 최상단에 스티키 닫기 버튼 (헤더보다 위 레이어) */}
+        <div className="ov-actions" aria-hidden={false}>
+          <button className="ov-close" onClick={onClose} aria-label="닫기">✕</button>
         </div>
+
+        {children}
       </div>
     </div>,
     document.body
