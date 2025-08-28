@@ -209,14 +209,14 @@ function groupIssues(rows: AuditRow[]): IssueGroup[] {
 /* ------------------------------------------------------------------ */
 const CONTENT = {
   icebreaking: {
-    title: 'React → Re-act',
+    title: '',
     bullets: [
       'React를 “다시” 활용(Re-act)해, 우리 조직 Baseline을 만든다',
       '생태계 표준을 업고 내부 표준화 속도를 높인다',
       '템플릿/가이드/체크리스트를 통해 반복 리스크를 흡수한다',
     ],
     links: [
-      { href: 'https://survey.stackoverflow.co/2025/#technology-web-frameworks', label: 'SO 2025 · Frameworks' },
+      { href: 'https://enstacked.com/stack-overflow-developer-survey-insights', label: 'SO 2025 · Frameworks' },
       { href: 'https://2024.stateofjs.com/en-US/libraries/front-end-frameworks/', label: 'State of JS 2024' },
       { href: 'https://npmtrends.com/react-vs-vue-vs-angular', label: 'NPM Trends' },
     ],
@@ -232,7 +232,7 @@ const CONTENT = {
     memo: '“조직 시스템”으로 품질 확보',
   },
   background: {
-    title: '발표 이유 (“Icebug”)',
+    title: '발표 이유',
     bullets: [
       '수면 위: 버그/요청 티켓, UI 핫픽스, 일회성 대응',
       '수면 아래: 전역상태 남용, 라우팅 규칙 불일치, 키 관리/롤오버 부재',
@@ -309,7 +309,7 @@ const CONTENT = {
 /* ------------------------------------------------------------------ */
 const PROJECT_SUMMARY: ProjectRow[] = [
   {
-    name: 'do반장 (my-app)',
+    name: 'do반장 ',
     structure: '탭 분기 중복 → 유지보수 리스크',
     routing: '전역 404 없음, 서버 리라이트 의존',
     perf: '초기 번들 과대 + SDK 초기 로드 → LCP 17.7/8.6/9.2s',
@@ -317,7 +317,7 @@ const PROJECT_SUMMARY: ProjectRow[] = [
     docs: 'README/.env.example/PR 템플릿 부재',
   },
   {
-    name: '에너지전환마을 (ec_village-react)',
+    name: '에너지전환마을 ',
     structure: '환경설정 파일 없음',
     routing: 'basename/homepage 미정합, 절대경로 위주',
     perf: 'JS 589kB / CSS 272kB, LCP ~13s',
@@ -325,7 +325,7 @@ const PROJECT_SUMMARY: ProjectRow[] = [
     docs: '문서화 기본 3종 부재',
   },
   {
-    name: '새빛돌봄 (suwon-react)',
+    name: '새빛돌봄 ',
     structure: 'API/라우트 절대경로 결합 심함',
     routing: '절대경로 743건(/care_portal 523), basename 미사용',
     perf: 'JS 443kB, LCP 8.1s (개선 여지)',
@@ -333,7 +333,7 @@ const PROJECT_SUMMARY: ProjectRow[] = [
     docs: '.env 존재, README/PR 없음',
   },
   {
-    name: '동구라미온 (smartcollection-react)',
+    name: '동구라미온',
     structure: 'CDN 스크립트 혼재(버전 3중 로드)',
     routing: '루트 전제, 서브패스/딥링크 404 위험',
     perf: 'NO_FCP 케이스, 대용량 이미지/폰트',
@@ -348,7 +348,7 @@ const PROJECT_SUMMARY: ProjectRow[] = [
 const AUDIT: AuditRow[] = [
   // ── do반장 (my-app)
   {
-    project: 'do반장 (my-app)',
+    project: 'do반장',
     step: 'Step4 · 성능',
     finding: '초기 번들 과대 + 초기 SDK 로드 → LCP 악화',
     metric: 'LCP 17.7 / 8.6 / 9.2 s · JS 734.75KB · CSS 138.05KB (gzip)',
@@ -366,7 +366,7 @@ const AUDIT: AuditRow[] = [
     notes: '레이지 로딩 비율 낮고, Kakao SDK 초기 로드 중복 가능성'
   },
   {
-    project: 'do반장 (my-app)',
+    project: 'do반장',
     step: 'Step5 · HTTP/को어',
     finding: '강제 새로고침 의존 다수',
     metric: 'reload 계열 131건',
@@ -377,7 +377,7 @@ const AUDIT: AuditRow[] = [
     ]
   },
   {
-    project: 'do반장 (my-app)',
+    project: 'do반장',
     step: 'Step6 · 에러/인터셉터',
     finding: '전역 인터셉터/상태코드 분기 부재, alert 다수',
     metric: 'alert 572건',
@@ -386,7 +386,7 @@ const AUDIT: AuditRow[] = [
   },
   // 추가 상세
   {
-    project: 'do반장 (my-app)',
+    project: 'do반장',
     step: 'Step1 · 라우팅',
     finding: '전역 404 미구현 / 탭 분기 중복 / 서버 리라이트 의존',
     severity: 'high',
@@ -394,7 +394,7 @@ const AUDIT: AuditRow[] = [
     notes: '알 수 없는 URL 진입 시 UX/분석 저하, 새로고침 404 위험',
   },
   {
-    project: 'do반장 (my-app)',
+    project: 'do반장',
     step: 'Step2 · 라우팅/성능',
     finding: '레이지 로딩 미흡 + Kakao SDK 초기 이중 로드 가능성',
     severity: 'high',
@@ -402,7 +402,7 @@ const AUDIT: AuditRow[] = [
     notes: '모든 페이지 정적 import → 초기 번들 과대',
   },
   {
-    project: 'do반장 (my-app)',
+    project: 'do반장',
     step: 'Step7 · 문서',
     finding: 'README / .env.example / PR 템플릿 부재',
     severity: 'medium',
@@ -411,14 +411,14 @@ const AUDIT: AuditRow[] = [
 
   // ── 에너지전환마을
   {
-    project: '에너지전환마을 (ec_village-react)',
+    project: '에너지전환마을 ',
     step: 'Step1 · 라우팅',
     finding: 'BrowserRouter + homepage/basename 미정합, 절대경로 위주',
     severity: 'medium',
     evidence: [{ label: 'App/index/route 스니펫', href: 'YOUR_LINK_routing_snips' }]
   },
   {
-    project: '에너지전환마을 (ec_village-react)',
+    project: '에너지전환마을 ',
     step: 'Step4 · 성능',
     finding: '초기 리소스 과다 → LCP 장기화',
     metric: 'LCP ~13s · JS 589.31KB · CSS 271.99KB (gzip)',
@@ -429,7 +429,7 @@ const AUDIT: AuditRow[] = [
     ]
   },
   {
-    project: '에너지전환마을 (ec_village-react)',
+    project: '에너지전환마을 ',
     step: 'Step6 · 에러/인터셉터',
     finding: '공용 axios 인스턴스/인터셉터 없음, 상태코드 분기 없음, alert 다수',
     metric: 'alert 97건',
@@ -437,21 +437,21 @@ const AUDIT: AuditRow[] = [
   },
   // 추가 상세
   {
-    project: '에너지전환마을 (ec_village-react)',
+    project: '에너지전환마을 ',
     step: 'Step2 · index.html/SDK',
     finding: 'SDK 삽입 혼재/메타 중복',
     severity: 'medium',
     evidence: [{ label: 'index.html 캡처', href: '/evidence/ec_index_sdk.png' }],
   },
   {
-    project: '에너지전환마을 (ec_village-react)',
+    project: '에너지전환마을 ',
     step: 'Step3 · 환경',
     finding: '환경설정(.env*) 파일 부재 / 키·도메인 하드코딩 가능성',
     severity: 'high',
     evidence: [{ label: '검색 결과', href: '/evidence/ec_env_missing.png' }],
   },
   {
-    project: '에너지전환마을 (ec_village-react)',
+    project: '에너지전환마을 ',
     step: 'Step5 · HTTP/코어',
     finding: '강제 새로고침/직접 이동 패턴 87건',
     metric: 'reload 패턴: 87',
@@ -459,7 +459,7 @@ const AUDIT: AuditRow[] = [
     evidence: [{ label: '검색 카운트 캡처', href: '/evidence/ec_reload_87.png' }],
   },
   {
-    project: '에너지전환마을 (ec_village-react)',
+    project: '에너지전환마을 ',
     step: 'Step7 · 문서',
     finding: 'README / .env / PR 템플릿 부재',
     severity: 'medium',
@@ -468,7 +468,7 @@ const AUDIT: AuditRow[] = [
 
   // ── 새빛돌봄
   {
-    project: '새빛돌봄 (suwon-react)',
+    project: '새빛돌봄',
     step: 'Step1 · 라우팅',
     finding: '절대경로 하드코딩 대량 + homepage=/care_portal, basename 미사용',
     metric: '절대경로 743건 (그중 /care_portal 523건) · navigate() 506건',
@@ -479,7 +479,7 @@ const AUDIT: AuditRow[] = [
     ]
   },
   {
-    project: '새빛돌봄 (suwon-react)',
+    project: '새빛돌봄',
     step: 'Step4 · 성능',
     finding: '리소스 중간 수준, LCP 개선 여지',
     metric: 'LCP 8.1s · JS 443.44KB · CSS 47.12KB (gzip)',
@@ -490,7 +490,7 @@ const AUDIT: AuditRow[] = [
     ]
   },
   {
-    project: '새빛돌봄 (suwon-react)',
+    project: '새빛돌봄',
     step: 'Step5 · HTTP/코어',
     finding: '강제 새로고침 다수 + 초기 중복 호출 징후',
     metric: 'reload 계열 260건 · useEffect 인라인 401건',
@@ -498,7 +498,7 @@ const AUDIT: AuditRow[] = [
     evidence: [{ label: '네트워크 탭 스샷', href: 'YOUR_LINK_network_dup' }]
   },
   {
-    project: '새빛돌봄 (suwon-react)',
+    project: '새빛돌봄',
     step: 'Step6 · 에러/인터셉터',
     finding: 'axios.create 없음 + response 인터셉터가 여러 파일에 중복 등록',
     metric: 'interceptors.response.use ≥ 21곳 · alert 34건',
@@ -507,14 +507,14 @@ const AUDIT: AuditRow[] = [
   },
   // 추가 상세
   {
-    project: '새빛돌봄 (suwon-react)',
+    project: '새빛돌봄',
     step: 'Step2 · index.html/SDK',
     finding: 'Kakao SDK 이중 삽입 가능성 + <base> 부재',
     severity: 'medium',
     evidence: [{ label: 'index.html/App.tsx 비교', href: '/evidence/suwon_sdk_double.png' }],
   },
   {
-    project: '새빛돌봄 (suwon-react)',
+    project: '새빛돌봄',
     step: 'Step3 · 환경/보안',
     finding: 'Kakao appkey 리터럴 노출 (Critical) + API 베이스 하드코딩(69)',
     metric: 'API 베이스 문자열 69',
@@ -522,7 +522,7 @@ const AUDIT: AuditRow[] = [
     evidence: [{ label: 'index.html / 코드 스니펫', href: '/evidence/suwon_key_api.png' }],
   },
   {
-    project: '새빛돌봄 (suwon-react)',
+    project: '새빛돌봄',
     step: 'Step7 · 문서',
     finding: 'README/PR 템플릿 부재(.env는 존재)',
     severity: 'low',
@@ -531,46 +531,46 @@ const AUDIT: AuditRow[] = [
 
   // ── 동구라미온
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step1 · 라우팅',
     finding: 'BrowserRouter 루트 전제, 서브패스/리라이트 없으면 404',
     severity: 'high',
   },
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step2 · index.html/SDK',
     finding: 'Swiper CDN 3중 로드(버전 혼재), %REACT_APP_VERSION% 미치환',
     severity: 'medium',
   },
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step4 · 성능',
     finding: 'NO_FCP 케이스, 대용량 이미지·폰트로 초기 페이로드 큼',
     severity: 'high',
   },
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step6 · HTTP',
     finding: 'axios 인스턴스/인터셉터 부재, alert 9',
     severity: 'medium',
   },
   // 추가 상세
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step1 · 라우팅',
     finding: '절대경로 다수 → 서브패스/리라이트 없으면 404',
     severity: 'high',
     evidence: [{ label: 'index.tsx / 경로 카운트', href: '/evidence/smart_abs_paths.png' }],
   },
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step3 · 환경/보안',
     finding: 'OAuth client_id·redirect 등 하드코딩(여러 파일)',
     severity: 'high',
     evidence: [{ label: '코드 스니펫', href: '/evidence/smart_oauth_hardcode.png' }],
   },
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step4 · 성능',
     finding: 'NO_FCP로 Lighthouse 측정 불가 + 초기 페이로드 과대',
     metric: 'main.js 2.45MB / main.css 0.5MB / image 3.6MB 등',
@@ -578,7 +578,7 @@ const AUDIT: AuditRow[] = [
     evidence: [{ label: 'Lighthouse NO_FCP', href: '/evidence/smart_nofcp.png' }],
   },
   {
-    project: '동구라미온 (smartcollection-react)',
+    project: '동구라미온',
     step: 'Step5 · HTTP/코어',
     finding: '하드 새로고침/직접 이동 패턴 다수(141) + 일부 중복 호출',
     metric: 'reload 패턴: 141',
@@ -692,14 +692,14 @@ export default function SemScreen() {
     <>
       {ov && <Overlay onClose={close} titleId="ov-title">{ov}</Overlay>}
       <div className="snap-container">
-
-                {/* 3) Background */}
-                <SnapSection band="intro" id="icebug" title="발표 이유 (Icebug)">
+      <IntroSplash />
+                {/* 1) Background */}
+                <SnapSection band="intro" id="icebug" title="why?">
           <IcebugSlide />
         </SnapSection>
 
-        {/* 1) Icebreaking */}
-        <IntroSplash />
+        {/* 2) Icebreaking */}
+
         <SnapSection band="intro" id="icebreaking" title="">
           <HeroIntro
             title={CONTENT.icebreaking.title}
@@ -708,7 +708,7 @@ export default function SemScreen() {
           />
         </SnapSection>
 
-        {/* 2) Overview */}
+        {/* 3) Overview */}
         <SnapSection band="intro" id="overview" title="">
           <Overview
             title={CONTENT.overview.title}
@@ -781,9 +781,9 @@ export default function SemScreen() {
                           </td>
                           <td>
                             <div style={{fontWeight:700, marginBottom:6}}>{g.title}</div>
-                            {g.items.find(it=>it.metric)?.metric && (
-                              <code className="metric">{g.items.find(it=>it.metric)?.metric}</code>
-                            )}
+                            {/* {g.items.find(it=>it.metric)?.metric && (
+                              // <code className="metric">{g.items.find(it=>it.metric)?.metric}</code>
+                            )} */}
                           </td>
                           <td>
                             <ul style={{margin:0, paddingLeft:18}}>

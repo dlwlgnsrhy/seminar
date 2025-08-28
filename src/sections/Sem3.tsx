@@ -299,7 +299,7 @@ export default function AuditMatrix() {
       <div className="px-4 pb-2 grid grid-cols-1 md:grid-cols-3 gap-3">
         {visibleProjects.map((pid) => {
           const score = STEP_ORDER.reduce((acc, step) => acc + sevScore(filtered[pid][step].severity), 0);
-          const title = pid === "do-banjang" ? "do반장 (my-app)" : pid === "ec-village" ? "에너지전환마을" : "새빛돌봄";
+          const title = pid === "do-banjang" ? "do반장" : pid === "ec-village" ? "에너지전환마을" : "새빛돌봄";
           return (
             <div key={pid} className="border rounded-lg p-3">
               <div className="flex items-center justify-between">
@@ -328,7 +328,7 @@ export default function AuditMatrix() {
                 <th className="text-left px-3 py-2 w-40">스텝</th>
                 {visibleProjects.map((pid) => (
                   <th key={pid} className="text-left px-3 py-2 min-w-[260px]">{
-                    pid === "do-banjang" ? "do반장 (my-app)" : pid === "ec-village" ? "에너지전환마을 (ec_village-react)" : "새빛돌봄 (suwon-react)"
+                    pid === "do-banjang" ? "do반장" : pid === "ec-village" ? "에너지전환마을 " : "새빛돌봄"
                   }</th>
                 ))}
               </tr>
@@ -483,7 +483,7 @@ function DetailDrawer({
   cell: Cell;
   onClose: () => void;
 }) {
-  const title = project === "do-banjang" ? "do반장 (my-app)" : project === "ec-village" ? "에너지전환마을 (ec_village-react)" : "새빛돌봄 (suwon-react)";
+  const title = project === "do-banjang" ? "do반장" : project === "ec-village" ? "에너지전환마을 " : "새빛돌봄";
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />

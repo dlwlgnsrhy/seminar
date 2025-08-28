@@ -26,7 +26,7 @@ export default function OutroSection() {
 
       {/* Closing Note */}
       <blockquote className={s.closing}>
-      규칙을 세운 덕분에 작은 문제는 줄고, 팀은 더 중요한 일에 집중할 수 있게 될 것입니다.
+      {/* 시스템으로 반복 문제는 줄고, 팀은 더 중요한 일에 집중할 수 있게 될 것입니다. */}
       </blockquote>
     </section>
   )

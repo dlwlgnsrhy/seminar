@@ -478,7 +478,7 @@ pre.code, .ov-card pre{
 /* 라벨 칩 */
 .chip{
   position:absolute; transform: translate(-50%, -50%);
-  padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+  padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 700;
   color:#e6eefc; white-space: nowrap; backdrop-filter: blur(4px);
   border:1px solid rgba(255,255,255,.18);
   box-shadow: 0 6px 20px rgba(0,0,0,.25);
@@ -803,7 +803,8 @@ pre.code, .ov-card pre{
 }
 .timeline-card.before{ opacity:.75 }
 .timeline-card.before .dot{
-  position:absolute; left:10px; top:50%; transform:translateY(-50%);
+  /* position:absolute;  */
+  left:10px; top:50%; transform:translateY(-50%);
   width:8px; height:8px; border-radius:50%;
   background:#9fb2d1;
 }
