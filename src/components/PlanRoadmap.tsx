@@ -29,7 +29,7 @@ const phases: Phase[] = [
     title: "준비·시범 (Baseline v1)",
     desc: "규칙 정립 · 샘플 리포 · PR 템플릿 · 온보딩 체크리스트. 2주 스프린트 × 2",
     deliverables: "Baseline v1, 용어집, 🧱 Baseline Skeleton(eGovFrame ref)",
-    risk: "업무 병행으로 킥오프 지연 → 워크숍으로 공감대 확보",
+    risk: "업무 병행으로 킥오프 지연 → 병렬 슬롯·WIP 한도 관리",
     color: "var(--primary)",
   },
   {
@@ -61,7 +61,7 @@ export default function PlanRoadmap({
   currentWeekInPhase = 0,
   hoursPerDay = 1,
   monthsEstimate = [4, 6],
-  parallelNotes = ["운영·유지보수 이슈 처리", "경영/리포팅 대응", "경미한 버그 픽스"]
+  parallelNotes = ["운영·유지보수 이슈 처리", "리포팅 대응", "경미한 버그 픽스"]
 }: Props) {
   const weeks = phases.map((p) => weeksOf(p.phase))
   const totalWeeks = weeks.reduce((a, b) => a + b, 0)

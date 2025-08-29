@@ -290,7 +290,7 @@ const CONTENT = {
     ],
   },
   plan: {
-    title: '파일럿 → 확장: 3단계 실행 로드맵',
+    title: '',
     phases: [
       ['Phase 1 (2주)', '규칙·샘플 리포·PR 템플릿·온보딩 체크리스트 / 산출물: Baseline v1, 용어집 / 리스크: 반발 → 워크숍'],
       ['Phase 2 (3주)', '기회비용 높은 프로젝트 파일럿 적용·피드백 / 산출물: 적용 리포트, 성능·온보딩 지표 초기값'],
@@ -704,7 +704,7 @@ export default function SemScreen() {
       <IntroSplash />
 
 
-        {/* 2) Icebreaking */}
+        {/* 1) Icebreaking */}
 
         <SnapSection band="intro" id="icebreaking" title="">
           <HeroIntro
@@ -714,7 +714,7 @@ export default function SemScreen() {
           />
         </SnapSection>
 
-        {/* 3) Overview */}
+        {/* 2) Overview */}
         <SnapSection band="intro" id="overview" title="">
           <Overview
             title={CONTENT.overview.title}
@@ -723,10 +723,10 @@ export default function SemScreen() {
           />
         </SnapSection>
 
-                        {/* 1) Background */}
-                <SnapSection band="intro" id="icebug" title="why?">
-          <IcebugSlide />
-        </SnapSection>
+              {/* 3) Background */}
+              <SnapSection band="intro" id="icebug" title="Iceberg">
+                <IcebugSlide />
+              </SnapSection>
 
 
 
@@ -989,7 +989,7 @@ export default function SemScreen() {
         </SnapSection> */}
 
         {/* Outro */}
-        <SnapSection band="outro" id="summary" title="결론">
+        <SnapSection band="outro" id="summary" title="">
           <OutroSection></OutroSection>
         </SnapSection>
       </div>
