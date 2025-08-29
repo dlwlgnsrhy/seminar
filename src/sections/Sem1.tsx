@@ -7,15 +7,14 @@ import SnapSection from '@/components/SnapSection'
 import { useInViewSnap } from '@/shared/hooks/useInViewSnap'
 import Overlay from '@/components/Overlay'
 
-import Kpi from '@/components/Kpi'
 import Callout from '@/components/Callout'
 import LinkBtn from '@/components/LinkBtn'
 
-import Iceberg from '@/components/Iceberg'
 import IcebugSlide from '@/components/IcebugSlide'
 import doLcp17 from '@/assets/images/do_lcp.png'
 import doNoSpa from '@/assets/images/do_nospa.png'
 import evNoSpa from '@/assets/images/ev_nospa.png'
+import donguramiSpa from '@/assets/images/donguramiSpa.png'
 import suwonNoSpa from '@/assets/images/suwon_nospa.png'
 import suwonUseEffect from '@/assets/images/suwon_useEffect.png'
 import evLcp from '@/assets/images/ev_village_lcp.png'
@@ -363,8 +362,8 @@ const AUDIT: AuditRow[] = [
     metric: 'LCP 17.7 / 8.6 / 9.2 s · JS 734.75KB · CSS 138.05KB (gzip)',
     severity: 'critical',
     evidence: [
-      { label: 'buildlog.txt (gzip 합계)', href: buildlogUrl},
-      { label: 'Lighthouse 3회 캡처', href: doLcp17}
+      { label: 'buildlog.txt', href: buildlogUrl},
+      { label: 'Lighthouse 캡처', href: doLcp17}
     ],
     commands: [
       'npm ci --legacy-peer-deps',
@@ -433,7 +432,7 @@ const AUDIT: AuditRow[] = [
     metric: 'LCP ~13s · JS 589.31KB · CSS 271.99KB (gzip)',
     severity: 'high',
     evidence: [
-      { label: 'buildlog.txt (합계)', href: evGzip },
+      { label: 'buildlog.txt', href: evGzip },
       { label: 'Lighthouse 캡처', href: evLcp }
     ]
   },
@@ -495,7 +494,7 @@ const AUDIT: AuditRow[] = [
     metric: 'LCP 8.1s · JS 443.44KB · CSS 47.12KB (gzip)',
     severity: 'medium',
     evidence: [
-      { label: 'build 파일 기반 gzip 측정 CSV', href: buildlogUrl },
+      { label: 'buildlog.txt', href: buildlogUrl },
       { label: 'Lighthouse 캡처', href: suwonLcp }
     ]
   },
@@ -593,7 +592,7 @@ const AUDIT: AuditRow[] = [
     finding: '하드 새로고침/직접 이동 패턴 다수(141) + 일부 중복 호출',
     metric: 'reload 패턴: 141',
     severity: 'high',
-    evidence: [{ label: '검색/네트워크 캡처', href: '/evidence/smart_reload_141.png' }],
+    evidence: [{ label: '강제 새로고침', href: donguramiSpa }],
   },
 ]
 

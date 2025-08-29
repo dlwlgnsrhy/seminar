@@ -24,8 +24,7 @@ export default function HeroIntro({ title, bullets, links }: Props) {
       </div>
 
       {/* 타이틀 */}
-      <h1 className="hero-title">
-        React <span className="hero-gradient">Re-act</span>
+      <h1 className="hero-title"> <span className="hero-gradient">Re-act</span>
       </h1>
       <p className="hero-sub">{title}</p>
 
