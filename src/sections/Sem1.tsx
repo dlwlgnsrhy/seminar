@@ -702,10 +702,7 @@ export default function SemScreen() {
       {ov && <Overlay onClose={close} titleId="ov-title">{ov}</Overlay>}
       <div className="snap-container">
       <IntroSplash />
-                {/* 1) Background */}
-                <SnapSection band="intro" id="icebug" title="why?">
-          <IcebugSlide />
-        </SnapSection>
+
 
         {/* 2) Icebreaking */}
 
@@ -724,6 +721,11 @@ export default function SemScreen() {
             bullets={CONTENT.overview.bullets}
             memo={CONTENT.overview.memo}
           />
+        </SnapSection>
+
+                        {/* 1) Background */}
+                <SnapSection band="intro" id="icebug" title="why?">
+          <IcebugSlide />
         </SnapSection>
 
 
