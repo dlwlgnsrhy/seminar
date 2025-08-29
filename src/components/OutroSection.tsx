@@ -11,7 +11,7 @@ export default function OutroSection() {
     </h2>
 
       {/* 성과 요약 */}
-      <div className={s.summary}>
+      {/* <div className={s.summary}>
         <div className={s.item}>
           <p><b>문제:</b> 라우팅/HTTP/문서/성능 등 중복·비일관성</p>
         </div>
@@ -21,13 +21,13 @@ export default function OutroSection() {
         <div className={s.item}>
           <p><b>효과:</b> 온보딩 속도 ↑, 유지보수 비용 ↓, 재발 방지</p>
         </div>
-      </div>
+      </div> */}
 
 
       {/* Closing Note */}
-      <blockquote className={s.closing}>
+      {/* <blockquote className={s.closing}> */}
       {/* 시스템으로 반복 문제는 줄고, 팀은 더 중요한 일에 집중할 수 있게 될 것입니다. */}
-      </blockquote>
+      {/* </blockquote> */}
     </section>
   )
 }
