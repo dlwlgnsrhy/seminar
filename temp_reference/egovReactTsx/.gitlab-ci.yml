@@ -1,0 +1,63 @@
+# Docker 이미지 대신 Shell Runner 환경을 위한 수동 Node.js 설정
+# image: node:20-alpine (사용 불가)
+
+stages:
+  - lint
+  - test
+  - build
+  # - deploy
+
+# 모든 Job 전에 실행될 스크립트 (Node.js 수동 설치)
+default:
+  before_script:
+    - curl -fsSL https://nodejs.org/dist/v20.10.0/node-v20.10.0-linux-x64.tar.xz -o node.tar.xz
+    - mkdir -p $HOME/node
+    - tar -xf node.tar.xz -C $HOME/node --strip-components=1
+    - export PATH=$HOME/node/bin:$PATH
+    - node -v
+    - npm -v
+
+cache:
+  paths:
+    - node_modules/
+
+# 1. Lint Stage
+lint:
+  stage: lint
+  script:
+    - npm ci
+    - npm run lint:check
+  allow_failure: false
+
+# 2. Test Stage
+test:unit:
+  stage: test
+  script:
+    - npm ci
+    - npm run test
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+
+# 3. Build Stage
+build:app:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+# 4. Deploy Stage (Example for Pages)
+# pages:
+#   stage: deploy
+#   script:
+#     - npm ci
+#     - npm run build
+#     - mv dist public
+#   artifacts:
+#     paths:
+#       - public
+#   only:
+#     - main
+
