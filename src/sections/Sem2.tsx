@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useRef } from 'react'
 import { useInViewSnap } from '@/shared/hooks/useInViewSnap'
 import SnapSection from '@/components/SnapSection'
 import HeroIntro from '@/components/HeroIntro'
@@ -6,40 +6,9 @@ import Overview from '@/components/Overview'
 import PlanRoadmap from '@/components/PlanRoadmap'
 import Callout from '@/components/Callout'
 import { usePresentationKeys } from '@/shared/hooks/usePresentationKeys'
-
-const CONTENT = {
-  hero: {
-    title: "React Baseline — Part 2: 안정적 코드와 높은 가치 창출",
-    bullets: [
-      "목표: 안정적 코드 지향 & 최소한의 투자로 높은 가치 창출",
-      "핵심: 사내 표준화(Docs-First)를 통한 온보딩 시간 단축",
-      "전략: 파일럿 프로젝트 선적용(Pilot-First) 및 지표 증명"
-    ],
-    links: [
-      { href: "https://www.simform.com/blog/react-architecture-best-practices/", label: "React Architecture" },
-      { href: "https://increment.com/frontend/frontend-at-scale/", label: "Frontend at Scale" }
-    ]
-  },
-  baseline: {
-    structure: [
-      { name: 'api/', desc: '서버 통신 로직 (axios 인스턴스, 인터셉터, 에러 맵핑)' },
-      { name: 'app/', desc: '전역 설정 및 Provider (Router, QueryClient)' },
-      { name: 'features/', desc: '도메인 기반 독립 모듈 (Angular-Style Hybrid)' },
-      { name: 'shared/', desc: '공통 UI 컴포넌트, 유틸리티, 커스텀 훅' }
-    ],
-    tech: [
-      { label: 'Build', val: 'Vite (Extreme Speed)' },
-      { label: 'State', val: 'Zustand + TanStack Query' },
-      { label: 'Tooling', val: 'ESLint + Prettier + Husky' },
-      { label: 'Testing', val: 'Vitest + RTL + Cypress' }
-    ]
-  },
-  metrics: [
-    { title: "빌드 시간 (Build Speed)", before: "325s", after: "28s", desc: "Vite 도입으로 CI/CD 대기 시간 91% 절감", color: "#5aa9ff" },
-    { title: "번들 크기 (Bundle Size)", before: "12.7 MB", after: "2.5 MB", desc: "미사용 라이브러리 제거 및 트리쉐이킹 최적화", color: "#7c4dff" },
-    { title: "코드 품질 (Lint Errors)", before: "1,045건", after: "0건", desc: "ESLint/Prettier 자동화로 잠재적 버그 원천 차단", color: "#51cf66" }
-  ]
-}
+import TopProgress from '@/components/TopProgress'
+import CompareSlider from '@/components/CompareSlider'
+import BentoGrid from '@/components/BentoGrid'
 
 function MetricCard({ title, before, after, desc, color }: { title: string; before: string; after: string; desc: string; color: string }) {
   return (
@@ -64,13 +33,45 @@ function MetricCard({ title, before, after, desc, color }: { title: string; befo
   )
 }
 
+function PainPointCard({ title, desc, icon }: { title: string, desc: string, icon: string }) {
+  return (
+    <div className="ov-card" style={{ background: 'rgba(255,50,50,0.05)', border: '1px solid rgba(255,50,50,0.1)' }}>
+      <div style={{ fontSize: 32, marginBottom: 12 }}>{icon}</div>
+      <h3 style={{ fontSize: 18, margin: '0 0 8px 0', color: '#ff8a80' }}>{title}</h3>
+      <p style={{ fontSize: 14, opacity: 0.8, margin: 0 }}>{desc}</p>
+    </div>
+  )
+}
+
+const CONTENT = {
+  hero: {
+    title: "React Baseline — Part 2: 안정적 코드와 높은 가치 창출",
+    bullets: [
+      "목표: 안정적 코드 지향 & 최소한의 투자로 높은 가치 창출",
+      "핵심: 사내 표준화(Docs-First)를 통한 온보딩 시간 단축",
+      "전략: 파일럿 프로젝트 선적용(Pilot-First) 및 지표 증명"
+    ],
+    links: [
+      { href: "https://www.simform.com/blog/react-architecture-best-practices/", label: "Clean Architecture" },
+      { href: "https://increment.com/frontend/frontend-at-scale/", label: "Docs-First Culture" }
+    ]
+  },
+  metrics: [
+    { title: "빌드 시간 (Build Speed)", before: "325s", after: "28s", desc: "Vite 도입으로 CI/CD 대기 시간 91% 절감", color: "#5aa9ff" },
+    { title: "번들 크기 (Bundle Size)", before: "12.7 MB", after: "2.5 MB", desc: "미사용 라이브러리 제거 및 트리쉐이킹 최적화", color: "#7c4dff" },
+    { title: "코드 품질 (Lint Errors)", before: "1,045건", after: "0건", desc: "ESLint/Prettier 자동화로 잠재적 버그 원천 차단", color: "#51cf66" }
+  ]
+}
+
 export default function Sem2() {
   useInViewSnap()
   usePresentationKeys()
 
   return (
     <div className="snap-container">
-      {/* 1. Hero Intro */}
+      <TopProgress />
+
+      {/* 1. Hero */}
       <SnapSection band="intro" id="s2-hero" title="">
         <HeroIntro
           title={CONTENT.hero.title}
@@ -79,76 +80,87 @@ export default function Sem2() {
         />
       </SnapSection>
 
-      {/* 2. Roadmap (Phases 0-4) */}
-      <SnapSection band="body" id="s2-roadmap" title="Phase Roadmap: 구축부터 패키지화까지">
+      {/* 2. Roadmap */}
+      <SnapSection band="body" id="s2-roadmap" title="Roadmap: 구축부터 패키지화까지">
         <PlanRoadmap />
       </SnapSection>
 
-      {/* 3. Baseline Specs (Folder & Tech) */}
-      <SnapSection band="body" id="s2-specs" title="Baseline v1: 기술 표준 및 구조">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 20 }}>
-          <div className="ov-card">
-            <h3 className="ov-card-head">📁 폴더 구조 (Domain-Driven)</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
-              {CONTENT.baseline.structure.map(s => (
-                <div key={s.name} style={{ padding: 12, background: 'rgba(255,255,255,0.03)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ fontWeight: 800, color: '#5aa9ff', fontSize: 14 }}>{s.name}</div>
-                  <div style={{ fontSize: 12, opacity: 0.7, marginTop: 4 }}>{s.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="ov-card">
-            <h3 className="ov-card-head">🛡️ Core 기술 스택</h3>
-            <div className="ov-stat-row">
-              {CONTENT.baseline.tech.map(t => (
-                <div key={t.label} className="ov-stat" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div className="ov-stat-k">{t.label}</div>
-                  <div className="ov-stat-v" style={{ fontSize: 14 }}>{t.val}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* 3. Pain Points (NEW) */}
+      <SnapSection band="body" id="s2-pain" title="Why: 우리는 왜 변해야 했나?">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, padding: '0 20px' }}>
+          <PainPointCard
+            icon="🤯"
+            title="높은 온보딩 비용"
+            desc="새로운 팀원이 올 때마다 프로젝트 구조와 컨벤션을 설명하는 데 1주일 이상 소요됨."
+          />
+          <PainPointCard
+            icon="🕸️"
+            title="스파게티 의존성"
+            desc="간단한 버튼 하나 수정했는데, 전혀 상관없는 페이지가 깨지는 사이드 이펙트 발생."
+          />
+          <PainPointCard
+            icon="🐌"
+            title="느린 개발 사이클"
+            desc="무거운 레거시 도구(CRA)로 인해 빌드와 배포가 느려져 전체적인 생산성 저하."
+          />
         </div>
-      </SnapSection>
-
-      {/* 4. Visual Commit History (Gource) */}
-      <SnapSection band="body" id="s2-gource" title="Visual Evidence: 레포지토리의 진화 (Gource)">
-        <div className="section-panel" style={{ background: '#000', padding: 0, overflow: 'hidden', height: 420, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-          {/* Gource Placeholder with Animation logic */}
-          <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', textAlign: 'center', zIndex: 2 }}>
-            <div style={{ fontSize: 80, opacity: 0.05, fontWeight: 900, letterSpacing: 20, transform: 'rotate(-5deg)' }}>GOURCE</div>
-            <div style={{ maxWidth: 540, padding: 32, background: 'rgba(10,15,30,0.7)', borderRadius: 16, backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
-              <h3 style={{ marginTop: 0, color: '#5aa9ff' }}>Project Evolution Visualization</h3>
-              <p style={{ lineHeight: 1.6 }}>이 섹션은 <strong>Gource</strong>를 통해 생성된 소스코드 진화 과정을 보여줍니다.</p>
-              <p style={{ opacity: 0.8, fontSize: 14, fontStyle: 'italic' }}>"수천 개의 커밋이 유기적으로 연결되며 시스템이 구축되는 모습을 시각화하여 개발의 역동성과 전문성을 증명합니다."</p>
-              <div style={{ marginTop: 24, fontSize: 12, opacity: 0.5, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 16 }}>
-                TIP: Gource로 생성한 .mp4 또는 .webm 파일을 배경으로 재생하세요.
-              </div>
-            </div>
-          </div>
-          {/* Decorative elements to simulate code/particles */}
-          <div style={{ position: 'absolute', inset: 0, opacity: 0.2, pointerEvents: 'none' }}>
-            {[...Array(20)].map((_, i) => (
-              <div key={i} style={{
-                position: 'absolute',
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: 4, height: 4, borderRadius: '50%',
-                background: i % 2 === 0 ? '#5aa9ff' : '#7c4dff',
-                filter: 'blur(2px)',
-                animation: `fadeUp ${2 + Math.random() * 4}s infinite alternate`
-              }} />
-            ))}
-          </div>
-          <div className="water-shimmer" style={{ top: 'auto', bottom: 0, height: 120, opacity: 0.4 }} />
-        </div>
-        <Callout type="info" style={{ marginTop: 16 }}>
-          <strong>전문가 코멘트:</strong> 커밋 로그를 시각화하는 것은 단순한 기록을 넘어 팀의 협업 밀도와 아키텍처의 견고함을 시각적으로 설득하는 가장 강력한 장치입니다.
+        <Callout type="warn" style={{ marginTop: 32, maxWidth: 600, marginInline: 'auto' }}>
+          "우리는 코드를 짜는 시간보다, 코드를 <strong>이해하고 고치는 시간</strong>이 더 길었습니다."
         </Callout>
       </SnapSection>
 
-      {/* 5. Performance Improvements (Compare) */}
+      {/* 4. Docs-First (Main Highlight) */}
+      <SnapSection band="body" id="s2-docs" title="Solution 1: Docs-First (문서가 곧 설계)">
+        <p style={{ textAlign: 'center', opacity: 0.7, marginBottom: 24, maxWidth: 700 }}>
+          코딩 전에 <strong>ADR(설계 결정)</strong>과 <strong>가이드</strong>를 먼저 작성하여 팀의 싱크를 맞췄습니다.
+        </p>
+        <BentoGrid items={[
+          {
+            id: 'adr', title: 'ADR 0001: Strategy', desc: '의사결정 배경/팀 합의 기록 (스크린샷)', colSpan: 2, rowSpan: 2,
+            img: 'https://placehold.co/600x600/2c2000/F9A825?text=ADR+Screenshot'
+          },
+          {
+            id: 'folder', title: 'Folder Guide', desc: '명확한 도메인 분리 규칙', colSpan: 1,
+            img: 'https://placehold.co/400x300/101525/448aff?text=Folder+Structure'
+          },
+          { id: 'conv', title: 'Conventions', desc: '네이밍/코딩 표준 (Lint)', colSpan: 1, dark: true },
+          {
+            id: 'onboard', title: 'Onboarding Check', desc: '신규 입사자 가이드', colSpan: 2,
+            img: 'https://placehold.co/600x200/152015/66bb6a?text=Onboarding+Checklist'
+          },
+        ]} />
+      </SnapSection>
+
+      {/* 5. Evolution (Slider) */}
+      <SnapSection band="body" id="s2-evolution" title="Solution 2: Architecture Evolution">
+        <div style={{ width: '100%', maxWidth: 840, margin: '0 auto' }}>
+          <CompareSlider
+            before="https://placehold.co/800x500/2a1b1b/ff6b6b?text=Legacy+CRA"
+            after="https://placehold.co/800x500/1b2a2a/51cf66?text=Clean+Hybrid"
+            beforeLabel="Legacy (CRA)"
+            afterLabel="Baseline (Hybrid)"
+            height={480}
+          />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginTop: 24 }}>
+            <div className="ov-card" style={{ padding: 16 }}>
+              <div style={{ color: '#ff6b6b', fontWeight: 'bold' }}>⛔ Difficulties (AS-IS)</div>
+              <ul style={{ fontSize: 13, paddingLeft: 18, marginTop: 8, opacity: 0.8 }}>
+                <li>숨겨진 설정(eject)과의 충돌</li>
+                <li>전역 스타일 오염</li>
+              </ul>
+            </div>
+            <div className="ov-card" style={{ padding: 16 }}>
+              <div style={{ color: '#51cf66', fontWeight: 'bold' }}>✅ Improvement (TO-BE)</div>
+              <ul style={{ fontSize: 13, paddingLeft: 18, marginTop: 8, opacity: 0.8 }}>
+                <li>명확한 모듈 경계 (Barrel Pattern)</li>
+                <li>스타일 충돌 원천 방지 (Modules)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </SnapSection>
+
+      {/* 6. Impact */}
       <SnapSection band="body" id="s2-impact" title="Impact: 결과로 증명하는 표준의 힘">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {CONTENT.metrics.map(m => (
@@ -157,16 +169,16 @@ export default function Sem2() {
         </div>
       </SnapSection>
 
-      {/* 6. Outro: QA & Discussion */}
-      <SnapSection band="outro" id="s2-outro" title="Next Step & Discussion">
+      {/* 7. Outro */}
+      <SnapSection band="outro" id="s2-outro" title="Next Step">
         <Overview
-          title="질의응답 및 전사 확산 계획"
+          title="지속 가능한 생태계 구축"
           bullets={[
             "Phase 4: Scaffold 공개 및 사내 템플릿 정착",
             "지속 가능한 운영을 위한 기술 파이프라인(CD) 강화",
             "피드백 반영을 통한 Baseline v2 고도화"
           ]}
-          memo="완벽함이 아닌, 더 나은 시작을 지향합니다."
+          memo="우리는 이제 막 '제대로 된 시작'을 했습니다."
         />
       </SnapSection>
     </div>
