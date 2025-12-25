@@ -131,6 +131,7 @@ html,body{overflow:hidden;}           /* 발표용: 페이지 전체 스크롤 �
 .band-outro{
   background:linear-gradient(180deg,rgba(124,77,255,.10) 0%,rgba(124,77,255,0) 60%),transparent;
 }
+.band-dark{ background:#05070a; }
 
 /* ================================
    Intro Splash
