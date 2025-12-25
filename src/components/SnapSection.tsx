@@ -3,7 +3,7 @@ export default function SnapSection({
 }: {
   id: string
   title: string
-  band?: 'intro' | 'body' | 'outro' | 'dark'
+  band?: 'intro' | 'body' | 'outro' | 'dark' | 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch5' | 'ch6'
   children: React.ReactNode
 }) {
   return (
