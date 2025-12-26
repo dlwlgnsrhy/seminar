@@ -156,13 +156,17 @@ export default function Sem2() {
         <ChapterHeader index={2} title="상당 과정 [접근성/협업]: 사용자 중심의 리팩토링" subtitle="디자인은 그대로지만, 코드는 훨씬 친절해졌습니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: 32, marginTop: 40 }}>
           <div className="ov-card" style={{ padding: 40 }}>
-            <h4 style={{ fontSize: 24, marginBottom: 24 }}>Semantic Audit</h4>
-            <div style={{ marginBottom: 32 }}>
+            <h4 style={{ fontSize: 24, marginBottom: 24 }}>Semantic & Clean Audit</h4>
+            <div style={{ marginBottom: 24 }}>
               <div style={{ fontSize: 12, opacity: 0.5, marginBottom: 8 }}>SEARCH QUERY: href='#'</div>
               <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--primary)' }}>124 Matches</div>
-              <div style={{ fontSize: 14, opacity: 0.7 }}>45개 파일 내 무의미한 A 태그 제거</div>
+              <div style={{ fontSize: 14, opacity: 0.7 }}>무의미한 A 태그 -> Button 교체</div>
             </div>
-            <p style={{ fontSize: 16, lineHeight: 1.8 }}>의미 없는 링크를 의미 있는 `Button`으로 교체하여 키보드 접근성을 100% 확보했습니다.</p>
+            <div style={{ borderTop: '1px solid var(--surface-2)', paddingTop: 24, marginTop: 24 }}>
+              <div style={{ fontSize: 12, opacity: 0.5, marginBottom: 8 }}>DEAD CODE ELIMINATION</div>
+              <div style={{ fontSize: 28, fontWeight: 900, color: '#ff6b6b' }}>22 Files / 20,000+ Lines</div>
+              <div style={{ fontSize: 14, opacity: 0.7 }}>미사용 파일 및 좀비 코드 전수 제거</div>
+            </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div className="ov-card" style={{ background: 'rgba(124,77,255,0.05)' }}>
@@ -193,7 +197,7 @@ export default function Sem2() {
               <h4 style={{ fontSize: 18, marginBottom: 16 }}>Codification (성문화)</h4>
               <ul style={{ fontSize: 14, lineHeight: 2, opacity: 0.8 }}>
                 <li>📍 PHASE_PROGRESS.md: 단계별 결정 사유 기록</li>
-                <li>📍 ADR (Architecture Decision Records) 누적</li>
+                <li>📍 docs/decision-records: 아키텍처 ADR 축적</li>
                 <li>📍 README & PR 템플릿 표준화</li>
                 <li>📍 90분 온보딩 체크리스트 완성</li>
               </ul>
