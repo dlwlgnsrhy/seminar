@@ -3,8 +3,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Company React Baseline',
-  url: 'http://localhost',
-  baseUrl: '/',
+  url: 'https://dlwlgnsrhy.github.io',
+  baseUrl: '/seminar/docs/',
   i18n: {
     defaultLocale: 'ko',
     locales: ['ko'],

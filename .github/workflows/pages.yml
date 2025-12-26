@@ -23,7 +23,17 @@ jobs:
           node-version: 'lts/*'
           cache: 'npm'
       - run: npm ci
-      - run: npm run build
+      - name: Build Main Project
+        run: npm run build
+      - name: Build Docs
+        run: |
+          cd temp_reference/egovReactTsx/docs
+          npm ci
+          npm run build
+      - name: Integrate Docs into Dist
+        run: |
+          mkdir -p dist/docs
+          cp -r temp_reference/egovReactTsx/docs/build/* dist/docs/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist

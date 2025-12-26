@@ -1,122 +1,47 @@
-import { useRef } from 'react'
-import { motion } from 'framer-motion'
-import { useInViewSnap } from '@/shared/hooks/useInViewSnap'
+import React from 'react'
 import SnapSection from '@/components/SnapSection'
 import HeroIntro from '@/components/HeroIntro'
-import Overview from '@/components/Overview'
-import PlanRoadmap from '@/components/PlanRoadmap'
-import Callout from '@/components/Callout'
-import { usePresentationKeys } from '@/shared/hooks/usePresentationKeys'
-import TopProgress from '@/components/TopProgress'
-import CompareSlider from '@/components/CompareSlider'
-import BentoGrid from '@/components/BentoGrid'
+import PlanRoadmapS2 from '@/components/PlanRoadmapS2'
+import ChapterHeader from '@/components/ChapterHeader'
 import TerminalLog from '@/components/TerminalLog'
-import EliteRail from '@/components/EliteRail'
+import Callout from '@/components/Callout'
+import CodeBox from '@/components/CodeBox'
+import DiffBox from '@/components/DiffBox'
+import BentoGrid from '@/components/BentoGrid'
+import CompareSlider from '@/components/CompareSlider'
+import MetricCard from '@/components/MetricCard'
+import Overview from '@/components/Overview'
+import LinkBtn from '@/components/LinkBtn'
 
-// --- Helper Components ---
+import { useInViewSnap } from '@/shared/hooks/useInViewSnap'
 
-function MetricCard({ title, before, after, desc, color }: { title: string; before: string; after: string; desc: string; color: string }) {
-  return (
-    <div className="ov-card" style={{ display: 'flex', flexDirection: 'column', gap: 12, borderTop: `4px solid ${color}` }}>
-      <h3 className="ov-card-head" style={{ marginBottom: 4 }}>{title}</h3>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 11, opacity: 0.5, letterSpacing: 1 }}>AS-IS (기존)</div>
-          <div style={{ fontSize: 22, fontWeight: 900, color: '#ff6b6b', fontFamily: 'monospace' }}>{before}</div>
-        </div>
-        <div style={{ fontSize: 28, opacity: 0.2, fontWeight: 100 }}>→</div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 11, opacity: 0.5, letterSpacing: 1 }}>TO-BE (Baseline)</div>
-          <div style={{ fontSize: 22, fontWeight: 900, color: '#51cf66', fontFamily: 'monospace' }}>{after}</div>
-        </div>
-      </div>
-      <div className="ov-progress" style={{ background: 'rgba(255,255,255,0.05)', height: 4 }}>
-        <span style={{ width: '100%', background: `linear-gradient(90deg, transparent, ${color})` }} />
-      </div>
-      <p style={{ fontSize: 13, opacity: 0.7, margin: 0, lineHeight: 1.5 }}>{desc}</p>
-    </div>
-  )
-}
-
-function PainPointCard({ title, desc, icon }: { title: string, desc: string, icon: string }) {
-  return (
-    <div className="ov-card" style={{ background: 'rgba(255,50,50,0.05)', border: '1px solid rgba(255,50,50,0.1)' }}>
-      <div style={{ fontSize: 32, marginBottom: 12 }}>{icon}</div>
-      <h3 style={{ fontSize: 18, margin: '0 0 8px 0', color: '#ff8a80' }}>{title}</h3>
-      <p style={{ fontSize: 14, opacity: 0.8, margin: 0 }}>{desc}</p>
-    </div>
-  )
-}
-
-function CodeBox({ code, label, color = '#5aa9ff' }: { code: string, label: string, color?: string }) {
-  return (
-    <div style={{ marginTop: 16 }}>
-      <div style={{ fontSize: 11, color, fontWeight: 700, marginBottom: 8, letterSpacing: 1 }}>{label}</div>
-      <code style={{
-        display: 'block', padding: 16, background: '#0d1117', border: '1px solid #30363d',
-        borderRadius: 8, fontSize: 12, lineHeight: 1.6, color: '#e6edf3', overflowX: 'auto'
-      }}>
-        <pre style={{ margin: 0 }}>{code}</pre>
-      </code>
-    </div>
-  )
-}
-
-function DiffBox({ before, after, label }: { before: string, after: string, label: string }) {
-  return (
-    <div style={{ marginTop: 16 }}>
-      <div style={{ fontSize: 11, color: '#fcc419', fontWeight: 700, marginBottom: 8 }}>{label}</div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#30363d', borderRadius: 8, overflow: 'hidden', border: '1px solid #30363d' }}>
-        <div style={{ background: '#161b22', padding: 12 }}>
-          <div style={{ fontSize: 10, color: '#ff6b6b', marginBottom: 4 }}>- REMOVE</div>
-          <pre style={{ margin: 0, fontSize: 11, color: '#ffabac' }}>{before}</pre>
-        </div>
-        <div style={{ background: '#0d1117', padding: 12 }}>
-          <div style={{ fontSize: 10, color: '#51cf66', marginBottom: 4 }}>+ ADD</div>
-          <pre style={{ margin: 0, fontSize: 11, color: '#aff5b4' }}>{after}</pre>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ChapterHeader({ title, subtitle, index }: { title: string, subtitle: string, index: number }) {
-  return (
-    <div style={{ marginBottom: 40, borderLeft: '4px solid var(--primary)', paddingLeft: 24 }}>
-      <div style={{ fontSize: 12, opacity: 0.5, letterSpacing: 2 }}>CHAPTER {index.toString().padStart(2, '0')}</div>
-      <h2 style={{ fontSize: 32, margin: '8px 0', fontWeight: 900 }}>{title}</h2>
-      <p style={{ opacity: 0.7, maxWidth: 600 }}>{subtitle}</p>
-    </div>
-  )
-}
-
-// --- Content Data ---
-
-const METERICS = [
-  { title: "빌드 지표", before: "325s", after: "28s", desc: "Vite 도입으로 CI/CD 대기 시간 91% 절감", color: "#5aa9ff" },
-  { title: "번들 지표", before: "12.7 MB", after: "2.5 MB", desc: "트리쉐이킹 및 코드 스플리팅 적용", color: "#7c4dff" },
-  { title: "에셋 지표", before: "2.8 MB", after: "120 KB", desc: "WebP 일괄 변환 및 리사이징 프로세스", color: "#fcc419" },
-  { title: "접근성 점수", before: "82", after: "98", desc: "시맨틱 마크업 전수조사 및 수정", color: "#51cf66" }
+const METERICS: { title: string; value: string; detail: string; trend: 'up' | 'down' }[] = [
+  { title: '빌드 속도', value: '85%', detail: 'CRA 120s → Vite 18s', trend: 'up' },
+  { title: '번들 크기', value: '42%', detail: '2.1MB → 1.2MB (Gzip)', trend: 'down' },
+  { title: '타입 커버리지', value: '100%', detail: 'Strict Mode 완전 적용', trend: 'up' },
+  { title: '온보딩 속도', value: '90%', detail: '10일 → 1일 이내', trend: 'up' },
 ]
-
-// --- Main Component ---
 
 export default function Sem2() {
   useInViewSnap()
-  usePresentationKeys()
-
   return (
-    <div className="snap-container">
-      <TopProgress />
 
-      {/* CHAPTER 1: Intro & Plan */}
-      <SnapSection band="ch1" id="ch1-hero" title="">
+    <main className="snap-container">
+      {/* CHAPTER 1: 도입부 (Intro) & 목차 */}
+      <SnapSection band="ch1" id="ch1-hero" title="" panelClass="panel-xl">
         <HeroIntro
-          title="React Baseline Part 2: 30+ 마스터피스 대장정"
+          title="더 나은 협업을 향한 작은 시도: 리액트 베이스라인 Part 2"
           bullets={[
-            "안정성: 최소한의 투자로 이룬 가동률 99.9%의 엔지니어링",
-            "생산성: 온보딩 일주일에서 90분으로 단축된 혁명",
-            "문화: 개인의 기교를 넘어 팀의 자산이 된 표준화"
+            "안정성: 거창한 기술보다, 팀 전체가 믿고 쓸 수 있는 최소한의 안전장치",
+            "생산성: 개인의 기교에 의존하지 않고 누구나 표준에 안착하기 위한 여정",
+            "문화: '정답'을 강요하기보다, 함께 고민한 결과를 유산으로 정립하는 과정"
+          ]}
+          agenda={[
+            { num: "01", text: "도입: 협업의 기록" },
+            { num: "02", text: "실체: Baseline Docs" },
+            { num: "03", text: "성과: Pilot Deep-dive" },
+            { num: "04", text: "확산: Team Integration" },
+            { num: "05", text: "비전: AX(AIX) Preview" }
           ]}
           links={[
             { href: "#", label: "Baseline Repo" },
@@ -125,167 +50,93 @@ export default function Sem2() {
         />
       </SnapSection>
 
-      <SnapSection band="ch1" id="ch1-roadmap" title="">
-        <ChapterHeader index={1} title="Why & Plan" subtitle="레거시의 늪에서 표준화의 숲으로 나아가는 로드맵" />
-        <PlanRoadmap />
-      </SnapSection>
 
-      <SnapSection band="ch1" id="ch1-pain" title="The Pain Points">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
-          <PainPointCard icon="🤯" title="온보딩 지옥" desc="히스토리 파악에만 일주일, 환경 셋업에 또 3일 소요." />
-          <PainPointCard icon="🕸️" title="공포의 리팩토링" desc="A를 고치니 Z가 깨지는 예측 불가능한 사이드 이펙트." />
-          <PainPointCard icon="🐌" title="CRA의 한계" desc="한 번의 빌드에 커피 한 잔. 개발 리듬의 지속적 단절." />
-        </div>
-      </SnapSection>
-
-      {/* CHAPTER 2: Foundation (Performance & Assets) */}
-      <SnapSection band="ch2" id="ch2-audit" title="">
-        <ChapterHeader index={2} title="The Foundation" subtitle="성능과 보안은 '우연'이 아닌 '설계'의 결과입니다." />
-        <TerminalLog animated title="npm run build --analysis" type="audit" lines={[
-          "dist/assets/index.js  2.1MB <-- WARNING: Chunk too large",
-          "dist/assets/vendor.js 1.8MB",
-          "info: 45 static imports detected in App.tsx",
-          "action: Implementing Dynamic Import Strategy..."
-        ]} />
-      </SnapSection>
-
-      <SnapSection band="ch2" id="ch2-asset" title="Asset & Deployment">
+      {/* CHAPTER 2: Baseline 실체 (Documentation) */}
+      <SnapSection band="ch2" id="ch2-docs" title="">
+        <ChapterHeader index={2} title="Baseline의 실체" subtitle="말뿐인 가이드가 아닌, 데이터와 근거로 증명하는 표준화의 기록입니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24 }}>
-          <TerminalLog animated title="Asset Optimization (WebP/Font)" type="success" lines={[
-            "hero_bg.png     (2.4MB) -> hero_bg.webp     (145KB)",
-            "office_view.jpg (1.8MB) -> office_view.webp (98KB)",
-            "Pretendard.otf  (font-display: swap) applied.",
-            "Total Savings: 94.2% size reduction."
+          <TerminalLog animated title="Docs 구조 분석: ls -R docs/" type="audit" lines={[
+            "docs/standard/coding-convention.md",
+            "docs/architecture/state-management.md",
+            "docs/ci-cd/deployment-flow.md",
+            "정보: 23개의 핵심 명세 문서화 완료",
+            "결과: 온보딩 리소스 70% 절감"
           ]} />
           <div className="ov-card">
-            <h4>Part 24: Security Strategy</h4>
-            <CodeBox color="#ff6b6b" label="vite.config.ts" code={`build: {\n  sourcemap: mode === 'staging',\n  chunkSizeWarningLimit: 500\n}`} />
-            <p style={{ fontSize: 12, opacity: 0.6, marginTop: 12 }}>운영 환경에서의 소스 유출 방지 및 디버깅 효율성 확보.</p>
+            <h4>Docusaurus 기반 정적 문서 시스템</h4>
+            <p style={{ fontSize: 13, opacity: 0.8 }}>검색 가능한 검색창, 버전 관리, 코드 스니펫 복사 기능을 통해 개발자가 실무에 즉시 적용할 수 있는 환경을 구축했습니다.</p>
+            <div style={{ marginTop: 20, display: 'flex', gap: 12 }}>
+              <LinkBtn href="/seminar/docs" label="실제 문서 시스템 탐색 (GitHub Pages)" />
+              <Callout type="success" style={{ margin: 0 }}>egovReactTsx/docs</Callout>
+            </div>
           </div>
         </div>
       </SnapSection>
 
-      {/* CHAPTER 3: Quality (QA & A11y) */}
-      <SnapSection band="ch3" id="ch3-qa" title="">
-        <ChapterHeader index={3} title="The Quality" subtitle="테스트는 감옥이 아니라, 가장 자유로운 개발을 위한 보험입니다." />
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24 }}>
-          <TerminalLog animated title="vitest run Write_Program.test.tsx" type="error" lines={[
-            "FAIL src/features/EduProgram/Write.test.tsx",
-            "expected EduProgramAPI.insert to have been called",
-            "received: 0 calls",
-            "// Discovery: hook-form conflict detected!"
-          ]} />
-          <div className="ov-card" style={{ background: 'rgba(81,207,102,0.05)' }}>
-            <h4>Part 31: Zod Validation</h4>
-            <CodeBox color="#51cf66" label="Network Boundary Safety" code={`const schema = zod.object({\n  title: zod.string().min(1),\n  date: zod.date()\n});`} />
-            <p style={{ fontSize: 12, opacity: 0.7 }}>서버 데이터와 클라이언트 타입의 완전 일치 보장 (Part 31).</p>
+      {/* CHAPTER 3: 성과 분석 (Roadmap & Pilot) */}
+      <SnapSection band="ch3" id="ch3-roadmap" title="">
+        <ChapterHeader index={3} title="성과 분석: 파일럿 프로젝트" subtitle="계획을 넘어 실제 실무에서 마주한 변곡점과 혁신적 효율화의 기록입니다." />
+        <PlanRoadmapS2 />
+      </SnapSection>
+
+      <SnapSection band="ch3" id="ch3-pilot-deep" title="파일럿 성과 4분면 상세">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: 16 }}>
+          <div className="ov-card" style={{ borderLeft: '4px solid #5aa9ff' }}>
+            <h4 style={{ color: '#5aa9ff' }}>1. 성능 (Part 1-5)</h4>
+            <p style={{ fontSize: 13 }}>WebP 최적화 및 청크 분리로 Lighthouse 성능 90점대 달성.</p>
+          </div>
+          <div className="ov-card" style={{ borderLeft: '4px solid #ff6b6b' }}>
+            <h4 style={{ color: '#ff6b6b' }}>2. 안정성 (Part 6-11)</h4>
+            <p style={{ fontSize: 13 }}>Zod 타입 검증 및 Sentry 모니터링으로 서비스 무중단 운영.</p>
+          </div>
+          <div className="ov-card" style={{ borderLeft: '4px solid #51cf66' }}>
+            <h4 style={{ color: '#51cf66' }}>3. 생산성 (Part 12-16)</h4>
+            <p style={{ fontSize: 13 }}>AI Agent 도구 도입으로 마이그레이션 공수 75% 이상 절감.</p>
+          </div>
+          <div className="ov-card" style={{ borderLeft: '4px solid #7c4dff' }}>
+            <h4 style={{ color: '#7c4dff' }}>4. 표준화 (Part 17-21)</h4>
+            <p style={{ fontSize: 13 }}>Scaffold 템플릿 제공으로 누구나 5분 만에 표준 환경 구축.</p>
           </div>
         </div>
       </SnapSection>
 
-      <SnapSection band="ch3" id="ch3-a11y" title="Part 9-10: Semantic Audit">
-        <TerminalLog animated title="grep audit" type="audit" lines={[
-          "$ grep -r \"href='#'\" src/",
-          "src/header.tsx:12: <a href='#'>닫기</a>",
-          "Matches: 124 instances detected.",
-          "decision: Converting to Semantic <button>"
-        ]} />
-        <DiffBox label="Accessibility Refactoring"
-          before={`<a href="#" onClick={close}>\n  닫기\n</a>`}
-          after={`<button \n  onClick={close} \n  aria-label="창 닫기">\n  X\n</button>`} />
-      </SnapSection>
-
-      {/* CHAPTER 4: Developer Experience (DX) */}
-      <SnapSection band="ch4" id="ch4-dx" title="">
-        <ChapterHeader index={4} title="Developer Experience" subtitle="커밋 메시지 한 줄부터 배포 자동화까지의 DX 혁명." />
+      {/* CHAPTER 4: 확산 (Team Integration) */}
+      <SnapSection band="ch4" id="ch4-sync" title="">
+        <ChapterHeader index={4} title="현장 중심의 협업 시스템" subtitle="개발자만의 Baseline이 아닌, 디자인/앱/백엔드 팀원들을 위한 생태계를 구축합니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           <div className="ov-card">
-            <h4>Part 22: Git Workflow (Husky)</h4>
-            <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-              <span className="pill sev-low">feat:</span> <span className="pill sev-medium">fix:</span> <span className="pill sev-high">docs:</span>
+            <h4>🔗 Backend: Swagger-UI 연동</h4>
+            <p style={{ fontSize: 13, opacity: 0.8 }}>API 명세 자동 동기화로 소통 비용을 낮추고, 병목 없는 개발 사이클을 구축했습니다.</p>
+            <div style={{ marginTop: 16, border: '1px solid var(--surface-2)', padding: 12, borderRadius: 8, background: '#1a1a1a' }}>
+              <span style={{ color: '#51cf66', fontWeight: 900 }}>GET</span> /api/pilot/results <span style={{ float: 'right', fontSize: 11, opacity: 0.4 }}>Swagger V3</span>
             </div>
-            <p style={{ fontSize: 13, marginTop: 16 }}>불량 커밋 저장소 유입 0건. 표준화된 시맨틱 버전 관리 시작.</p>
           </div>
-          <TerminalLog animated title="release-it automation" type="success" lines={[
-            "Bumping version 1.0.2 -> 1.1.0",
-            "Generating changelog...",
-            "Creating git tag v1.1.0 and pushing...",
-            "Deployment Pipeline Triggered."
-          ]} />
-        </div>
-      </SnapSection>
-
-      {/* CHAPTER 5: Architecture (Core System) */}
-      <SnapSection band="ch5" id="ch5-arch" title="">
-        <ChapterHeader index={5} title="The Core Architecture" subtitle="UI는 거들 뿐, 핵심은 탄탄하게 격리된 '비즈니스 언어'입니다." />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
-          <div>
-            <h4>Part 25: Design Tokens</h4>
-            <CodeBox color="#7c4dff" label="Design SSOT (styles.css)" code={`:root {\n  --primary: #5aa9ff;\n  --surface-0: rgba(255,255,255,0.04);\n}`} />
-            <p style={{ fontSize: 13, opacity: 0.6, marginTop: 12 }}>디자인 변경 시 한 곳에서 전체 앱의 '감각' 제어.</p>
-          </div>
-          <div>
-            <h4>Part 27: Service Layer</h4>
-            <CodeBox color="#51cf66" label="Domain Logic Separation" code={`// notice.api.ts\nexport const fetchNotices = () => \n  api.get('/notices').then(res => res.data);`} />
-            <p style={{ fontSize: 13, opacity: 0.6, marginTop: 12 }}>UI 컴포넌트는 오직 '그리는 것'에만 집중하도록 격리.</p>
-          </div>
-        </div>
-      </SnapSection>
-
-      <SnapSection band="ch5" id="ch5-deep" title="Advanced State & Monitoring">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 24 }}>
           <div className="ov-card">
-            <h4>Part 26: Session Hydration</h4>
-            <p style={{ fontSize: 13, opacity: 0.7 }}>새로고침을 해도 '마을 ID' 등 유저 맥락이 끊기지 않는 Hydration 로직 구축.</p>
-            <Callout type="info" style={{ marginTop: 16 }}>이탈률 15% 감소 효과 증명.</Callout>
-          </div>
-          <div className="ov-card" style={{ borderTop: '4px solid #ff6b6b' }}>
-            <h4>Part 32: Sentry Error Analysis</h4>
-            <TerminalLog animated title="Sentry Error Loop" type="error" lines={[
-              "Issue detected in production (v1.1.0)",
-              "Stacktrace: register() at WritePage:124",
-              "Status: Assigned to team within 5 mins.",
-              "Fix: Confirmed in PR #142."
-            ]} />
+            <h4>🎨 App/Design: 시스템 공조</h4>
+            <p style={{ fontSize: 13, opacity: 0.8 }}>디자인 토큰과 앱 스키마 통합으로, 전 조직이 동일한 비즈니스 언어를 공유합니다.</p>
+            <Callout type="info" style={{ marginTop: 12 }}>현재 유관 조직 전체 확산 중</Callout>
           </div>
         </div>
       </SnapSection>
 
-      {/* CHAPTER 6: Result & Culture */}
-      <SnapSection band="ch6" id="ch6-result" title="">
-        <ChapterHeader index={6} title="Result & Culture" subtitle="기술적 완성이 아닌, 함께 성장하는 문화의 시작점." />
-        <BentoGrid items={[
-          {
-            id: 'adr', title: 'ADR (설계 결정 기록)', desc: '왜 리액트 쿼리를 썼는가? (히스토리 보존)', colSpan: 2, rowSpan: 2,
-            img: 'https://placehold.co/600x600/2c2000/F9A825?text=Technical+SSOT'
-          },
-          {
-            id: 'pr', title: 'PR Template', desc: '리뷰 효율 200% 향상 도구', colSpan: 1, dark: true
-          },
-          {
-            id: 'workshop', title: 'Part 30: Workshop', desc: '온보딩 시간을 90분으로 단축', colSpan: 1,
-            img: 'https://placehold.co/400x300/152015/66bb6a?text=Culture+Shift'
-          },
-          {
-            id: 'template', title: 'Scaffold Template', desc: '누구나 5분 만에 표준 환경 구축', colSpan: 2,
-            img: 'https://placehold.co/600x200/101525/448aff?text=Baseline+Template'
-          },
-        ]} />
-      </SnapSection>
-
-      <SnapSection band="ch6" id="ch6-evolution" title="Final Architecture Evolution">
-        <div style={{ width: '100%', maxWidth: 840, margin: '0 auto' }}>
-          <CompareSlider
-            before="https://placehold.co/800x500/2a1b1b/ff6b6b?text=Legacy+CRA"
-            after="https://placehold.co/800x500/1b2a2a/51cf66?text=Clean+Masterpiece"
-            beforeLabel="Legacy (CRA)"
-            afterLabel="Masterpiece (Baseline)"
-            height={480}
-          />
+      {/* CHAPTER 5: 비전 (AX Preview) */}
+      <SnapSection band="ch5" id="ch5-ax" title="">
+        <ChapterHeader index={5} title="Next Step: AX 기업으로" subtitle="2024년의 표준화를 발판 삼아, 2025년 AI 중심의 기업 변화를 준비합니다." />
+        <div className="ov-card" style={{ textAlign: 'center', padding: '60px' }}>
+          <h2 style={{ fontSize: 42, fontWeight: 900, marginBottom: 24 }} className="hero-gradient">AX 기업 세미나 프리뷰</h2>
+          <p style={{ fontSize: 18, opacity: 0.8, maxWidth: 600, margin: '0 auto' }}>
+            이제는 단순히 도구를 쓰는 수준을 넘어,<br />
+            Baseline 자체가 AI와 호흡하며 스스로 진화하는<br />
+            <b>지능형 엔지니어링 생태계</b>를 제시하겠습니다.
+          </p>
+          <div style={{ marginTop: 40, opacity: 0.5, fontSize: 14 }}>
+            2025년 1월 공개 예정: AI 가속 기업으로의 전격 전환 전략
+          </div>
         </div>
       </SnapSection>
 
-      <SnapSection band="ch6" id="ch6-impact" title="Result Summary">
+      {/* Result Summary */}
+      <SnapSection band="result" id="result-summary" title="Result Summary">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           {METERICS.map(m => (
             <MetricCard key={m.title} {...m} />
@@ -297,13 +148,23 @@ export default function Sem2() {
         <Overview
           title="우리는 '방식'을 바꿨습니다"
           bullets={[
-            "Part 33: 커스텀 Vite 플러그인을 통한 레거시 제거 자동화",
+            "개인의 기량에 의존하던 수동 개발 환경의 혁파",
             "동료와 함께 채워가는 살아있는 문서화(Living Docs)",
-            "지속 가능한 엔지니어링을 향한 첫 걸음"
+            "AI Agent와의 공조를 통한 압도적 생산성 증명",
+            "이 모든 과정은 누군가의 정답이 아닌, 우리 모두의 합의입니다."
           ]}
-          memo="React Baseline은 코드가 아닌, 우리 팀의 미래를 위한 자산입니다."
         />
       </SnapSection>
+    </main>
+  )
+}
+
+function PainPointCard({ icon, title, desc }: { icon: string; title: string; desc: string }) {
+  return (
+    <div className="ov-card" style={{ textAlign: 'center', padding: '32px 24px' }}>
+      <div style={{ fontSize: 40, marginBottom: 16 }}>{icon}</div>
+      <h4 style={{ marginBottom: 12, color: '#fff' }}>{title}</h4>
+      <p style={{ fontSize: 13, opacity: 0.7, lineHeight: 1.6 }}>{desc}</p>
     </div>
   )
 }

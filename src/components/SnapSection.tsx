@@ -1,14 +1,15 @@
 export default function SnapSection({
-  id, title, children, band = 'body',
+  id, title, children, band = 'body', panelClass = '',
 }: {
   id: string
   title: string
-  band?: 'intro' | 'body' | 'outro' | 'dark' | 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch5' | 'ch6'
+  band?: 'intro' | 'body' | 'outro' | 'dark' | 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch5' | 'ch6' | 'result'
   children: React.ReactNode
+  panelClass?: string
 }) {
   return (
     <section id={id} className={`snap-section band-${band}`} data-band={band}>
-      <div className="section-panel">
+      <div className={`section-panel ${panelClass}`}>
         {title && <h2 style={{ marginTop: 0 }}>{title}</h2>}
         {children}
       </div>
