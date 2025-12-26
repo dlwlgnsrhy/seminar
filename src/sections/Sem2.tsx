@@ -160,7 +160,7 @@ export default function Sem2() {
             <div style={{ marginBottom: 24 }}>
               <div style={{ fontSize: 12, opacity: 0.5, marginBottom: 8 }}>SEARCH QUERY: href='#'</div>
               <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--primary)' }}>124 Matches</div>
-              <div style={{ fontSize: 14, opacity: 0.7 }}>무의미한 A 태그 -> Button 교체</div>
+              <div style={{ fontSize: 14, opacity: 0.7 }}>무의미한 A 태그 → Button 교체</div>
             </div>
             <div style={{ borderTop: '1px solid var(--surface-2)', paddingTop: 24, marginTop: 24 }}>
               <div style={{ fontSize: 12, opacity: 0.5, marginBottom: 8 }}>DEAD CODE ELIMINATION</div>
