@@ -5,6 +5,8 @@ const config: Config = {
   title: 'Company React Baseline',
   url: 'https://dlwlgnsrhy.github.io',
   baseUrl: '/seminar/docs/',
+  onBrokenLinks: 'warn',
+  trailingSlash: false,
   i18n: {
     defaultLocale: 'ko',
     locales: ['ko'],
