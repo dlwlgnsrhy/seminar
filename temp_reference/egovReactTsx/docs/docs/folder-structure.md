@@ -146,7 +146,7 @@ Angular 라이브러리의 `public-api.ts` 역할을 React에서 index.ts가 수
 
 ---
 
-## 🟦 **(1) Feature Module Isolation (Angular FeatureModule 대응)**
+##  **(1) Feature Module Isolation (Angular FeatureModule 대응)**
 
 React에서는 feature 폴더가 **하나의 모듈**이다:
 
@@ -161,7 +161,7 @@ Angular와 마찬가지로 **feature 간 직접 참조 금지**
 
 ---
 
-## 🟪 **(2) AppRouter = Angular AppRoutingModule**
+##  **(2) AppRouter = Angular AppRoutingModule**
 
 - AppRouter는 feature 라우트들을 연결만 한다.
 - Lazy import, loader 설정은 feature 내부에서만 수행한다.
@@ -183,14 +183,14 @@ import { dashboardRoutes } from '@/app/features/dashboard';
 
 ---
 
-## 🟩 **(3) AppProvider = Angular Root Module Providers**
+##  **(3) AppProvider = Angular Root Module Providers**
 
 AppProvider는 전역 Context 및 전역 서비스 등록 영역이며
 Angular의 `AppModule` 혹은 `providers` 개념과 동일하게 작동한다.
 
 ---
 
-## 🟨 **(4) Shared Module = React shared layer**
+##  **(4) Shared Module = React shared layer**
 
 - UI 컴포넌트
 - Stateless hooks
@@ -201,7 +201,7 @@ Angular의 `AppModule` 혹은 `providers` 개념과 동일하게 작동한다.
 
 ---
 
-## 🟥 **(5) Core Module = React core layer**
+##  **(5) Core Module = React core layer**
 
 - 전역 providers (Auth, Theme 등)
 - 전역 api client

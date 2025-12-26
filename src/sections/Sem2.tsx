@@ -52,12 +52,11 @@ export default function Sem2() {
 
 
       {/* CHAPTER 01: Baseline Specs: 기술 명세 */}
-      <SnapSection band="ch2" id="ch2-docs" title="" panelClass="panel-xl">
+      <SnapSection band="ch1" id="ch2-docs" title="" panelClass="panel-xl">
         <ChapterHeader index={1} title="Baseline Specs: 기술 명세" subtitle="말뿐인 가이드가 아닌, 데이터와 근거로 증명하는 표준화의 기록입니다." />
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginTop: 48 }}>
           <div className="ov-card" style={{ padding: 32 }}>
-            <div style={{ fontSize: 32, marginBottom: 16 }}>📜</div>
             <h3 style={{ fontSize: 20, marginBottom: 16, color: 'var(--primary)' }}>Documentation</h3>
             <ul style={{ paddingLeft: 20, fontSize: 15, opacity: 0.8, lineHeight: 1.8 }}>
               <li>Docusaurus 정적 위키 구축</li>
@@ -67,7 +66,6 @@ export default function Sem2() {
           </div>
 
           <div className="ov-card" style={{ padding: 32, background: 'rgba(90,169,255,0.05)', borderColor: 'rgba(90,169,255,0.2)' }}>
-            <div style={{ fontSize: 32, marginBottom: 16 }}>⚙️</div>
             <h3 style={{ fontSize: 20, marginBottom: 16, color: '#fff' }}>Automation</h3>
             <ul style={{ paddingLeft: 20, fontSize: 15, opacity: 0.8, lineHeight: 1.8 }}>
               <li>Vite 빌드 파이프라인 최적화</li>
@@ -77,7 +75,6 @@ export default function Sem2() {
           </div>
 
           <div className="ov-card" style={{ padding: 32 }}>
-            <div style={{ fontSize: 32, marginBottom: 16 }}>🚀</div>
             <h3 style={{ fontSize: 20, marginBottom: 16, color: 'var(--accent)' }}>Productivity</h3>
             <ul style={{ paddingLeft: 20, fontSize: 15, opacity: 0.8, lineHeight: 1.8 }}>
               <li>온보딩 타겟 90분 설정</li>
@@ -95,7 +92,7 @@ export default function Sem2() {
       {/* CHAPTER 02: 상당 과정 (The Process) - 4 Slides */}
 
       {/* Slide 1: 성능 최적화 */}
-      <SnapSection band="ch3" id="ch2-process-perf" title="" panelClass="panel-xl">
+      <SnapSection band="ch2" id="ch2-process-perf" title="" panelClass="panel-xl">
         <ChapterHeader index={2} title="상당 과정 [성능]: 15MB에서 3.7MB로" subtitle="단순히 용량만 큰 게 아니라, 브라우저가 첫 페이지를 그리는데 너무 지쳐있었습니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 32, marginTop: 40 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -124,7 +121,7 @@ export default function Sem2() {
       </SnapSection>
 
       {/* Slide 2: 품질 보증(QA) */}
-      <SnapSection band="ch3" id="ch2-process-qa" title="" panelClass="panel-xl">
+      <SnapSection band="ch2" id="ch2-process-qa" title="" panelClass="panel-xl">
         <ChapterHeader index={2} title="상당 과정 [품질]: 진짜 버그를 잡는 과정" subtitle="테스트 코드는 시간 낭비가 아니라, 가장 빨리 버그를 찾는 지길임을 증명했습니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 32, marginTop: 40 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -142,17 +139,17 @@ export default function Sem2() {
           <div className="ov-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 24 }}>
             <h4 style={{ fontSize: 22, textAlign: 'center' }}>Test Infrastructure</h4>
             <ul style={{ fontSize: 16, lineHeight: 2.2, opacity: 0.9 }}>
-              <li>✅ Vitest + JSDOM 환경 구축</li>
-              <li>✅ Kakao Map API 모킹(Mocking)</li>
-              <li>✅ 회귀 버그 발생률 0% 달성</li>
-              <li>✅ 비즈니스 로직 테스트 80% 커버</li>
+              <li> Vitest + JSDOM 환경 구축</li>
+              <li> Kakao Map API 모킹(Mocking)</li>
+              <li> 회귀 버그 발생률 0% 달성</li>
+              <li> 비즈니스 로직 테스트 80% 커버</li>
             </ul>
           </div>
         </div>
       </SnapSection>
 
       {/* Slide 3: 접근성 & 협업 */}
-      <SnapSection band="ch3" id="ch2-process-a11y" title="" panelClass="panel-xl">
+      <SnapSection band="ch2" id="ch2-process-a11y" title="" panelClass="panel-xl">
         <ChapterHeader index={2} title="상당 과정 [접근성/협업]: 사용자 중심의 리팩토링" subtitle="디자인은 그대로지만, 코드는 훨씬 친절해졌습니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: 32, marginTop: 40 }}>
           <div className="ov-card" style={{ padding: 40 }}>
@@ -181,8 +178,41 @@ export default function Sem2() {
         </div>
       </SnapSection>
 
-      {/* Slide 4: 표준화 & 문화 */}
-      <SnapSection band="ch3" id="ch2-process-culture" title="" panelClass="panel-xl">
+      {/* Slide 4: 보안 (Security) */}
+      <SnapSection band="ch2" id="ch2-process-security" title="" panelClass="panel-xl">
+        <ChapterHeader index={2} title="상당 과정 [보안]: 보이지 않는 위협으로부터 보호" subtitle="공공기관 시스템에서 가장 중요한 신뢰의 기반, 보안을 코드 레벨에서 강화했습니다." />
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 0.8fr)', gap: 32, marginTop: 40 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <TerminalLog type="audit" title="Security Vulnerability Audit" lines={[
+              "Scanning dependencies... 1,240 packages checked.",
+              "found 12 vulnerabilities (3 high, 9 moderate)",
+              "FIXED: engine.io, axios (CVE-2023-45853) updated to safe version",
+              "RESULT: 0 vulnerabilities found after remediation"
+            ]} />
+            <div className="ov-card" style={{ background: 'rgba(75,181,67,0.05)' }}>
+              <h4 style={{ fontSize: 18, color: '#4bb543', marginBottom: 12 }}>의존성 건전성 확보</h4>
+              <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6 }}>`npm audit` 및 `Snyk`을 연동하여 서드파티 라이브러리의 보안 취약점을 상시 모니터링하고, 위협 발견 시 즉시 패치하는 프로세스를 수립했습니다.</p>
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <div className="ov-card">
+              <h4 style={{ fontSize: 18, color: 'var(--primary)', marginBottom: 16 }}>Secure Coding Practice</h4>
+              <ul style={{ fontSize: 13, lineHeight: 2, opacity: 0.8 }}>
+                <li>🔒 .env.example을 통한 환경변수 관리 표준화</li>
+                <li>🔒 dangerouslySetInnerHTML 사용 전수 검사 및 금지</li>
+                <li>🔒 API 응답 데이터 화이트리스트 필터링</li>
+                <li>🔒 XSS 방지를 위한 자동 이스케이프 설정</li>
+              </ul>
+            </div>
+            <Callout type="info">
+              시스템 안정성만큼이나 중요한 <b>데이터 무결성</b>을 지키는 엔지니어링 표준을 세웠습니다.
+            </Callout>
+          </div>
+        </div>
+      </SnapSection>
+
+      {/* Slide 5: 표준화 & 문화 */}
+      <SnapSection band="ch2" id="ch2-process-culture" title="" panelClass="panel-xl">
         <ChapterHeader index={2} title="상당 과정 [표준화]: 90분 온보딩의 근거" subtitle="새로운 개발자가 왔을 때 '이 코드는 왜 이래요?'라고 묻지 않게 만드는 법" />
         <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 32, marginTop: 40 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -209,65 +239,44 @@ export default function Sem2() {
         </div>
       </SnapSection>
 
-      {/* NEW Slide: 성과 분석 / 케이스 스터디 (복구) */}
-      <SnapSection band="ch3" id="ch2-case-study" title="" panelClass="panel-xl">
-        <ChapterHeader index={2} title="성과 분석: 파일럿 프로젝트" subtitle="계획을 넘어 실제 실무에서 마주한 변곡점과 혁신적 효율화의 기록입니다." />
-        <div style={{ marginTop: 32 }}>
-          <PlanRoadmapS2 />
-        </div>
-      </SnapSection>
-
-      <SnapSection band="ch3" id="ch2-process-summary" title="">
-        <ChapterHeader index={2} title="과정의 요약" subtitle="우리는 단순히 코드를 바꾼 것이 아니라, 개발을 하는 ‘방식(System)’을 바꿨습니다" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginTop: 48 }}>
-          <div className="ov-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--primary)' }}>Auditor</div>
-            <p style={{ fontSize: 12, marginTop: 8 }}>철저한 현상 파악</p>
-          </div>
-          <div className="ov-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--accent)' }}>Experiment</div>
-            <p style={{ fontSize: 12, marginTop: 8 }}>가설 중심의 실험</p>
-          </div>
-          <div className="ov-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 24, fontWeight: 900, color: '#51cf66' }}>Discovery</div>
-            <p style={{ fontSize: 12, marginTop: 8 }}>숨은 버그의 적출</p>
-          </div>
-          <div className="ov-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 24, fontWeight: 900, color: '#ff922b' }}>Codification</div>
-            <p style={{ fontSize: 12, marginTop: 8 }}>지식의 자산화</p>
-          </div>
-        </div>
-      </SnapSection>
 
       {/* CHAPTER 03: 최종 성과 (Results & Metrics) */}
-      <SnapSection band="ch3" id="ch3-results-1" title="">
-        <ChapterHeader index={3} title="파일럿 성과: 압도적 무결성" subtitle="우리가 표준화를 포기하지 않은 이유입니다. 정량적 지표로 증명합니다." />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginTop: 40 }}>
-          {METERICS.map(m => (
-            <MetricCard key={m.title} {...m} />
-          ))}
+      <SnapSection band="ch3" id="ch3-results-integrated" title="" panelClass="panel-xl">
+        <ChapterHeader index={3} title="파일럿 성과: 데이터로 보는 혁신" subtitle="단순한 수치를 넘어, 시스템이 가져온 정성적/정량적 변화를 증명합니다." />
+        <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 32, marginTop: 40 }}>
+          {/* Left: 4 Core Metrics */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            {METERICS.map(m => (
+              <MetricCard key={m.title} {...m} />
+            ))}
+          </div>
+
+          {/* Right: 4-Quadrant Analysis */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className="ov-card" style={{ borderLeft: '4px solid #5aa9ff', padding: '20px' }}>
+              <h4 style={{ color: '#5aa9ff', fontSize: 16, marginBottom: 8 }}>1. 성능 극대화</h4>
+              <p style={{ fontSize: 12, opacity: 0.8 }}>WebP 자동 변환 및 오프셋 청킹 도입으로 Lighthouse 점수 92+ 달성.</p>
+            </div>
+            <div className="ov-card" style={{ borderLeft: '4px solid #ff6b6b', padding: '20px' }}>
+              <h4 style={{ color: '#ff6b6b', fontSize: 16, marginBottom: 8 }}>2. 서비스 안정성</h4>
+              <p style={{ fontSize: 12, opacity: 0.8 }}>Zod 기반 런타임 검증 및 Strict 타입 정의로 회귀 버그 0% 달성.</p>
+            </div>
+            <div className="ov-card" style={{ borderLeft: '4px solid #51cf66', padding: '20px' }}>
+              <h4 style={{ color: '#51cf66', fontSize: 16, marginBottom: 8 }}>3. 생산성 혁명</h4>
+              <p style={{ fontSize: 12, opacity: 0.8 }}>AI Agent 자동화 도구로 마이그레이션 및 반복 작업 공수 75%↑ 절감.</p>
+            </div>
+            <div className="ov-card" style={{ borderLeft: '4px solid #7c4dff', padding: '20px' }}>
+              <h4 style={{ color: '#7c4dff', fontSize: 16, marginBottom: 8 }}>4. 표준화 안착</h4>
+              <p style={{ fontSize: 12, opacity: 0.8 }}>Scaffold CLI 배포로 신규 프로젝트 초기 세팅 시간 90%↑ 단축.</p>
+            </div>
+          </div>
         </div>
       </SnapSection>
 
-      <SnapSection band="ch3" id="ch3-results-2" title="파일럿 성과 4분면 상세">
-        <ChapterHeader index={3} title="데이터로 보는 혁신" subtitle="성능, 안정성, 생산성, 표준화 전 영역에서 유의미한 수치를 도출했습니다." />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginTop: 32 }}>
-          <div className="ov-card" style={{ borderLeft: '4px solid #5aa9ff' }}>
-            <h4 style={{ color: '#5aa9ff' }}>1. 성능 극대화</h4>
-            <p style={{ fontSize: 13 }}>WebP 자동 변환 및 오프셋 청킹 도입으로 Lighthouse 성능 점수 92점 상회.</p>
-          </div>
-          <div className="ov-card" style={{ borderLeft: '4px solid #ff6b6b' }}>
-            <h4 style={{ color: '#ff6b6b' }}>2. 서비스 안정성</h4>
-            <p style={{ fontSize: 13 }}>Zod 기반 API 런타임 검증 및 무결한 타입 정의로 회귀 버그 발생률 0% 달성.</p>
-          </div>
-          <div className="ov-card" style={{ borderLeft: '4px solid #51cf66' }}>
-            <h4 style={{ color: '#51cf66' }}>3. 생산성 혁명</h4>
-            <p style={{ fontSize: 13 }}>AI Agent 기반 자동화 도구로 마이그레이션 및 단순 작업 공수 75% 이상 절감.</p>
-          </div>
-          <div className="ov-card" style={{ borderLeft: '4px solid #7c4dff' }}>
-            <h4 style={{ color: '#7c4dff' }}>4. 표준화 안착</h4>
-            <p style={{ fontSize: 13 }}>Scaffold CLI 및 템플릿 배포로 신규 프로젝트 세팅 시간 90% 이상 단축.</p>
-          </div>
+      <SnapSection band="ch3" id="ch3-case-study" title="" panelClass="panel-xl">
+        <ChapterHeader index={3} title="성과 분석: 파일럿 프로젝트" subtitle="계획을 넘어 실제 실무에서 마주한 변곡점과 혁신적 효율화의 기록입니다." />
+        <div style={{ marginTop: 32 }}>
+          <PlanRoadmapS2 />
         </div>
       </SnapSection>
 
@@ -285,15 +294,15 @@ export default function Sem2() {
         }}>
           {/* Left: Design/App Nodes */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div className="ov-card" style={{ position: 'relative' }}>
-              <div style={{ position: 'absolute', top: -10, left: -10, background: 'var(--primary)', padding: '4px 8px', fontSize: 10, borderRadius: 4 }}>DESIGN</div>
-              <h5 style={{ color: 'var(--primary)' }}>Figma for GitLab</h5>
-              <p style={{ fontSize: 12, opacity: 0.7 }}>이슈 관리 디자인 툴 일원화 및 디자인 토큰 자동 동기화로 소통 비용 제로화.</p>
+            <div className="ov-card" style={{ position: 'relative', overflow: 'hidden', padding: '24px 16px' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, background: 'var(--primary)', padding: '2px 8px', fontSize: 10, borderRadius: '0 0 4px 0' }}>DESIGN</div>
+              <h5 style={{ color: 'var(--primary)', marginTop: 12 }}>Figma for GitLab</h5>
+              <p style={{ fontSize: 12, opacity: 0.7, wordBreak: 'keep-all' }}>이슈 관리 디자인 툴 일원화 및 디자인 토큰 자동 동기화로 소통 비용 제로화.</p>
             </div>
-            <div className="ov-card" style={{ position: 'relative' }}>
-              <div style={{ position: 'absolute', top: -10, left: -10, background: '#7c4dff', padding: '4px 8px', fontSize: 10, borderRadius: 4 }}>APP</div>
-              <h5 style={{ color: '#7c4dff' }}>Bridge & Lifecycle</h5>
-              <p style={{ fontSize: 12, opacity: 0.7 }}>하이브리드 브릿지 API 표준화 및 Safari 호환성 레이어 구축으로 네이티브급 UX 보장.</p>
+            <div className="ov-card" style={{ position: 'relative', overflow: 'hidden', padding: '24px 16px' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, background: '#7c4dff', padding: '2px 8px', fontSize: 10, borderRadius: '0 0 4px 0' }}>APP</div>
+              <h5 style={{ color: '#7c4dff', marginTop: 12 }}>Bridge & Lifecycle</h5>
+              <p style={{ fontSize: 12, opacity: 0.7, wordBreak: 'keep-all' }}>하이브리드 브릿지 API 표준화 및 Safari 호환성 레이어 구축으로 네이티브급 UX 보장.</p>
             </div>
           </div>
 
@@ -301,71 +310,96 @@ export default function Sem2() {
           <div style={{
             textAlign: 'center',
             padding: '40px 20px',
-            background: 'radial-gradient(circle, rgba(90,169,255,0.15) 0%, transparent 70%)',
-            border: '2px dashed rgba(90,169,255,0.3)',
+            background: `url('/seminar/visual_engineering_hub_1766732944001.png') no-repeat center/cover`,
+            border: '2px solid rgba(90,169,255,0.3)',
             borderRadius: '50%',
             aspectRatio: '1/1',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            boxShadow: '0 0 50px rgba(90,169,255,0.2)',
+            position: 'relative',
+            overflow: 'hidden'
           }}>
-            <h3 style={{ fontSize: 24, fontWeight: 900, color: 'var(--primary)' }}>React FE</h3>
-            <div style={{ fontSize: 12, opacity: 0.6, marginTop: 8 }}>Engineering<br />Central Hub</div>
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(7, 10, 18, 0.4)', zIndex: 1 }}></div>
+            <div style={{ zIndex: 2 }}>
+              <h3 style={{ fontSize: 24, fontWeight: 900, color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>React FE</h3>
+              <div style={{ fontSize: 13, color: 'var(--primary)', fontWeight: 700, marginTop: 4 }}>Engineering Central Hub</div>
+            </div>
           </div>
 
           {/* Right: BE/Quality Nodes */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div className="ov-card" style={{ position: 'relative' }}>
-              <div style={{ position: 'absolute', top: -10, right: -10, background: '#51cf66', padding: '4px 8px', fontSize: 10, borderRadius: 4 }}>BACKEND</div>
-              <h5 style={{ color: '#51cf66' }}>Swagger/MSW Insight</h5>
-              <p style={{ fontSize: 12, opacity: 0.7 }}>명세 고도화 및 Mock Service Worker 도입으로 서버 의존성 없는 독립 개발 환경 확립.</p>
+            <div className="ov-card" style={{ position: 'relative', overflow: 'hidden', padding: '24px 16px' }}>
+              <div style={{ position: 'absolute', top: 0, right: 0, background: '#51cf66', padding: '2px 8px', fontSize: 10, borderRadius: '0 0 0 4px' }}>BACKEND</div>
+              <h5 style={{ color: '#51cf66', marginTop: 12 }}>Swagger/MSW Insight</h5>
+              <p style={{ fontSize: 12, opacity: 0.7, wordBreak: 'keep-all' }}>명세 고도화 및 Mock Service Worker 도입으로 서버 의존성 없는 독립 개발 환경 확립.</p>
             </div>
-            <div className="ov-card" style={{ position: 'relative' }}>
-              <div style={{ position: 'absolute', top: -10, right: -10, background: '#ff922b', padding: '4px 8px', fontSize: 10, borderRadius: 4 }}>BEYOND</div>
-              <h5 style={{ color: '#ff922b' }}>Global Expansion</h5>
-              <p style={{ fontSize: 12, opacity: 0.7 }}>전환 성공 사례를 기반으로 타 프로젝트 및 도메인으로의 전방위적 기술 표준 확산.</p>
+            <div className="ov-card" style={{ position: 'relative', overflow: 'hidden', padding: '24px 16px' }}>
+              <div style={{ position: 'absolute', top: 0, right: 0, background: '#ff922b', padding: '2px 8px', fontSize: 10, borderRadius: '0 0 0 4px' }}>BEYOND</div>
+              <h5 style={{ color: '#ff922b', marginTop: 12 }}>Global Expansion</h5>
+              <p style={{ fontSize: 12, opacity: 0.7, wordBreak: 'keep-all' }}>전환 성공 사례를 기반으로 타 프로젝트 및 도메인으로의 전방위적 기술 표준 확산.</p>
             </div>
           </div>
         </div>
       </SnapSection>
 
-      {/* CHAPTER 05: 비전 (AX Preview) */}
-      <SnapSection band="ch5" id="ch5-ax" title="">
-        <ChapterHeader index={5} title="Next Step: AX 기업으로" subtitle="2024년의 표준화를 발판 삼아, 2025년 AI 중심의 기업 변화를 준비합니다." />
-        <div className="ov-card" style={{ textAlign: 'center', padding: '60px' }}>
-          <h2 style={{ fontSize: 42, fontWeight: 900, marginBottom: 24 }} className="hero-gradient">AX 기업 세미나 프리뷰</h2>
-          <p style={{ fontSize: 18, opacity: 0.8, maxWidth: 600, margin: '0 auto' }}>
-            이제는 단순히 도구를 쓰는 수준을 넘어,<br />
-            Baseline 자체가 AI와 호흡하며 스스로 진화하는<br />
-            <b>지능형 엔지니어링 생태계</b>를 제시하겠습니다.
-          </p>
-          <div style={{ marginTop: 40, opacity: 0.5, fontSize: 14 }}>
-            2025년 1월 공개 예정: AI 가속 기업으로의 전격 전환 전략
+      {/* CHAPTER 05: 비전 (AX Curiosity Teaser) */}
+      <SnapSection band="ch5" id="ch5-ax" title="" panelClass="panel-xl">
+        <ChapterHeader index={5} title="Next Step: AX란 무엇인가?" subtitle="해답을 드리기 전에, 우리에게 던져진 거대한 질문들을 먼저 마주하려 합니다." />
+
+        <div style={{ textAlign: 'center', marginTop: 60, position: 'relative' }}>
+          {/* Main Title with Glow */}
+          <h1 style={{
+            fontSize: '120px',
+            fontWeight: 900,
+            margin: 0,
+            letterSpacing: '-2px',
+            background: 'linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.1) 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 20px rgba(90,169,255,0.3))'
+          }}>AX</h1>
+          <div style={{ fontSize: 24, letterSpacing: 10, marginTop: -20, opacity: 0.5, color: 'var(--primary)' }}>AI TRANSFORMATION</div>
+
+          {/* Curiosity Questions */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, marginTop: 80 }}>
+            <div className="ov-card" style={{ padding: '32px 20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div style={{ fontSize: 32, marginBottom: 16 }}>❓</div>
+              <h4 style={{ color: '#fff', fontSize: 18, marginBottom: 12, wordBreak: 'keep-all' }}>개발자의 시대는 끝났는가,<br />아니면 이제야 시작인가?</h4>
+              <p style={{ fontSize: 13, opacity: 0.5 }}>코드를 짜는 행위 너머의 가치</p>
+            </div>
+            <div className="ov-card" style={{ padding: '32px 20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div style={{ fontSize: 32, marginBottom: 16 }}>🔭</div>
+              <h4 style={{ color: '#fff', fontSize: 18, marginBottom: 12, wordBreak: 'keep-all' }}>단순 작업의 종말,<br />빈자리는 무엇으로 채울까?</h4>
+              <p style={{ fontSize: 13, opacity: 0.5 }}>엔지니어링 사유의 확장</p>
+            </div>
+            <div className="ov-card" style={{ padding: '32px 20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div style={{ fontSize: 32, marginBottom: 16 }}>🎭</div>
+              <h4 style={{ color: '#fff', fontSize: 18, marginBottom: 12, wordBreak: 'keep-all' }}>AX는 도구의 변화인가,<br />인류의 확장인가?</h4>
+              <p style={{ fontSize: 13, opacity: 0.5 }}>시스템을 지휘하는 새로운 문법</p>
+            </div>
+          </div>
+
+          <div style={{ marginTop: 80 }}>
+            <div style={{
+              display: 'inline-block',
+              padding: '12px 24px',
+              border: '1px solid var(--primary)',
+              borderRadius: 40,
+              fontSize: 14,
+              color: 'var(--primary)',
+              fontWeight: 700,
+              backgroundColor: 'rgba(90,169,255,0.1)'
+            }}>
+              2026. 01. COMING NEXT
+            </div>
+            <p style={{ marginTop: 24, opacity: 0.4, fontSize: 15 }}>그 짜릿한 해답을 다음 세미나에서 함께 찾아나섭니다.</p>
           </div>
         </div>
       </SnapSection>
 
-      {/* Result Summary */}
-      <SnapSection band="result" id="result-summary" title="Result Summary">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
-          {METERICS.map(m => (
-            <MetricCard key={m.title} {...m} />
-          ))}
-        </div>
-      </SnapSection>
-
-      <SnapSection band="outro" id="ch6-outro" title="Closing">
-        <Overview
-          title="우리는 '방식'을 바꿨습니다"
-          bullets={[
-            "개인의 기량에 의존하던 수동 개발 환경의 혁파",
-            "동료와 함께 채워가는 살아있는 문서화(Living Docs)",
-            "AI Agent와의 공조를 통한 압도적 생산성 증명",
-            "이 모든 과정은 누군가의 정답이 아닌, 우리 모두의 합의입니다."
-          ]}
-        />
-      </SnapSection>
     </main>
   )
 }
