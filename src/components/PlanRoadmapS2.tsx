@@ -5,11 +5,10 @@ export default function PlanRoadmapS2() {
     return (
         <section className={s.roadmapContainer} aria-labelledby="roadmap-title">
             <header className={s.header}>
-                <div className={s.badge}>케이스 스터디: 효율성 혁명</div>
-                <h3 id="roadmap-title" className={s.title}>실무 기반 로드맵: 계획에서 운영까지</h3>
+                <h3 id="roadmap-title" className={s.title}>실무 기반 로드맵: 분석과 증명</h3>
                 <p className={s.subtitle}>
-                    표준화의 <b>시행착오(계획 30h → 실제 50h)</b>와<br />
-                    AI Agent가 만든 <b>기술적 특이점(계획 20h → 실제 5h)</b>의 기록
+                    표준화 조율 과정(계획 30h → <b>실제 50h</b>)과<br />
+                    AI Agent를 통한 마이그레이션(계획 20h → <b>실제 5h</b>)의 기록
                 </p>
             </header>
 
@@ -20,7 +19,7 @@ export default function PlanRoadmapS2() {
                         <div className={s.analysisItem}>
                             <h4 className={s.analysisTitle}>표준화의 조율 과정 (Phase 0-1)</h4>
                             <p className={s.analysisDesc}>
-                                예상보다 <b>20시간이 더 소요</b>되었습니다. 이는 단순 코딩이 아닌, 팀원 간의 컨벤션을 조율하고 공공기관 특유의 복잡한 요구사항을 설계에 반영하는 '정교한 합의'의 시간이었습니다.
+                                예상보다 20시간이 더 소요되었습니다. 이는 단순 코딩이 아닌, 팀원 간의 컨벤션을 조율하고 공공기관 특유의 복잡한 요구사항을 설계에 반영하는 '정교한 합의'의 시간이었습니다.
                             </p>
                             <div className={s.miniImpact}>
                                 <span className={s.impactBadge + ' ' + s.warn}>조율 비용 발생</span>
@@ -31,7 +30,7 @@ export default function PlanRoadmapS2() {
                         <div className={s.analysisItem} style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '20px' }}>
                             <h4 className={s.analysisTitle}>AI Agent 기반의 비약적 생산성 (Phase 2)</h4>
                             <p className={s.analysisDesc}>
-                                척박한 수동 작업 환경을 <b>AI Agent 도구를 통해 혁신</b>했습니다. 20시간이 소요될 작업을 <b>단 5시간 만에 완벽하게 마이그레이션</b>하며, 75% 이상의 시간 절감 효과를 증명했습니다.
+                                척박한 수동 작업 환경을 AI Agent 도구를 통해 혁신했습니다. 20시간이 소요될 작업을 단 5시간 만에 마이그레이션하며, <b>75% 이상의 시간 절감</b> 효과를 증명했습니다.
                             </p>
                             <div className={s.miniImpact}>
                                 <span className={s.impactBadge + ' ' + s.success}>AI 혁신 달성</span>
