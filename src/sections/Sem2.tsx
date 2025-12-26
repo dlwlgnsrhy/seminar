@@ -66,7 +66,7 @@ export default function Sem2() {
             <h4>Docusaurus 기반 정적 문서 시스템</h4>
             <p style={{ fontSize: 13, opacity: 0.8 }}>검색 가능한 검색창, 버전 관리, 코드 스니펫 복사 기능을 통해 개발자가 실무에 즉시 적용할 수 있는 환경을 구축했습니다.</p>
             <div style={{ marginTop: 20, display: 'flex', gap: 12 }}>
-              <LinkBtn href="/seminar/docs" label="실제 문서 시스템 탐색 (GitHub Pages)" />
+              <LinkBtn href="/seminar/docs/" label="실제 문서 시스템 탐색 (GitHub Pages)" />
               <Callout type="success" style={{ margin: 0 }}>egovReactTsx/docs</Callout>
             </div>
           </div>
