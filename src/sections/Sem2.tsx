@@ -16,10 +16,10 @@ import LinkBtn from '@/components/LinkBtn'
 import { useInViewSnap } from '@/shared/hooks/useInViewSnap'
 
 const METERICS: { title: string; value: string; detail: string; trend: 'up' | 'down' }[] = [
-  { title: '빌드 속도', value: '85%', detail: 'CRA 120s → Vite 18s', trend: 'up' },
-  { title: '번들 크기', value: '42%', detail: '2.1MB → 1.2MB (Gzip)', trend: 'down' },
+  { title: '빌드 속도', value: '95%', detail: 'CRA 325s → Vite 18s', trend: 'up' },
   { title: '타입 커버리지', value: '100%', detail: 'Strict Mode 완전 적용', trend: 'up' },
-  { title: '온보딩 속도', value: '90%', detail: '10일 → 1일 이내', trend: 'up' },
+  { title: '번들 크기', value: '92%', detail: '12.7MB → 1.2MB (Gzip)', trend: 'down' },
+  { title: 'Lint 경고', value: '100%', detail: '1045건 → 0건', trend: 'down' },
 ]
 
 export default function Sem2() {
