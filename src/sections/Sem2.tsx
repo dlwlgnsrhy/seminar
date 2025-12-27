@@ -266,9 +266,7 @@ export default function Sem2() {
 
       {/* CHAPTER 03: 최종 성과 (Results & Metrics) */}
 
-      <SnapSection band="ch3" id="ch3-case-study" title="" panelClass="panel-xl">
-        <PlanRoadmapS2 />
-      </SnapSection>
+
       <SnapSection band="ch3" id="ch3-results-integrated" title="" panelClass="panel-xl">
         <ChapterHeader index={3} title="파일럿 성과: 데이터로 보는 혁신" subtitle="단순한 수치를 넘어, 시스템이 가져온 정성적/정량적 변화를 증명합니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 32, marginTop: 40 }}>
@@ -301,6 +299,9 @@ export default function Sem2() {
         </div>
       </SnapSection>
 
+      <SnapSection band="ch3" id="ch3-case-study" title="" panelClass="panel-xl">
+        <PlanRoadmapS2 />
+      </SnapSection>
 
 
       {/* CHAPTER 04: 확산 (Team Synergy Hub) */}
