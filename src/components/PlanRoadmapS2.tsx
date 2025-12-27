@@ -1,5 +1,6 @@
 import React from "react"
 import s from "./PlanRoadmapS2.module.scss"
+import ChapterHeader from "./ChapterHeader"
 
 export default function PlanRoadmapS2() {
     return (

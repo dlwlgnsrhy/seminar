@@ -42,8 +42,8 @@ export default function HeroIntro({ title, bullets, links, agenda }: Props) {
       {/* Agenda / TOC */}
       {agenda && (
         <div style={{ marginTop: 40, width: '100%' }}>
-          <h4 style={{ fontSize: 13, fontWeight: 800, color: 'var(--primary)', letterSpacing: 1.5, marginBottom: 16, opacity: 0.8 }}>
-            발표 순서 안내 (Agenda)
+          <h4 style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)', letterSpacing: 1.5, marginBottom: 16, opacity: 0.8 }}>
+            발표 순서
           </h4>
           <div className="agenda-grid">
             {agenda.map((item, i) => (
