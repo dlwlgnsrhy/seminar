@@ -32,16 +32,16 @@ export default function Sem2() {
         <HeroIntro
           title="표준화로 만드는 지속 가능한 기술 생태계"
           bullets={[
-            "안정성: 팀 전체가 믿고 쓸 수 있는 최소한의 안전장치",
-            "생산성: 개인의 기술에 의존하지 않고 누구나 표준에 안착",
-            "문화: 문제를 데이터화하는 문화"
+            "비전 제시 : 지속 가능한 발전, 효율성 극대화, 업무 환경 조성",
+            "기대 효과 : 업무 프로세스의 최적화, 비용 절감, 빠른 문제 해결 능력",
+            "장기적 이점 : 경쟁력 강화, 지속 가능한 발전, 변화하는 시장 환경에 유연하게 대응"
           ]}
           agenda={[
-            { num: "01", text: "명세: Baseline Spec" },
-            { num: "02", text: "과정: Pilot Process" },
-            { num: "03", text: "성과: Pilot Results" },
-            { num: "04", text: "확산: Team Synergy" },
-            { num: "05", text: "비전: AX Enterprise" }
+            { num: "01", text: "명세" },
+            { num: "02", text: "과정" },
+            { num: "03", text: "성과" },
+            { num: "04", text: "확산" },
+            { num: "05", text: "비전" }
           ]}
         />
       </SnapSection>
@@ -281,7 +281,7 @@ export default function Sem2() {
               <p style={{ fontSize: 15, opacity: 0.8 }}>Zod 기반 런타임 검증 및 Strict 타입 정의로 회귀 버그 0% 달성.</p>
             </div>
             <div className="ov-card" style={{ borderLeft: '4px solid #51cf66', padding: '20px' }}>
-              <h4 style={{ color: '#51cf66', fontSize: 20, marginBottom: 8 }}>3. 생산성 혁명</h4>
+              <h4 style={{ color: '#51cf66', fontSize: 20, marginBottom: 8 }}>3. 생산성</h4>
               <p style={{ fontSize: 15, opacity: 0.8 }}>AI Agent 자동화 도구로 마이그레이션 및 반복 작업 공수 75%↑ 절감.</p>
             </div>
             <div className="ov-card" style={{ borderLeft: '4px solid #7c4dff', padding: '20px' }}>
