@@ -125,7 +125,7 @@ src/
 | 구분           | 도구                    | 역할                       |
 | -------------- | ----------------------- | -------------------------- |
 | 서버 상태      | TanStack Query          | 비동기 API 캐싱, 에러 핸들 |
-| 전역 클라 상태 | (Phase 2) Redux Toolkit | UI, 세션 등 글로벌 상태    |
+| 전역 클라 상태 | (Phase 2) Zustand | UI, 세션 등 글로벌 상태    |
 
 ---
 
@@ -216,7 +216,7 @@ src/
 
 | 버전 | 주요 내용                        |
 | ---- | -------------------------------- |
-| v1.0 | CSR SPA + API + Query + CI       |
+| v1.0 | Vite + API + Query + CI       |
 | v1.1 | Storybook, Zustand, 테스트 확장  |
 | v2.0 | Next.js(SSR), Design System 통합 |
 
