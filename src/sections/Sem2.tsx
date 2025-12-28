@@ -118,7 +118,7 @@ export default function Sem2() {
             />
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <MetricCard title="전체 용량" value="75%" detail="15MB → 3.7MB" trend="down" />
-              <MetricCard title="LCP 지표" value="1.2s" detail="대기 시간 대폭 감소" trend="up" />
+              <MetricCard title="LCP 지표" value="61%" detail="8.8s → 3.4s" trend="up" />
             </div>
           </div>
         </div>
