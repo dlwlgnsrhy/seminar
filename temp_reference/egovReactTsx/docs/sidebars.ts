@@ -46,7 +46,7 @@ module.exports = {
     },
     {
       type: 'category',
-      label: ' 5. 팀 시너지',
+      label: ' 5. 웹 정책',
       items: [
         { type: 'doc', id: 'a11y', label: '웹 접근성' },
         {
