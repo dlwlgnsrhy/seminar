@@ -49,7 +49,7 @@ export default function Sem2() {
 
       {/* CHAPTER 01: Baseline Specs: 기술 명세 */}
       <SnapSection band="ch1" id="ch2-docs" title="" panelClass="panel-xl">
-        <ChapterHeader index={1} title="Baseline Specs: 기술 명세" subtitle="말뿐인 가이드가 아닌, 데이터와 근거로 증명하는 표준화의 기록입니다." />
+        <ChapterHeader index={1} title="Baseline Specs: 기술 명세" subtitle=" 데이터와 근거로 증명하는 표준화의 기록입니다." />
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginTop: 48 }}>
           <div className="ov-card" style={{ padding: 32 }}>
@@ -261,7 +261,7 @@ export default function Sem2() {
 
 
       <SnapSection band="ch3" id="ch3-results-integrated" title="" panelClass="panel-xl">
-        <ChapterHeader index={3} title="파일럿 성과: 데이터로 보는 혁신" subtitle="단순한 수치를 넘어, 시스템이 가져온 정성적/정량적 변화를 증명합니다." />
+        <ChapterHeader index={3} title="파일럿 성과: 데이터로 보는 성과" subtitle="단순한 수치를 넘어, 시스템이 가져온 정성적/정량적 변화를 증명합니다." />
         <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 32, marginTop: 40 }}>
           {/* Left: 4 Core Metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -274,7 +274,7 @@ export default function Sem2() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div className="ov-card" style={{ borderLeft: '4px solid #5aa9ff', padding: '20px' }}>
               <h4 style={{ color: '#5aa9ff', fontSize: 20, marginBottom: 8 }}>1. 성능 극대화</h4>
-              <p style={{ fontSize: 15, opacity: 0.8 }}>WebP 자동 변환 및 오프셋 청킹 도입으로 Lighthouse 점수 92+ 달성.</p>
+              <p style={{ fontSize: 15, opacity: 0.8 }}>WebP 자동 변환 및 오프셋 청킹 도입으로 Lighthouse 점수 80+ 달성.</p>
             </div>
             <div className="ov-card" style={{ borderLeft: '4px solid #ff6b6b', padding: '20px' }}>
               <h4 style={{ color: '#ff6b6b', fontSize: 20, marginBottom: 8 }}>2. 서비스 안정성</h4>
