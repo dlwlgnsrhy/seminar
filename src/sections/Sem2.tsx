@@ -32,9 +32,9 @@ export default function Sem2() {
         <HeroIntro
           title="표준화로 만드는 지속 가능한 기술 생태계"
           bullets={[
-            "안정성: 거창한 기술보다, 팀 전체가 믿고 쓸 수 있는 최소한의 안전장치",
-            "생산성: 개인의 기교에 의존하지 않고 누구나 표준에 안착하기 위한 여정",
-            "문화: '정답'을 강요하기보다, 함께 고민한 결과를 유산으로 정립하는 과정"
+            "안정성: 팀 전체가 믿고 쓸 수 있는 최소한의 안전장치",
+            "생산성: 개인의 기술에 의존하지 않고 누구나 표준에 안착",
+            "문화: 문제를 데이터화하는 문화"
           ]}
           agenda={[
             { num: "01", text: "명세: Baseline Spec" },
@@ -42,10 +42,6 @@ export default function Sem2() {
             { num: "03", text: "성과: Pilot Results" },
             { num: "04", text: "확산: Team Synergy" },
             { num: "05", text: "비전: AX Enterprise" }
-          ]}
-          links={[
-            { href: "#", label: "Baseline Repo" },
-            { href: "#", label: "Design Variable Docs" }
           ]}
         />
       </SnapSection>
@@ -78,7 +74,6 @@ export default function Sem2() {
             <h3 style={{ fontSize: 20, marginBottom: 16, color: 'var(--accent)' }}>개발자 경험 개선</h3>
             <ul style={{ paddingLeft: 20, fontSize: 15, opacity: 0.8, lineHeight: 1.8 }}>
               <li>온보딩 타겟 90분 설정</li>
-              <li>Scaffold 템플릿 제공</li>
               <li>UI 컴포넌트 라이브러리 연동</li>
             </ul>
           </div>
@@ -122,7 +117,7 @@ export default function Sem2() {
               after={`const WritePage = React.lazy(() => \n  import('./pages/WritePage')\n);\n// 필요한 시점에만 로드 (Chunk 분리)`}
             />
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <MetricCard title="전체 용량" value="75%↓" detail="15MB → 3.7MB" trend="down" />
+              <MetricCard title="전체 용량" value="75%" detail="15MB → 3.7MB" trend="down" />
               <MetricCard title="LCP 지표" value="1.2s" detail="대기 시간 대폭 감소" trend="up" />
             </div>
           </div>
@@ -293,7 +288,7 @@ export default function Sem2() {
             </div>
             <div className="ov-card" style={{ borderLeft: '4px solid #7c4dff', padding: '20px' }}>
               <h4 style={{ color: '#7c4dff', fontSize: 20, marginBottom: 8 }}>4. 표준화 안착</h4>
-              <p style={{ fontSize: 15, opacity: 0.8 }}>Scaffold CLI 배포로 신규 프로젝트 초기 세팅 시간 90%↑ 단축.</p>
+              <p style={{ fontSize: 15, opacity: 0.8 }}> 신규 프로젝트 초기 세팅 시간 90%↑ 단축.</p>
             </div>
           </div>
         </div>

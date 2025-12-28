@@ -5,11 +5,10 @@ import Callout from '@/components/Callout'
 type Props = {
   title: string
   bullets: string[]
-  links: { href: string; label: string }[]
   agenda?: { num: string; text: string }[]
 }
 
-export default function HeroIntro({ title, bullets, links, agenda }: Props) {
+export default function HeroIntro({ title, bullets, agenda }: Props) {
   return (
     <div className="hero">
       {/* 배경 데코 (React 로고 라이트) */}
@@ -55,13 +54,6 @@ export default function HeroIntro({ title, bullets, links, agenda }: Props) {
           </div>
         </div>
       )}
-
-      {/* 근거/레퍼런스 뱃지 */}
-      <div className="hero-badges" style={{ marginTop: agenda ? 32 : 12 }}>
-        {links.map((l, i) => (
-          <LinkBtn key={i} href={l.href} label={l.label} />
-        ))}
-      </div>
     </div>
   )
 }
