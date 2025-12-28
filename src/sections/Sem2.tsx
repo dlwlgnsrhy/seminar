@@ -94,7 +94,7 @@ export default function Sem2() {
       <SnapSection band="ch2" id="ch2-process-perf" title="" panelClass="panel-xl">
         <ChapterHeader
           index={2}
-          title="첫 화면이 눈에 띄게 빨라졌습니다"
+          title="성능"
           subtitle="페이지 용량을 75% 줄여, 사용자가 기다리지 않아도 되게 만들었습니다."
         />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 32, marginTop: 40 }}>
@@ -133,7 +133,7 @@ export default function Sem2() {
       <SnapSection band="ch2" id="ch2-process-qa" title="" panelClass="panel-xl">
         <ChapterHeader
           index={2}
-          title="배포 전에 문제를 미리 막았습니다"
+          title="품질"
           subtitle="운영 중 장애로 이어질 수 있던 버그를 사전에 차단했습니다."
         />
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 32, marginTop: 40 }}>
@@ -175,7 +175,7 @@ export default function Sem2() {
       <SnapSection band="ch2" id="ch2-process-security" title="" panelClass="panel-xl">
         <ChapterHeader
           index={2}
-          title="사고가 나지 않게 미리 막았습니다"
+          title="보안"
           subtitle="보안 취약점을 사전에 제거하고, 점검에도 문제없는 구조를 만들었습니다."
         />
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 32, marginTop: 40 }}>
@@ -221,7 +221,7 @@ export default function Sem2() {
       <SnapSection band="ch2" id="ch2-process-culture" title="" panelClass="panel-xl">
         <ChapterHeader
           index={2}
-          title="사람이 바뀌어도 흔들리지 않게 만들었습니다"
+          title="표준화"
           subtitle="누가 와도 같은 방식으로 일할 수 있는 기준을 마련했습니다."
         />
         <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 32, marginTop: 40 }}>
@@ -371,7 +371,7 @@ export default function Sem2() {
 
       {/* CHAPTER 05: 비전 (AX Curiosity Teaser) */}
       <SnapSection band="ch5" id="ch5-ax" title="" panelClass="panel-xl">
-        <ChapterHeader index={5} title="Next Step: AX란 무엇인가?" subtitle="해답을 드리기 전에, 우리에게 던져진 거대한 질문들을 먼저 마주하려 합니다." />
+        <ChapterHeader index={5} title="Next Step: AX란?" subtitle="단순 AI도구 사용을 넘어" />
 
         <div style={{ textAlign: 'center', marginTop: 60, position: 'relative' }}>
           {/* Main Title with Glow */}
@@ -388,7 +388,7 @@ export default function Sem2() {
           <div style={{ fontSize: 24, letterSpacing: 10, marginTop: -20, opacity: 0.5, color: 'var(--primary)' }}>AI TRANSFORMATION</div>
 
           {/* Curiosity Questions */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, marginTop: 80 }}>
+          {/* <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, marginTop: 80 }}>
             <div className="ov-card" style={{ padding: '32px 20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
               <div style={{ fontSize: 32, marginBottom: 16 }}>❓</div>
               <h4 style={{ color: '#fff', fontSize: 18, marginBottom: 12, wordBreak: 'keep-all' }}>개발자의 시대는 끝났는가,<br />아니면 이제야 시작인가?</h4>
@@ -404,7 +404,7 @@ export default function Sem2() {
               <h4 style={{ color: '#fff', fontSize: 18, marginBottom: 12, wordBreak: 'keep-all' }}>AX는 도구의 변화인가,<br />인류의 확장인가?</h4>
               <p style={{ fontSize: 13, opacity: 0.5 }}>시스템을 지휘하는 새로운 문법</p>
             </div>
-          </div>
+          </div> */}
 
           <div style={{ marginTop: 80 }}>
             <div style={{
@@ -417,9 +417,9 @@ export default function Sem2() {
               fontWeight: 700,
               backgroundColor: 'rgba(90,169,255,0.1)'
             }}>
-              2026. 01. COMING NEXT
+              2026 COMING NEXT
             </div>
-            <p style={{ marginTop: 24, opacity: 0.4, fontSize: 15 }}>그 짜릿한 해답을 다음 세미나에서 함께 찾아나섭니다.</p>
+            {/* <p style={{ marginTop: 24, opacity: 0.4, fontSize: 15 }}>그 짜릿한 해답을 다음 세미나에서 함께 찾아나섭니다.</p> */}
           </div>
         </div>
       </SnapSection>
