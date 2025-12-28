@@ -173,42 +173,40 @@ export default function Sem2() {
           title="보안"
           subtitle="보안 취약점을 사전에 제거하고, 점검에도 문제없는 구조를 만들었습니다."
         />
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 32, marginTop: 40 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <TerminalLog
-              type="audit"
-              title="Security Vulnerability Audit"
-              lines={[
-                "Scanning dependencies... 1,240 packages checked.",
-                "found 12 vulnerabilities (3 high, 9 moderate)",
-                "FIXED: engine.io, axios updated",
-                "RESULT: 0 vulnerabilities found after remediation",
-              ]}
-            />
-            <div className="ov-card" style={{ background: 'rgba(75,181,67,0.05)' }}>
-              <h4 style={{ fontSize: 18, color: '#4bb543' }}>의존성 보안 관리 체계</h4>
-              <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6 }}>
-                보안 취약점이 발견되면 즉시 조치하는 상시 점검 체계를 구축했습니다.
-              </p>
-            </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 24, rowGap: 20, marginTop: 40 }}>
+          {/* Row 1 */}
+          <TerminalLog
+            type="audit"
+            title="Security Vulnerability Audit"
+            lines={[
+              "Scanning dependencies... 1,240 packages checked.",
+              "found 12 vulnerabilities (3 high, 9 moderate)",
+              "FIXED: engine.io, axios updated",
+              "RESULT: 0 vulnerabilities found after remediation",
+            ]}
+          />
+          <div className="ov-card">
+            <h4 style={{ fontSize: 18, color: 'var(--primary)', marginBottom: 16 }}>
+              Secure Coding Practice
+            </h4>
+            <ul style={{ fontSize: 13, lineHeight: 2, opacity: 0.8 }}>
+              <li>환경변수 관리 표준화</li>
+              <li>XSS 취약 코드 사용 금지</li>
+              <li>API 응답 데이터 검증</li>
+              <li>자동 이스케이프 설정</li>
+            </ul>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div className="ov-card">
-              <h4 style={{ fontSize: 18, color: 'var(--primary)', marginBottom: 16 }}>
-                Secure Coding Practice
-              </h4>
-              <ul style={{ fontSize: 13, lineHeight: 2, opacity: 0.8 }}>
-                <li>환경변수 관리 표준화</li>
-                <li>XSS 취약 코드 사용 금지</li>
-                <li>API 응답 데이터 검증</li>
-                <li>자동 이스케이프 설정</li>
-              </ul>
-            </div>
-            <Callout type="info">
-              시스템 안정성만큼 중요한 <b>데이터 무결성</b>을 지키는 기준을 세웠습니다.
-            </Callout>
+          {/* Row 2 */}
+          <div className="ov-card" style={{ background: 'rgba(75,181,67,0.05)' }}>
+            <h4 style={{ fontSize: 18, color: '#4bb543' }}>의존성 보안 관리 체계</h4>
+            <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6 }}>
+              보안 취약점이 발견되면 즉시 조치하는 상시 점검 체계를 구축했습니다.
+            </p>
           </div>
+          <Callout type="info">
+            시스템 안정성만큼 중요한 <b>데이터 무결성</b>을 지키는 기준을 세웠습니다.
+          </Callout>
         </div>
       </SnapSection>
 

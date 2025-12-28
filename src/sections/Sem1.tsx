@@ -61,8 +61,8 @@ const severityWeight: Record<Severity, number> = {
   critical: 3, high: 2, medium: 1, low: 0
 }
 
-function highlight(text: string, q: string){
-  if(!q) return text
+function highlight(text: string, q: string) {
+  if (!q) return text
   const safe = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const re = new RegExp(`(${safe})`, 'ig')
   return text.split(re).map((part, i) =>
@@ -70,15 +70,15 @@ function highlight(text: string, q: string){
   )
 }
 
-function exportCSV(rows: AuditRow[]){
-  const header = ['project','step','finding','metric','severity']
-  const esc = (s='') => `"${String(s).replace(/"/g,'""')}"`
+function exportCSV(rows: AuditRow[]) {
+  const header = ['project', 'step', 'finding', 'metric', 'severity']
+  const esc = (s = '') => `"${String(s).replace(/"/g, '""')}"`
   const lines = [header.join(','), ...rows.map(r =>
     [r.project, r.step, r.finding, r.metric ?? '', r.severity].map(esc).join(',')
   )]
-  const blob = new Blob([lines.join('\n')], { type:'text/csv;charset=utf-8' })
+  const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' })
   const url = URL.createObjectURL(blob)
-  const a = document.createElement('a'); a.href=url; a.download='audit.csv'; a.click()
+  const a = document.createElement('a'); a.href = url; a.download = 'audit.csv'; a.click()
   URL.revokeObjectURL(url)
 }
 
@@ -106,7 +106,7 @@ const ISSUE_PATTERNS: IssuePattern[] = [
     match: (r) =>
       r.step.includes('성능') &&
       (/(LCP|NO_FCP)/i.test(r.finding) ||
-       /(KB|gzip|bundle|초기|SDK)/i.test(r.metric ?? '')),
+        /(KB|gzip|bundle|초기|SDK)/i.test(r.metric ?? '')),
     hintSeverity: 'high',
   },
   {
@@ -362,8 +362,8 @@ const AUDIT: AuditRow[] = [
     metric: 'LCP 17.7 / 8.6 / 9.2 s · JS 734.75KB · CSS 138.05KB (gzip)',
     severity: 'critical',
     evidence: [
-      { label: 'buildlog.txt', href: buildlogUrl},
-      { label: 'Lighthouse 캡처', href: doLcp17}
+      { label: 'buildlog.txt', href: buildlogUrl },
+      { label: 'Lighthouse 캡처', href: doLcp17 }
     ],
     commands: [
       'npm ci --legacy-peer-deps',
@@ -603,7 +603,7 @@ export default function SemScreen() {
   useInViewSnap()
 
   const [ov, setOv] = useState<React.ReactNode | null>(null)
-  const open  = (node: React.ReactNode) => setOv(node)
+  const open = (node: React.ReactNode) => setOv(node)
   const close = () => setOv(null)
 
   // 섹션4: 초기 6개 + 더보기/접기
@@ -613,77 +613,77 @@ export default function SemScreen() {
   // URL sync
   const [params, setParams] = useSearchParams()
   const [sev, setSev] = useState<Severity | 'all'>((params.get('sev') as any) ?? 'all')
-  const [q, setQ]     = useState(params.get('q') ?? '')
+  const [q, setQ] = useState(params.get('q') ?? '')
   const dq = useDeferredValue(q)
 
-  const [sortKey, setSortKey] = useState<'project'|'step'|'severity'>('severity')
+  const [sortKey, setSortKey] = useState<'project' | 'step' | 'severity'>('severity')
   const [asc, setAsc] = useState(false)
 
   const filtered = useMemo(() => {
     const list = AUDIT.filter(r =>
-      (sev==='all' || r.severity===sev) &&
-      (dq.trim()==='' ||
+      (sev === 'all' || r.severity === sev) &&
+      (dq.trim() === '' ||
         r.project.toLowerCase().includes(dq.toLowerCase()) ||
         r.finding.toLowerCase().includes(dq.toLowerCase()) ||
         (r.metric ?? '').toLowerCase().includes(dq.toLowerCase()))
     )
-    return list.sort((a,b)=>{
-      if (sortKey==='severity') {
+    return list.sort((a, b) => {
+      if (sortKey === 'severity') {
         const d = severityWeight[b.severity] - severityWeight[a.severity]
         return asc ? -d : d
       }
       const va = (a as any)[sortKey] as string
       const vb = (b as any)[sortKey] as string
-      const d  = va.localeCompare(vb, 'ko')
+      const d = va.localeCompare(vb, 'ko')
       return asc ? d : -d
     })
   }, [sev, dq, sortKey, asc])
 
-  function applySev(s: Severity|'all'){
+  function applySev(s: Severity | 'all') {
     setSev(s)
     const next = new URLSearchParams(params)
-    s==='all' ? next.delete('sev') : next.set('sev', s)
+    s === 'all' ? next.delete('sev') : next.set('sev', s)
     q ? next.set('q', q) : next.delete('q')
-    setParams(next, { replace:true })
+    setParams(next, { replace: true })
   }
-  function applyQuery(val: string){
+  function applyQuery(val: string) {
     setQ(val)
     const next = new URLSearchParams(params)
-    sev!=='all' && next.set('sev', sev)
+    sev !== 'all' && next.set('sev', sev)
     val ? next.set('q', val) : next.delete('q')
-    setParams(next, { replace:true })
+    setParams(next, { replace: true })
   }
 
-  function openProjectDetail(name: string){
+  function openProjectDetail(name: string) {
     const items = AUDIT.filter(a => a.project === name)
     open(
-      <div style={{maxWidth:820}}>
-        <h3 style={{marginTop:0}}>{name} · 세부 요약</h3>
+      <div style={{ maxWidth: 820 }}>
+        <h3 style={{ marginTop: 0 }}>{name} · 세부 요약</h3>
         <table className="simple-table">
           <tbody>
-            {Object.entries(PROJECT_SUMMARY.find(p=>p.name===name) ?? {}).filter(([k])=>k!=='name').map(([k,v])=>(
-              <tr key={k}><th style={{width:120,textTransform:'capitalize'}}>{k}</th><td>{v as string}</td></tr>
+            {Object.entries(PROJECT_SUMMARY.find(p => p.name === name) ?? {}).filter(([k]) => k !== 'name').map(([k, v]) => (
+              <tr key={k}><th style={{ width: 120, textTransform: 'capitalize' }}>{k}</th><td>{v as string}</td></tr>
             ))}
           </tbody>
         </table>
 
-        {items.length>0 ? (
+        {items.length > 0 ? (
           <>
-            <h4 style={{marginTop:18}}>증거 & 재현</h4>
-            <ul style={{paddingLeft:18}}>
-              {items.map((it, idx)=>(
-                <li key={idx} style={{marginBottom:8}}>
+            <h4 style={{ marginTop: 18 }}>증거 & 재현</h4>
+            <ul style={{ paddingLeft: 18 }}>
+              {items.map((it, idx) => (
+                <li key={idx} style={{ marginBottom: 8 }}>
                   <b>{it.step}</b> — {it.finding}
                   {it.metric && <div><code className="metric">{it.metric}</code></div>}
                   {it.evidence?.length ? (
-                    <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:6}}>
-                      {it.evidence.map((e,i)=> e.href ? <LinkBtn key={i} href={e.href} label={e.label}/> : <span key={i}>{e.label}</span>)}
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 6 }}>
+                      {it.evidence.map((e, i) => e.href ? <LinkBtn key={i} href={e.href} label={e.label} /> : <span key={i}>{e.label}</span>)}
                     </div>
                   ) : null}
                   {it.commands?.length ? (
-                    <details style={{marginTop:6}}>
+                    <details style={{ marginTop: 6 }}>
                       <summary>재현 명령</summary>
-                      <pre className="code" style={{marginTop:6}}>{it.commands.join('\n')}</pre>
+                      <pre className="code" style={{ marginTop: 6 }}>{it.commands.join('\n')}</pre>
                     </details>
                   ) : null}
                 </li>
@@ -691,7 +691,7 @@ export default function SemScreen() {
             </ul>
           </>
         ) : (
-          <Callout type="info" style={{marginTop:12}}>이 프로젝트의 Matrix 항목이 아직 적습니다. (발표엔 요약만 사용)</Callout>
+          <Callout type="info" style={{ marginTop: 12 }}>이 프로젝트의 Matrix 항목이 아직 적습니다. (발표엔 요약만 사용)</Callout>
         )}
       </div>
     )
@@ -701,7 +701,7 @@ export default function SemScreen() {
     <>
       {ov && <Overlay onClose={close} titleId="ov-title">{ov}</Overlay>}
       <div className="snap-container">
-      <IntroSplash />
+        <IntroSplash />
 
 
         {/* 1) Icebreaking */}
@@ -710,7 +710,6 @@ export default function SemScreen() {
           <HeroIntro
             title={CONTENT.icebreaking.title}
             bullets={CONTENT.icebreaking.bullets}
-            links={CONTENT.icebreaking.links}
           />
         </SnapSection>
 
@@ -723,10 +722,10 @@ export default function SemScreen() {
           />
         </SnapSection>
 
-              {/* 3) Background */}
-              <SnapSection band="intro" id="icebug" title="Iceberg">
-                <IcebugSlide />
-              </SnapSection>
+        {/* 3) Background */}
+        <SnapSection band="intro" id="icebug" title="Iceberg">
+          <IcebugSlide />
+        </SnapSection>
 
 
 
@@ -747,16 +746,16 @@ export default function SemScreen() {
               <>
                 <div className="audit-toolbar" role="toolbar" aria-label="이슈 보드 툴바">
                   <div className="sev-group" role="group" aria-label="심각도 필터">
-                    {(['all','critical','high','medium','low'] as const).map(s => (
+                    {(['all', 'critical', 'high', 'medium', 'low'] as const).map(s => (
                       <button
                         key={s}
                         type="button"
-                        className={`pill ${sev===s?'on':''} sev-${s}`}
-                        aria-pressed={sev===s}
-                        onClick={()=>applySev(s)}
-                        title={s==='all'?'전체':s.toUpperCase()}
+                        className={`pill ${sev === s ? 'on' : ''} sev-${s}`}
+                        aria-pressed={sev === s}
+                        onClick={() => applySev(s)}
+                        title={s === 'all' ? '전체' : s.toUpperCase()}
                       >
-                        {s==='all'?'ALL':s.toUpperCase()}
+                        {s === 'all' ? 'ALL' : s.toUpperCase()}
                       </button>
                     ))}
                   </div>
@@ -765,7 +764,7 @@ export default function SemScreen() {
                     placeholder="프로젝트/이슈/메트릭 검색…"
                     aria-label="이슈 검색"
                     value={q}
-                    onChange={(e)=>applyQuery(e.target.value)}
+                    onChange={(e) => applyQuery(e.target.value)}
                   />
                   <div className="spacer" />
                   <span className="rows">{groups.length} issues</span>
@@ -774,10 +773,10 @@ export default function SemScreen() {
                 <table className="simple-table audit" id="issue-table">
                   <thead>
                     <tr>
-                      <th style={{width:110}}>SEVERITY</th>
+                      <th style={{ width: 110 }}>SEVERITY</th>
                       <th>ISSUE (공통 패턴)</th>
-                      <th style={{width:260}}>AFFECTED PROJECTS</th>
-                      <th style={{width:90}}></th>
+                      <th style={{ width: 260 }}>AFFECTED PROJECTS</th>
+                      <th style={{ width: 90 }}></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -791,13 +790,13 @@ export default function SemScreen() {
                             <span className={`sev sev-${g.severity}`}>{g.severity.toUpperCase()}</span>
                           </td>
                           <td>
-                            <div style={{fontWeight:700, marginBottom:6}}>{g.title}</div>
+                            <div style={{ fontWeight: 700, marginBottom: 6 }}>{g.title}</div>
                             {/* {g.items.find(it=>it.metric)?.metric && (
                               // <code className="metric">{g.items.find(it=>it.metric)?.metric}</code>
                             )} */}
                           </td>
                           <td>
-                            <ul style={{margin:0, paddingLeft:18}}>
+                            <ul style={{ margin: 0, paddingLeft: 18 }}>
                               {shown.map(p => <li key={p}>{p}</li>)}
                               {remain > 0 && <li>+{remain} more</li>}
                             </ul>
@@ -805,7 +804,7 @@ export default function SemScreen() {
                           <td>
                             <button
                               className="linklike ghost"
-                              onClick={()=>{
+                              onClick={() => {
                                 setOv(
                                   <IssueDetail group={g} />
                                 )
@@ -822,23 +821,23 @@ export default function SemScreen() {
 
                 {/* 더보기 / 접기 토글 */}
                 {groups.length > 0 && (
-                  <div style={{textAlign:'center', marginTop:12}}>
+                  <div style={{ textAlign: 'center', marginTop: 12 }}>
                     <button
                       type="button"
                       className="pill"
-                      onClick={()=>{
+                      onClick={() => {
                         const showingAll = visibleCount >= groups.length
                         if (showingAll) {
                           setVisibleCount(INITIAL_ISSUE_ROWS)
                           requestAnimationFrame(() => {
-                            document.querySelector('#projects')?.scrollIntoView({ behavior:'smooth', block:'start' })
+                            document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                           })
                         } else {
                           const inc = 6
                           const next = Math.min(visibleCount + inc, groups.length)
                           setVisibleCount(next)
                           requestAnimationFrame(() => {
-                            document.querySelector('#projects')?.scrollIntoView({ behavior:'smooth', block:'end' })
+                            document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth', block: 'end' })
                           })
                         }
                       }}
@@ -848,7 +847,7 @@ export default function SemScreen() {
                   </div>
                 )}
 
-                <div id="issue-table-end" style={{height:1}} />
+                <div id="issue-table-end" style={{ height: 1 }} />
 
 
               </>
@@ -856,13 +855,13 @@ export default function SemScreen() {
           })()}
         </SnapSection>
 
-      {/* 5) Baseline (트렌디 버전) */}
-      <SnapSection band="body" id="baseline" title="">
-        <BaselineTrendy
-          pillars={CONTENT.baseline.pillars}
-          beforeAfter={CONTENT.baseline.beforeAfter as [string, string][]}
-        />
-      </SnapSection>
+        {/* 5) Baseline (트렌디 버전) */}
+        <SnapSection band="body" id="baseline" title="">
+          <BaselineTrendy
+            pillars={CONTENT.baseline.pillars}
+            beforeAfter={CONTENT.baseline.beforeAfter as [string, string][]}
+          />
+        </SnapSection>
 
         {/* 6) Plan */}
         <SnapSection band="body" id="plan" title={CONTENT.plan.title}>
